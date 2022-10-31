@@ -20,15 +20,15 @@
 
 **Back-End**<br/>
 - [x] moduleUML (General UML)<br/>
-- [] ERDiagram<br/>
-- [] Backend UML Client<br/>
-- [] Backend UML Admin<br/>
+- [ ] ERDiagram<br/>
+- [ ] Backend UML Client<br/>
+- [ ] Backend UML Admin<br/>
 
 **Front-End**<br/>
 - [x] Page Prototype Client<br/>
-- [] Page Prototype Admin<br/>
-- [] Frontend UML Client<br/>
-- [] Frontend UML Admin<br/>
+- [ ] Page Prototype Admin<br/>
+- [ ] Frontend UML Client<br/>
+- [ ] Frontend UML Admin<br/>
 
-- [] API Specification Document<br/>
-- [] Sequence Diagrams<br/>
+- [ ] API Specification Document<br/>
+- [ ] Sequence Diagrams<br/>
