@@ -13,22 +13,22 @@
 
 ## Current State
 ### Designing v1.0
-[x] UseCase<br/>
-[x] UseCase Description<br/>
-[x] FlowDigram Client<br/>
-[x] FlowDiagram Admin<br/>
+- [x] UseCase<br/>
+- [x] UseCase Description<br/>
+- [x] FlowDigram Client<br/>
+- [x] FlowDiagram Admin<br/>
 
 **Back-End**<br/>
-[x] moduleUML (General UML)<br/>
-[] ERDiagram<br/>
-[] Backend UML Client<br/>
-[] Backend UML Admin<br/>
+- [x] moduleUML (General UML)<br/>
+- [] ERDiagram<br/>
+- [] Backend UML Client<br/>
+- [] Backend UML Admin<br/>
 
 **Front-End**<br/>
-[x] Page Prototype Client<br/>
-[] Page Prototype Admin<br/>
-[] Frontend UML Client<br/>
-[] Frontend UML Admin<br/>
+- [x] Page Prototype Client<br/>
+- [] Page Prototype Admin<br/>
+- [] Frontend UML Client<br/>
+- [] Frontend UML Admin<br/>
 
-[] API Specification Document<br/>
-[] Sequence Diagrams<br/>
+- [] API Specification Document<br/>
+- [] Sequence Diagrams<br/>
