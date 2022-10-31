@@ -12,23 +12,23 @@
 - Zirui Qiao
 
 ## Current State
-**Designing v1.0**
-[x] UseCase
-[x] UseCase Description
-[x] FlowDigram Client
-[x] FlowDiagram Admin
+### Designing v1.0
+[x] UseCase<br/>
+[x] UseCase Description<br/>
+[x] FlowDigram Client<br/>
+[x] FlowDiagram Admin<br/>
 
-Back-End
-[x] moduleUML (General UML)
-[] ERDiagram
-[] Backend UML Client
-[] Backend UML Admin
+**Back-End**<br/>
+[x] moduleUML (General UML)<br/>
+[] ERDiagram<br/>
+[] Backend UML Client<br/>
+[] Backend UML Admin<br/>
 
-Front-End
-[x] Page Prototype Client
-[] Page Prototype Admin
-[] Frontend UML Client
-[] Frontend UML Admin
+**Front-End**<br/>
+[x] Page Prototype Client<br/>
+[] Page Prototype Admin<br/>
+[] Frontend UML Client<br/>
+[] Frontend UML Admin<br/>
 
-[] API Specification Document
-[] Sequence Diagrams
+[] API Specification Document<br/>
+[] Sequence Diagrams<br/>
