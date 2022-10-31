@@ -30,5 +30,6 @@
 - [ ] Frontend UML Client<br/>
 - [ ] Frontend UML Admin<br/>
 
+**Other Stuff**<br/>
 - [ ] API Specification Document<br/>
 - [ ] Sequence Diagrams<br/>
