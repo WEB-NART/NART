@@ -1,4 +1,68 @@
-#  Client API
+# HTTP Request Structure
+
+> All contain Request Body except for HTTP GET
+
+## HTTP GET
+
+> Retrieving non-confidential data
+
+ ```apl
+ HTTP GET http://www.appdomain.com/users
+ HTTP GET http://www.appdomain.com/users?size=20&page=5
+ HTTP GET http://www.appdomain.com/users/123
+ HTTP GET http://www.appdomain.com/users/123/address
+ ```
+
+## HTTP POST
+
+> Creating new subordinate resources or,
+>
+> Retrieving confidential data
+
+```apl
+HTTP POST http://www.appdomain.com/users
+HTTP POST http://www.appdomain.com/users/123/accounts
+```
+
+## HTTP PUT
+
+> Updating existing resources
+
+```apl
+HTTP PUT http://www.appdomain.com/users/123
+HTTP PUT http://www.appdomain.com/users/123/accounts/456
+```
+
+## HTTP DELETE
+
+> Delete resources
+
+```apl
+HTTP DELETE http://www.appdomain.com/users/123
+HTTP DELETE http://www.appdomain.com/users/123/accounts/456
+```
+
+
+
+# HTTP Response Structure
+
+```json
+{
+    "success": true,
+    "code": 200,
+    "msg": "success",
+    "data": data
+}
+```
+
+| Parameter Name | Parameter description                                        |
+| -------------- | ------------------------------------------------------------ |
+| success        | State whether the corresponding request is success.<br/>return `true` if success, otherwise return `false` |
+| code           | Error Code<br/>return `200` if success, otherwise return a five digit integer:<br/>For example, `10101` |
+| msg            | Error Message<br/>return `success` if success, otherwise return failing detail:<br/>For example, `Registration Fail, Password Not Match` |
+| data           | Payload<br/>The returning data of the response corresponds to a request.<br/>Various Data Structure: `String`, `Integer`, `Object`, `Array`, `Array of Object` |
+
+# Client API
 
 # User Operation
 
