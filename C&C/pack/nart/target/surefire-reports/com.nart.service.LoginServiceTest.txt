@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.nart.service.LoginServiceTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.649 s - in com.nart.service.LoginServiceTest

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataCounterServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.service.impl</a> &gt; <span class="el_source">DataCounterServiceImpl.java</span></div><h1>DataCounterServiceImpl.java</h1><pre class="source lang-java linenums">package com.nart.service.impl;
+
+
+import com.nart.dao.DataCounterDao;
+import com.nart.service.DataCounterService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional
+@Service
+<span class="fc" id="L12">public class DataCounterServiceImpl implements DataCounterService {</span>
+
+    @Autowired
+    private DataCounterDao dataCounterDao;
+
+    @Override
+    public int updateUserAmount(boolean increase) {
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        if (increase) {</span>
+<span class="fc" id="L20">            dataCounterDao.updateUserAmount(1);</span>
+<span class="fc" id="L21">            return 1;</span>
+        } else {
+<span class="fc" id="L23">            dataCounterDao.updateUserAmountm(1);</span>
+<span class="fc" id="L24">            return 2;</span>
+        }
+
+    }
+
+    @Override
+    public int updateOnlineUserAmount(boolean increase) {
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (increase) {</span>
+<span class="fc" id="L32">            dataCounterDao.updateOnlineUserAmount(1);</span>
+
+<span class="fc" id="L34">            return 1;</span>
+        } else {
+<span class="fc" id="L36">            dataCounterDao.updateOnlineUserAmountm(1);</span>
+<span class="fc" id="L37">            return 2;</span>
+        }
+    }
+
+    @Override
+    public int updateStatusAmount(boolean increase) {
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (increase) {</span>
+<span class="fc" id="L44">            dataCounterDao.updateStatusAmount(1);</span>
+
+<span class="fc" id="L46">            return 1;</span>
+        } else {
+<span class="fc" id="L48">            dataCounterDao.updateStatusAmountm(1);</span>
+<span class="fc" id="L49">            return 2;</span>
+        }
+    }
+
+    @Override
+    public int updateCommentAmount(boolean increase) {
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (increase) {</span>
+<span class="fc" id="L56">            dataCounterDao.updateCommentAmount(1);</span>
+
+<span class="fc" id="L58">            return 1;</span>
+        } else {
+<span class="fc" id="L60">            dataCounterDao.updateCommentAmountm(1);</span>
+<span class="fc" id="L61">            return 2;</span>
+        }
+    }
+
+    @Override
+    public int updateMessageAmount(boolean increase) {
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        if (increase) {</span>
+<span class="fc" id="L68">            dataCounterDao.updateMessageAmount(1);</span>
+
+<span class="fc" id="L70">            return 1;</span>
+        } else {
+<span class="fc" id="L72">            dataCounterDao.updateMessageAmountm(1);</span>
+<span class="fc" id="L73">            return 2;</span>
+        }
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
