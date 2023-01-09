@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DateVo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.vo</a> &gt; <span class="el_source">DateVo.java</span></div><h1>DateVo.java</h1><pre class="source lang-java linenums">package com.nart.vo;
+
+import lombok.Data;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+<span class="pc bnc" id="L8" title="All 16 branches missed.">@Data</span>
+public class DateVo {
+<span class="fc" id="L10">    private int year;</span>
+<span class="fc" id="L11">    private int month;</span>
+<span class="fc" id="L12">    private int day;</span>
+<span class="fc" id="L13">    private int hour;</span>
+<span class="fc" id="L14">    private int min;</span>
+
+    //时间戳转换为字符串
+    public DateVo getDateToString(long time) {
+
+        //System.out.println(time);
+
+<span class="fc" id="L21">        String s = String.valueOf(time);</span>
+        String res;
+<span class="fc" id="L23">        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+<span class="fc" id="L24">        long lt = new Long(s);</span>
+        //将时间戳转换为时间
+<span class="fc" id="L26">        Date date = new Date(lt);</span>
+        //将时间调整为yyyy-MM-dd HH:mm:ss时间样式
+<span class="fc" id="L28">        res = simpleDateFormat.format(date);</span>
+        //System.out.println(res);
+<span class="fc" id="L30">        DateVo dateVo = new DateVo();</span>
+<span class="fc" id="L31">        return createDateVo(res,dateVo);</span>
+
+
+    }
+
+    public DateVo createDateVo(String dateToString, DateVo dateVo){
+<span class="fc" id="L37">        String nian = dateToString.substring(0, 4);</span>
+<span class="fc" id="L38">        int Nian = Integer.parseInt(nian);</span>
+//        System.out.println(Nian);
+<span class="fc" id="L40">        dateVo.setYear(Nian);</span>
+
+
+<span class="fc" id="L43">        String yue = dateToString.substring(5, 7);</span>
+<span class="fc" id="L44">        int YUE = Integer.parseInt(yue);</span>
+//        System.out.println(YUE);
+<span class="fc" id="L46">        dateVo.setMonth(YUE);</span>
+
+<span class="fc" id="L48">        String ri = dateToString.substring(8,10);</span>
+<span class="fc" id="L49">        int RI = Integer.parseInt(ri);</span>
+//        System.out.println(RI);
+<span class="fc" id="L51">        dateVo.setDay(RI);</span>
+
+<span class="fc" id="L53">        String xiaoshi = dateToString.substring(11,13);</span>
+<span class="fc" id="L54">        int XIAOSHI = Integer.parseInt(xiaoshi);</span>
+//        System.out.println(XIAOSHI);
+<span class="fc" id="L56">        dateVo.setHour(XIAOSHI);</span>
+
+<span class="fc" id="L58">        String fenzhong = dateToString.substring(14,16);</span>
+<span class="fc" id="L59">        int Fen = Integer.parseInt(fenzhong);</span>
+//        System.out.println(Fen);
+<span class="fc" id="L61">        dateVo.setMin(Fen);</span>
+
+<span class="fc" id="L63">        return dateVo;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

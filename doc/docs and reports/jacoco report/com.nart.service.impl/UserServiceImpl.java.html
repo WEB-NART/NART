@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.service.impl</a> &gt; <span class="el_source">UserServiceImpl.java</span></div><h1>UserServiceImpl.java</h1><pre class="source lang-java linenums">package com.nart.service.impl;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.nart.dao.FriendDao;
+import com.nart.dao.UserDao;
+import com.nart.dao.UserGroupDao;
+import com.nart.pojo.Friend;
+import com.nart.pojo.User;
+import com.nart.pojo.UserGroup;
+import com.nart.service.DataCounterService;
+import com.nart.service.UserService;
+import com.nart.util.EncryptUtil;
+import com.nart.util.UserThreadLocal;
+import com.nart.vo.PageVo;
+import com.nart.vo.UserVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+@Transactional
+@Service
+public class UserServiceImpl implements UserService {
+
+    private final UserDao userDao;
+    private final DataCounterService dataCounterService;
+
+    private final FriendDao friendDao;
+
+    private final UserGroupDao userGroupDao;
+
+    @Autowired
+    public UserServiceImpl(UserDao userDao,
+                           DataCounterService dataCounterService,
+                           FriendDao friendDao,
+<span class="fc" id="L40">                           UserGroupDao userGroupDao) {</span>
+<span class="fc" id="L41">        this.userDao = userDao;</span>
+<span class="fc" id="L42">        this.dataCounterService = dataCounterService;</span>
+<span class="fc" id="L43">        this.friendDao = friendDao;</span>
+<span class="fc" id="L44">        this.userGroupDao = userGroupDao;</span>
+<span class="fc" id="L45">    }</span>
+
+
+    @Override
+    public User findUser(String uname, String pwd) {
+<span class="fc" id="L50">        LambdaQueryWrapper&lt;User&gt; lqw = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="fc" id="L51">        lqw.eq(User::getName, uname).eq(User::getPwd, pwd);</span>
+<span class="fc" id="L52">        User user = userDao.selectOne(lqw);</span>
+
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">        if (user != null) {</span>
+<span class="fc" id="L55">            user.setUserOnline(1);</span>
+<span class="fc" id="L56">            userDao.updateById(user);</span>
+<span class="fc" id="L57">            return user;</span>
+        }
+<span class="nc" id="L59">        return null;</span>
+    }
+
+    @Override
+    public User findUserByName(String uname) {
+<span class="fc" id="L64">        LambdaQueryWrapper&lt;User&gt; lqw = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="fc" id="L65">        lqw.eq(User::getName, uname);</span>
+<span class="fc" id="L66">        return userDao.selectOne(lqw);</span>
+    }
+
+    @Override
+    public boolean logout(String userId) {
+
+<span class="fc" id="L72">        User user1 = userDao.selectById(userId);</span>
+<span class="fc" id="L73">        int userOnline = user1.getUserOnline();</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (userOnline == 1) {</span>
+<span class="fc" id="L75">            User user = new User();</span>
+<span class="fc" id="L76">            user.setId(userId);</span>
+<span class="fc" id="L77">            user.setUserOnline(0);</span>
+<span class="fc" id="L78">            int i = userDao.updateById(user);</span>
+<span class="fc" id="L79">            dataCounterService.updateOnlineUserAmount(false);</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">            return i &gt; 0;</span>
+        }
+<span class="fc" id="L82">        return false;</span>
+    }
+
+    @Override
+    public User register(String email, String name, String pwd) {
+<span class="fc" id="L87">        User user = new User();</span>
+<span class="fc" id="L88">        user.setEmail(email);</span>
+<span class="fc" id="L89">        user.setName(name);</span>
+<span class="fc" id="L90">        user.setPwd(pwd);</span>
+<span class="fc" id="L91">        user.setUserOnline(0);</span>
+<span class="fc" id="L92">        user.setAvatar(&quot;https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png&quot;);</span>
+<span class="fc" id="L93">        int insert = userDao.insert(user);</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if (insert &gt; 0) {</span>
+<span class="fc" id="L95">            int i = dataCounterService.updateUserAmount(true);</span>
+<span class="fc" id="L96">            return user;</span>
+        }
+
+<span class="nc" id="L99">        return null;</span>
+    }
+
+    @Override
+    public User showUserInfo(String userId) {
+<span class="fc" id="L104">        return userDao.selectById(userId);</span>
+    }
+
+    @Override
+    public User showUnameAvatar(String userId) {
+<span class="fc" id="L109">        LambdaQueryWrapper&lt;User&gt; lqw = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="fc" id="L110">        lqw.select(User::getName, User::getAvatar).eq(User::getId, userId);</span>
+<span class="fc" id="L111">        return userDao.selectOne(lqw);</span>
+    }
+
+    @Override
+    public boolean changeUserInfo(UserVo userVo, String id) {
+<span class="fc" id="L116">        User user = userDao.selectById(id);</span>
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">        if(!userVo.getUname().isEmpty()){</span>
+<span class="fc" id="L118">            user.setName(userVo.getUname());</span>
+        }
+<span class="fc" id="L120">        String tpwd = user.getTpwd();</span>
+//        System.out.println(tpwd);
+<span class="fc" id="L122">        String pwd = userVo.getPwd();</span>
+//        System.out.println(pwd);
+<span class="pc bpc" id="L124" title="2 of 4 branches missed.">        if(!userVo.getPwd().isEmpty() &amp;&amp; userVo.getPwd().equals(tpwd)) {</span>
+<span class="nc" id="L125">            user.setTpwd(userVo.getPwd());</span>
+<span class="nc" id="L126">            String password = EncryptUtil.encryptPwd(userVo.getPwd());</span>
+<span class="nc" id="L127">            user.setPwd(password);</span>
+        }
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">        if(!userVo.getAvatar().isEmpty()) {</span>
+<span class="fc" id="L130">            user.setAvatar(userVo.getAvatar());</span>
+        }
+<span class="pc bpc" id="L132" title="2 of 4 branches missed.">        if(userVo.getPhone() != null &amp;&amp; !userVo.getPhone().isEmpty()) {</span>
+<span class="fc" id="L133">            user.setTel(userVo.getPhone());</span>
+        }
+<span class="pc bpc" id="L135" title="2 of 4 branches missed.">        if(userVo.getEmail() != null &amp;&amp; !userVo.getEmail().isEmpty()) {</span>
+<span class="fc" id="L136">            user.setEmail(userVo.getEmail());</span>
+        }
+<span class="pc bpc" id="L138" title="2 of 4 branches missed.">        if(userVo.getAddress() != null &amp;&amp; !userVo.getAddress().isEmpty()) {</span>
+<span class="fc" id="L139">            user.setAddress(userVo.getAddress());</span>
+        }
+<span class="pc bpc" id="L141" title="2 of 4 branches missed.">        if(userVo.getBirthday() != null &amp;&amp; !userVo.getBirthday().isEmpty()) {</span>
+<span class="fc" id="L142">            user.setAge(userVo.getBirthday());</span>
+        }
+<span class="fc" id="L144">        int i = userDao.updateById(user);</span>
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">        return i &gt; 0;</span>
+    }
+
+    @Override
+    public IPage&lt;User&gt; searchNew(String name, PageVo pageVo) {
+
+<span class="fc" id="L151">        LambdaQueryWrapper&lt;Friend&gt; lqwFriend = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="fc" id="L152">        lqwFriend.eq(Friend::getUid, UserThreadLocal.get().getId());</span>
+<span class="fc" id="L153">        List&lt;Friend&gt; myFriends = friendDao.selectList(lqwFriend);</span>
+<span class="fc" id="L154">        List&lt;String&gt; myFriendIds = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L155">        myFriends.forEach(f -&gt; myFriendIds.add(f.getFid()));</span>
+
+<span class="fc" id="L157">        IPage&lt;User&gt; page = new Page&lt;&gt;(pageVo.getPageNum(), pageVo.getPageSize());</span>
+<span class="fc" id="L158">        LambdaQueryWrapper&lt;User&gt; lqw = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="fc" id="L159">        lqw.like(User::getName, name).notIn(User::getId, myFriendIds);</span>
+
+<span class="fc" id="L161">        return userDao.selectPage(page, lqw);</span>
+    }
+
+    @Override
+    public boolean upDatetime(String userId) {
+//        String id = UserThreadLocal.get().getId();
+//        System.out.println(id);
+<span class="fc" id="L168">        Timestamp timestamp = new Timestamp(System.currentTimeMillis());</span>
+<span class="fc" id="L169">        long time = timestamp.getTime();</span>
+<span class="fc" id="L170">        System.out.println(userId);</span>
+<span class="fc" id="L171">        System.out.println(&quot;现在的时间是  &quot;+time);</span>
+
+//        String userId = &quot;1574989632599367682&quot;;
+<span class="fc" id="L174">        LambdaQueryWrapper&lt;Friend&gt; lqw = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="fc" id="L175">        lqw.eq(Friend::getUid, userId);</span>
+<span class="fc" id="L176">        List&lt;Friend&gt; friends = friendDao.selectList(lqw);</span>
+
+<span class="pc bpc" id="L178" title="1 of 2 branches missed.">        if (friends.size()&gt;0){</span>
+<span class="fc bfc" id="L179" title="All 2 branches covered.">            for (Friend friend : friends) {</span>
+<span class="fc" id="L180">                friend.setLeaveTime(time);</span>
+<span class="fc" id="L181">                int i = friendDao.updateById(friend);</span>
+<span class="fc" id="L182">            }</span>
+        }
+
+<span class="fc" id="L185">        LambdaQueryWrapper&lt;UserGroup&gt; lqw1 = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="fc" id="L186">        lqw1.eq(UserGroup::getUid, userId);</span>
+<span class="fc" id="L187">        List&lt;UserGroup&gt; userGroups = userGroupDao.selectList(lqw1);</span>
+
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">        if (userGroups.size()&gt;0){</span>
+<span class="fc bfc" id="L190" title="All 2 branches covered.">            for (UserGroup userGroup : userGroups) {</span>
+<span class="fc" id="L191">                userGroup.setUserLevelTime(time);</span>
+<span class="fc" id="L192">                userGroupDao.updateById(userGroup);</span>
+<span class="fc" id="L193">            }</span>
+        }
+<span class="fc" id="L195">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

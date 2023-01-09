@@ -1,0 +1,28 @@
+<configuration xmlns="http://ch.qos.logback/xml/ns/logback"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://ch.qos.logback/xml/ns/logback
+               https://raw.githubusercontent.com/enricopulatzo/logback-XSD/master/src/main/xsd/logback.xsd">
+
+
+<!--&lt;!&ndash;    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">&ndash;&gt;-->
+<!--&lt;!&ndash;        <encoder>&ndash;&gt;-->
+<!--&lt;!&ndash;            <pattern> %red(%d{HH:mm:ss}) %purple([%thread]) %-5level %green(%logger{36})  %msg%n</pattern>&ndash;&gt;-->
+<!--&lt;!&ndash;        </encoder>&ndash;&gt;-->
+<!--&lt;!&ndash;    </appender>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <appender name="FILE" class="ch.qos.logback.core.FileAppender">&ndash;&gt;-->
+<!--&lt;!&ndash;        <file>myApp.log</file>&ndash;&gt;-->
+<!--&lt;!&ndash;        <encoder>&ndash;&gt;-->
+<!--&lt;!&ndash;            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>&ndash;&gt;-->
+<!--&lt;!&ndash;        </encoder>&ndash;&gt;-->
+<!--&lt;!&ndash;    </appender>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <logger name = "logtset" level = "DEBUG" >&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        <appender-ref ref="FILE" />&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <appender-ref ref="STDOUT" />&ndash;&gt;-->
+<!--&lt;!&ndash;    </logger>&ndash;&gt;-->
+<!--&lt;!&ndash;    <root level="INFO">&ndash;&gt;-->
+<!--&lt;!&ndash;        <appender-ref ref="STDOUT" />&ndash;&gt;-->
+<!--&lt;!&ndash;    </root>&ndash;&gt;-->
+
+</configuration>

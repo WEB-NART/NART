@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: com.nart.friendTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.546 s <<< FAILURE! - in com.nart.friendTest
+searchFriend  Time elapsed: 0.008 s  <<< ERROR!
+java.lang.NullPointerException
+	at com.nart.friendTest.searchFriend(friendTest.java:35)
+

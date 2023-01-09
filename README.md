@@ -13,12 +13,14 @@
 
 ## Current State
 ### Designing v1.0
+
 - [x] UseCase<br/>
 - [x] UseCase Description<br/>
 - [x] FlowDigram Client<br/>
 - [x] FlowDiagram Admin<br/>
 
 **Back-End**<br/>
+
 - [x] moduleUML (General UML)<br/>
 - [x] ERDiagram<br/>
 - [x] Backend UML Client<br/>
@@ -33,3 +35,9 @@
 **Other Stuff**<br/>
 - [x] API Specification Document<br/>
 - [ ] Sequence Diagrams<br/>
+
+### Implementation v1.0
+
+**Front-End**<br/>
+
+**Back-End**<br/>

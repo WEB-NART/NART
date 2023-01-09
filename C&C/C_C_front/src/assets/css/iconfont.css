@@ -1,0 +1,23 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3558994 */
+  src: url('iconfont.woff2?t=1661217856153') format('woff2'),
+       url('iconfont.woff?t=1661217856153') format('woff'),
+       url('iconfont.ttf?t=1661217856153') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 30px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-aixin_shixin:before {
+  content: "\eca2";
+}
+
+.icon-aixin:before {
+  content: "\eca1";
+}
+
