@@ -1,0 +1,10 @@
+com\nart\service\DataCounterServiceTest.class
+com\nart\service\StatusServiceTest.class
+com\nart\service\FriendServiceTest.class
+com\nart\service\LoadDataInDataBaseTest.class
+com\nart\service\ChatServiceTest.class
+com\nart\service\LoginServiceTest.class
+com\nart\service\UserServiceTest.class
+com\nart\service\GroupServiceTest.class
+com\nart\service\AdminServiceTest.class
+com\nart\service\CommentServiceTest.class

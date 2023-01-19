@@ -96,6 +96,12 @@ class ChatServiceTest {
         boolean b = chatService.leaveRoom("1574989637485731841", true);
         assertEquals(true,b);
 
+
+//        User user1 = userDao.selectById("1574989636311326722");
+//        UserThreadLocal.put(user);
+        boolean q = chatService.leaveRoom("1574990494298169346", false);
+        assertEquals(true,q);
+
     }
 
     @Test
@@ -104,5 +110,15 @@ class ChatServiceTest {
         UserThreadLocal.put(user);
         boolean b = chatService.existNewMsg("1574989638265872385", true, 1608904969006L);
         assertEquals(true,b);
+
+        boolean c = chatService.existNewMsg("1", true, 1608904969006L);
+        assertEquals(false,c);
+
+        boolean d = chatService.existNewMsg("1574990494298169346", false, 1608904969006L);
+        assertEquals(true,d);
+
+        boolean e = chatService.existNewMsg("a", false, 1608904969006L);
+        assertEquals(false,e);
+
     }
 }

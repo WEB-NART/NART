@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChatEndPoint.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.common</a> &gt; <span class="el_source">ChatEndPoint.java</span></div><h1>ChatEndPoint.java</h1><pre class="source lang-java linenums">package com.nart.common;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nart.config.WebSocketConfig;
+import com.nart.service.GroupService;
+import com.nart.util.EncryptUtil;
+import com.nart.util.GsonFormatter;
+import com.nart.util.SpringUtil;
+import com.nart.vo.WSMsg;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpSession;
+import javax.websocket.*;
+import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * Copyright (c) 2008-2024: Zirui Qiao
+ * Project: pack
+ *
+ * @className: ChatEndPoint
+ *  TODO
+ * @version: v1.8.0
+ * @Author ZIRUI QIAO
+ * @Date 2022/12/29 11:05
+ */
+@ServerEndpoint(value=&quot;/chat&quot;,configurator = WebSocketConfig.class)
+@Component
+<span class="fc" id="L34">@Slf4j</span>
+<span class="fc" id="L35">public class ChatEndPoint {</span>
+    // stores all online users
+<span class="fc" id="L37">    private static final Map&lt;String, ChatEndPoint&gt; onlineUsers = new ConcurrentHashMap&lt;&gt;();</span>
+    private Session session;
+    private HttpSession httpSession;
+
+    private GroupService getGroupService() {
+<span class="nc" id="L42">        GroupService gsi = (GroupService) SpringUtil.getBean(&quot;groupServiceImpl&quot;);</span>
+<span class="nc" id="L43">        return gsi;</span>
+    }
+
+    @OnOpen
+    public void onOpen(Session session, EndpointConfig config) {
+<span class="nc" id="L48">        this.session = session;</span>
+<span class="nc" id="L49">        HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());</span>
+<span class="nc" id="L50">        this.httpSession = httpSession;</span>
+<span class="nc" id="L51">        String uid = (String) httpSession.getAttribute(&quot;uid&quot;);</span>
+<span class="nc" id="L52">        uid = uid.substring(5);</span>
+<span class="nc" id="L53">        onlineUsers.put(uid, this);</span>
+<span class="nc" id="L54">        onlineUsers.forEach((key, value) -&gt; {</span>
+<span class="nc" id="L55">            String temp = key + &quot;: &quot; + value.toString();</span>
+<span class="nc" id="L56">            log.info(temp);</span>
+<span class="nc" id="L57">        });</span>
+<span class="nc" id="L58">    }</span>
+
+    private void broadcastAllUsers(WSMsg wsMsg, Set&lt;String&gt; receivers) {
+        // find all online userIds
+<span class="nc" id="L62">        Map&lt;String, ChatEndPoint&gt; onlineUsers1 = onlineUsers;</span>
+<span class="nc" id="L63">        Set&lt;String&gt; ids = new HashSet&lt;String&gt;(onlineUsers1.keySet());</span>
+
+        // find intersections between online users and target users;
+<span class="nc" id="L66">        ids.retainAll(receivers);</span>
+<span class="nc" id="L67">        ids.remove(wsMsg.getSender());</span>
+        try {
+            // send to all
+<span class="nc bnc" id="L70" title="All 2 branches missed.">            for(String id: ids){</span>
+<span class="nc" id="L71">                ChatEndPoint chatEndPoint = onlineUsers.get(id);</span>
+<span class="nc" id="L72">                chatEndPoint.session.getBasicRemote().sendText(GsonFormatter.toJsonString(wsMsg));</span>
+<span class="nc" id="L73">            }</span>
+<span class="nc" id="L74">        } catch (IOException e) {</span>
+<span class="nc" id="L75">            e.printStackTrace();</span>
+<span class="nc" id="L76">        }</span>
+<span class="nc" id="L77">    }</span>
+
+    private Set&lt;String&gt; getIds() {
+<span class="nc" id="L80">        return onlineUsers.keySet();</span>
+    }
+
+    @OnMessage
+    public void onMessage(String message, Session session) {
+        try {
+<span class="nc" id="L86">            ObjectMapper mapper = new ObjectMapper();</span>
+<span class="nc" id="L87">            WSMsg msg = mapper.readValue(message, WSMsg.class);</span>
+<span class="nc" id="L88">            String sid = msg.getSender();</span>
+<span class="nc" id="L89">            Map&lt;String, Object&gt; stringObjectMap = EncryptUtil.checkToken(sid);</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">            if (stringObjectMap != null) {</span>
+<span class="nc" id="L91">                sid = ((Long) stringObjectMap.get(&quot;userId&quot;)).toString();</span>
+            }
+<span class="nc" id="L93">            msg.setSender(sid);</span>
+
+<span class="nc" id="L95">            Set&lt;String&gt; receivers = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L96">            String receiverType = msg.getReceiverType();</span>
+<span class="nc" id="L97">            String receiver = msg.getReceiver();</span>
+            // set receivers
+<span class="nc bnc" id="L99" title="All 2 branches missed.">            if(receiverType.equals(&quot;friend&quot;)) {</span>
+<span class="nc" id="L100">                receivers.add(receiver);</span>
+            } else {
+<span class="nc" id="L102">                GroupService gs = getGroupService();</span>
+<span class="nc" id="L103">                receivers.addAll(gs.findAllMembers(receiver));</span>
+            }
+
+<span class="nc" id="L106">            broadcastAllUsers(msg, receivers);</span>
+<span class="nc" id="L107">        } catch (Exception e) {</span>
+<span class="nc" id="L108">            e.printStackTrace();</span>
+<span class="nc" id="L109">        }</span>
+<span class="nc" id="L110">    }</span>
+
+    @OnClose
+    public void onClose(Session session){
+<span class="nc" id="L114">        String uid = (String) httpSession.getAttribute(&quot;uid&quot;);</span>
+<span class="nc" id="L115">        onlineUsers.remove(uid);</span>
+<span class="nc" id="L116">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

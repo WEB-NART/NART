@@ -51,4 +51,13 @@ class CommentServiceTest {
         System.out.println("postComment: "+ a);
         assertEquals(true,a);
     }
+
+
+
+    @Test
+    void delComment(){
+        boolean b = commentService.delComment("1574989660554403841");
+        assertEquals(true,b);
+    }
+
 }

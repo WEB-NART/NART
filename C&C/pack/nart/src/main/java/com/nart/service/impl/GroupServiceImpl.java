@@ -85,7 +85,11 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public boolean changeGroupInfo(Group group) {
         int i = groupDao.updateById(group);
-        return i>0;
+        boolean a = false;
+        if ( i == 1){
+            a = true;
+        }
+        return true;
     }
 
     @Override
@@ -124,7 +128,11 @@ public class GroupServiceImpl implements GroupService {
         lqw.eq(UserGroup::getGid,gid);
         lqw.eq(UserGroup::getUid,uid);
         int delete = userGroupDao.delete(lqw);
-        return delete>0;
+        boolean a = false;
+        if (delete == 1){
+            a = true;
+        }
+        return a;
     }
 
     @Override
@@ -137,7 +145,11 @@ public class GroupServiceImpl implements GroupService {
         UserGroup userGroup = new UserGroup();
         userGroup.setState(state);
         int update = userGroupDao.update(userGroup, lqw);
-        return update>0;
+        boolean a = false;
+        if (update == 1){
+            a = true;
+        }
+        return a;
     }
 
     @Override
@@ -180,7 +192,11 @@ public class GroupServiceImpl implements GroupService {
         groupInvite.setSenderId(UserThreadLocal.get().getId());
         groupInvite.setDate(new Date().getTime());
         int insert = groupInviteDao.insert(groupInvite);
-        return insert>0;
+        boolean a = false;
+        if (insert == 1){
+            a = true;
+        }
+        return a;
     }
 
     @Override
@@ -200,7 +216,12 @@ public class GroupServiceImpl implements GroupService {
             int insert = userGroupDao.insert(userGroup);
 
             groupInviteDao.deleteById(InviteId);
-            return insert>0;
+
+            boolean a = false;
+            if (insert == 1){
+                a = true;
+            }
+            return a;
         }else {
             groupInviteDao.deleteById(InviteId);
             return false;
@@ -250,8 +271,11 @@ public class GroupServiceImpl implements GroupService {
             int insert1 = userGroupDao.insert(userGroup);
         }
 
-
-        return insert>0;
+        boolean q = false;
+        if (insert == 1){
+            q = true;
+        }
+        return q;
     }
 
     @Override
@@ -270,8 +294,12 @@ public class GroupServiceImpl implements GroupService {
         group.setUserLevel(userLevel+1);
         groupDao.updateById(group);
 
+        boolean a =false;
+        if (insert == 1){
+            a = true;
+        }
 
-        return insert>0;
+        return a;
     }
 
     @Override
