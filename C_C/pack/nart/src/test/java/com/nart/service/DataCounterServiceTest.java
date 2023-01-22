@@ -23,6 +23,10 @@ class DataCounterServiceTest {
         int i = dataCounterService.updateUserAmount(false);
         System.out.println(i);
         assertEquals(2,i);
+
+        int a = dataCounterService.updateUserAmount(true);
+        System.out.println(a);
+        assertEquals(1,a);
     }
 
     @Test
@@ -30,6 +34,10 @@ class DataCounterServiceTest {
         int i = dataCounterService.updateOnlineUserAmount(false);
         System.out.println(i);
         assertEquals(2,i);
+
+        int a = dataCounterService.updateOnlineUserAmount(true);
+        System.out.println(i);
+        assertEquals(1,a);
     }
 
     @Test
@@ -37,6 +45,10 @@ class DataCounterServiceTest {
         int i = dataCounterService.updateStatusAmount(false);
         System.out.println(i);
         assertEquals(2,i);
+
+        int a = dataCounterService.updateStatusAmount(true);
+        System.out.println(a);
+        assertEquals(1,a);
     }
 
     @Test

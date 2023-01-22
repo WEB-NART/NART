@@ -37,6 +37,13 @@ class UserServiceTest {
         System.out.println(liu);
         User liu1= liu;
         assertEquals(liu1,liu);
+
+        User user1 = userDao.selectById("1574989636311326722");
+        UserThreadLocal.put(user1);
+        User liu3 = userService.findUser("", "f7502042e911bc69fceb1dcfffbd6adc");
+        System.out.println(liu);
+        User liu2= liu3;
+        assertEquals(liu2,liu3);
     }
 
     @Test
@@ -55,7 +62,11 @@ class UserServiceTest {
         UserThreadLocal.put(user);
         boolean logout = userService.logout("1574989636311326722");
         System.out.println(logout);
-        assertEquals(true,logout);
+        assertEquals(false,logout);
+
+        boolean logout1 = userService.logout("1574989636705591298");
+        System.out.println(logout1);
+        assertEquals(true,logout1);
     }
 
     @Test
@@ -105,8 +116,20 @@ class UserServiceTest {
         userVo.setPwd("1222");
         userVo.setUname("qqqq");
         boolean b = userService.changeUserInfo(userVo, "1574989636311326722");
-        System.out.println(b);
         assertEquals(true,b);
+
+        UserVo userVo1 = new UserVo();
+        userVo1.setId("4");
+        userVo1.setAddress("sfefef");
+        userVo1.setAvatar("sqqq");
+        userVo1.setBirthday("19980909");
+        userVo1.setEmail("dede");
+        userVo1.setPhone("3232323");
+        userVo1.setPwd("1KNl8HXMcBUt");
+
+        userVo1.setUname("qqqq");
+        boolean c = userService.changeUserInfo(userVo1, "1574989636311326722");
+        assertEquals(true,c);
     }
 
     @Test

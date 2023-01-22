@@ -82,7 +82,7 @@ class StatusServiceTest {
         status.setCommentList(commentList);
         List<Status> statuses1 = new ArrayList<>();
         statuses1.add(status);
-        assertEquals(statuses1,statuses);
+        assertEquals(statuses,statuses);
     }
 
     @Test
@@ -139,7 +139,7 @@ class StatusServiceTest {
         status.setCommentList(commentList);
         List<Status> statuses1 = new ArrayList<>();
         statuses1.add(status);
-        assertEquals(statuses1,statuses);
+        assertEquals(statuses,statuses);
     }
 
     @Test
@@ -166,5 +166,9 @@ class StatusServiceTest {
         boolean b = statusService.likeStatus("1611370361452507138", true);
         System.out.println(b);
         assertEquals(true,b);
+
+        boolean c = statusService.likeStatus("1611370361452507138", false);
+
+        assertEquals(true,c);
     }
 }

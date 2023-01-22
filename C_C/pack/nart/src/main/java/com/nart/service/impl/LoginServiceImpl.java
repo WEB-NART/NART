@@ -45,7 +45,7 @@ public class LoginServiceImpl implements LoginService {
         }
         String password = EncryptUtil.encryptPwd(pwd);
         User user = userService.findUser(uname, password);
-
+        System.out.println(user);
         if (user == null) {
             return Result.fail(ErrorCode.ACCOUNT_PWD_NOT_MATCH);
         }
@@ -97,9 +97,9 @@ public class LoginServiceImpl implements LoginService {
         String password = EncryptUtil.encryptPwd(pwd);
         User user1 = userService.register(email, uname, password);
 
-        if(user1 == null) {
-            return Result.fail(ErrorCode.REGISTER_ERROR);
-        }
+//        if(user1 == null) {
+//            return Result.fail(ErrorCode.REGISTER_ERROR);
+//        }
         String token = EncryptUtil.createToken(Long.parseLong(user1.getId()));
 
         redisUtil.set("TOKEN_" + token, user1, RedisUtil.DEFAULT_EXPIRE);

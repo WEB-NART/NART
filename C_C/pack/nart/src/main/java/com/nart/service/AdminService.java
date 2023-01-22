@@ -121,11 +121,11 @@ public interface AdminService {
      */
     boolean deleteComment(String id);
 
-    Result logOut();
+//    Result logOut();
+//
+//    Result logIn();
+//
+//    boolean checkAdmin();
 
-    Result logIn();
-
-    boolean checkAdmin();
-
-    boolean setonline(String id);
+//    boolean setonline(String id);
 }

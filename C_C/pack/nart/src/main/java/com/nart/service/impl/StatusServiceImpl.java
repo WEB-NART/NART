@@ -96,7 +96,11 @@ public class StatusServiceImpl implements StatusService {
     public boolean postStatus(Status status) {
         int insert = statusDao.insert(status);
         dataCounterService.updateStatusAmount(true);
-        return insert>0;
+        boolean a = false;
+        if (insert == 1){
+            a = true;
+        }
+        return a;
     }
 
     @Override
@@ -104,7 +108,12 @@ public class StatusServiceImpl implements StatusService {
         commentService.delComment(id);
         int id1 = statusDao.deleteById(id);
         dataCounterService.updateStatusAmount(false);
-        return id1>0;
+        boolean a = false;
+        if (id1 == 1){
+            a = true;
+        }
+        return a;
+
     }
 
     @Override
@@ -114,12 +123,20 @@ public class StatusServiceImpl implements StatusService {
             Status status = statusDao.selectById(id);
             status.setLikes(status.getLikes()+1);
             i = statusDao.updateById(status);
-            return i>0;
+            boolean a = false;
+            if (i == 1){
+                a = true;
+            }
+            return a;
         }else{
             Status status = statusDao.selectById(id);
             status.setLikes(status.getLikes()-1);
             i = statusDao.updateById(status);
-            return i>0;
+            boolean a = false;
+            if (i == 1){
+                a = true;
+            }
+            return a;
         }
 
     }

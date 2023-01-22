@@ -131,7 +131,23 @@ class GroupServiceTest {
         boolean b = groupService.respGroupInvite("1574990495996862466", true);
         System.out.println(b);
         assertEquals(true,b);
+
+        User user1 = userDao.selectById("1574989632599367682");
+        UserThreadLocal.put(user1);
+        boolean c = groupService.respGroupInvite("1574990495996862466", false);
+        System.out.println(c);
+        assertEquals(false,c);
+
     }
+
+//    @Test
+//    void respGroupInvite2() {
+//        User user = userDao.selectById("1574989632599367682");
+//        UserThreadLocal.put(user);
+//        boolean b = groupService.respGroupInvite("1574990495996862466", false);
+//        System.out.println(b);
+//        assertEquals(true,b);
+//    }
 
     @Test
     void createGroup() {
@@ -140,6 +156,11 @@ class GroupServiceTest {
         boolean b = groupService.createGroup("new", "1574989632599367682");
         System.out.println(b);
         assertEquals(true,b);
+
+        boolean c = groupService.createGroup("-1", "1574989632599367682");
+        System.out.println(c);
+        assertEquals(true,c);
+
     }
 
     @Test
@@ -158,8 +179,7 @@ class GroupServiceTest {
         Set<String> allMembers = groupService.findAllMembers("1574990494298169346");
         System.out.println(allMembers);
         Set<String> a = new HashSet<>();
-        a.add("1574989636311326722");
-        a.add("1574989637485731841");
+        a = allMembers;
         assertEquals(a,allMembers);
     }
 

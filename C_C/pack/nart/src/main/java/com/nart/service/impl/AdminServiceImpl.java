@@ -129,18 +129,22 @@ public class AdminServiceImpl implements AdminService {
         User user = userDao.selectById(id);
         user.setState(1);
         int i = userDao.updateById(user);
-        return i>0;
+        boolean a = false;
+        if (i == 1){
+            a = true;
+        }
+        return a;
     }
 
 
-    @Override
-    public boolean setonline(String id) {
-        User user = userDao.selectById(id);
-        user.setUserOnline(1);
-        int i = userDao.updateById(user);
-//        int a = 1/0;
-        return i>0;
-    }
+//    @Override
+//    public boolean setonline(String id) {
+//        User user = userDao.selectById(id);
+//        user.setUserOnline(1);
+//        int i = userDao.updateById(user);
+////        int a = 1/0;
+//        return i>0;
+//    }
 
 
     @Override
@@ -154,30 +158,38 @@ public class AdminServiceImpl implements AdminService {
             commentDao.deleteById(comment.getId());
         }
         int i = statusDao.deleteById(id1);
-        return i>0;
+        boolean a = false;
+        if (i == 1){
+            a = true;
+        }
+        return a;
     }
 
     @Override
     public boolean deleteComment(String id) {
 
         int i = commentDao.deleteById(id);
-        return i>0;
+        boolean a = false;
+        if (i == 1){
+            a = true;
+        }
+        return a;
     }
 
-    @Override
-    public Result logOut() {
-        return null;
-    }
-
-    @Override
-    public Result logIn() {
-        return null;
-    }
-
-    @Override
-    public boolean checkAdmin() {
-        return false;
-    }
+//    @Override
+//    public Result logOut() {
+//        return null;
+//    }
+//
+//    @Override
+//    public Result logIn() {
+//        return null;
+//    }
+//
+//    @Override
+//    public boolean checkAdmin() {
+//        return false;
+//    }
 
 
 }

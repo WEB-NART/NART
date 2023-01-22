@@ -58,7 +58,11 @@ public class ChatServiceImpl implements ChatService {
 
         int insert = friendChatDao.insert(friendChat);
         dataCounterService.updateMessageAmount(true);
-        return insert>0;
+        boolean a = false;
+        if (insert == 1){
+            a = true;
+        }
+        return a;
     }
 
 
@@ -72,7 +76,11 @@ public class ChatServiceImpl implements ChatService {
         groupChat.setLevel(userLevel);
         int insert = groupChatDao.insert(groupChat);
         dataCounterService.updateMessageAmount(true);
-        return insert>0;
+        boolean a = false;
+        if (insert == 1){
+            a = true;
+        }
+        return a;
     }
 
     @Override
@@ -162,7 +170,11 @@ public class ChatServiceImpl implements ChatService {
             long timeStamp = getTimeStamp();
             friend.setLeaveTime(timeStamp);
             int i = friendDao.updateById(friend);
-            return i>0;
+            boolean e = false;
+            if (i == 1){
+                e = true;
+            }
+            return e;
         }else {
             LambdaQueryWrapper<UserGroup> lqw = new LambdaQueryWrapper<UserGroup>();
             lqw.eq(UserGroup::getGid, roomId);
@@ -171,18 +183,13 @@ public class ChatServiceImpl implements ChatService {
 
             long t = getTimeStamp();
 
-//            System.out.println(t);
-//            int statusid1 = Math.toIntExact(t);
-//            System.out.println("int"+statusid1);
-//
-//            String timeStamp = String.valueOf(statusid1);
-//            String wei = "000";
-//            String he = timeStamp+wei;
-//            System.out.println(he);
-
             userGroup.setUserLevelTime(t);
             int i = userGroupDao.updateById(userGroup);
-            return i>0;
+            boolean a = false;
+            if (i == 1){
+                a = true;
+            }
+            return a;
         }
 
     }
@@ -203,8 +210,11 @@ public class ChatServiceImpl implements ChatService {
             lqw.eq(GroupChat::getGroupId, id)
                     .ge(GroupChat::getDate, leaveTime);
 
-            GroupChat groupChat = groupChatDao.selectOne(lqw);
-            if (groupChat != null) return true;
+            List<GroupChat> groupChats = groupChatDao.selectList(lqw);
+//            System.out.println(groupChats);
+            int size = groupChats.size();
+//            System.out.println(size);
+            if (size != 0) return true;
             else return false;
         }
     }
@@ -218,6 +228,7 @@ public class ChatServiceImpl implements ChatService {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         long s = Long.parseLong(String.valueOf(date.getTime()));
         return s;
     }

@@ -63,6 +63,7 @@ public class FriendServiceImpl implements FriendService {
             record.setEmail(user.getEmail());
             record.setAvatar(user.getAvatar());
             int userOnline = user.getUserOnline();
+            System.out.println(userOnline);
             if(userOnline==1){
                 record.setOnline(true);
             }else {
@@ -150,8 +151,11 @@ public class FriendServiceImpl implements FriendService {
         lqw.eq(Friend::getFid, uid);
         lqw.eq(Friend::getUid, fid);
         int delete = friendDao.delete(lqw);
-
-        return delete>0;
+        boolean a = false;
+        if (delete == 1){
+            a = true;
+        }
+        return a;
     }
 
     @Override
@@ -159,12 +163,14 @@ public class FriendServiceImpl implements FriendService {
         LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
         lqw.eq(Friend::getFid, fid);
         lqw.eq(Friend::getUid, uid);
-
-
         Friend friend = new Friend();
         friend.setState(state);
         int update = friendDao.update(friend, lqw);
-        return update>0;
+        boolean a = false;
+        if (update == 1){
+            a = true;
+        }
+        return a;
     }
 
     @Override
@@ -206,8 +212,11 @@ public class FriendServiceImpl implements FriendService {
         friendReq.setSenderId(sid);
         friendReq.setDate(new Date().getTime());
         int insert = friendReqDAO.insert(friendReq);
-
-        return insert>0;
+        boolean a = false;
+        if (insert == 1){
+            a = true;
+        }
+        return a;
     }
 
     @Override

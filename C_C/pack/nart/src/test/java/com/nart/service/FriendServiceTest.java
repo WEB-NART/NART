@@ -50,8 +50,13 @@ class FriendServiceTest {
         friendVo.setNewMsg(false);
         friendVo.setName("carmelina.streich");
         friendVos1.add(friendVo);
-
         assertEquals(friendVos1,friendVos);
+
+        List<FriendVo> friendVosq = friendService.showFriendList(page, "1575504315928305665");
+        List<FriendVo> friendVosqc = new ArrayList<>();
+        System.out.println(friendVosq);
+        friendVosqc = friendVosq;
+        assertEquals(friendVosqc,friendVosq);
     }
 
     @Test
@@ -61,8 +66,19 @@ class FriendServiceTest {
         IPage<Friend> page=new Page<>(1,1);
         List<UserVo> userVos = friendService.searchFriend("dani.altenwerth", page);
         List<UserVo> userVos1 = userVos;
-//        System.out.println(userVos);
         assertEquals(userVos1,userVos);
+
+        IPage<Friend> page1 =new Page<>(10,1);
+        List<UserVo> userVos3 = friendService.searchFriend("dani.altenwerth", page1);
+        List<UserVo> userVos2 = userVos3;
+        assertEquals(userVos2,userVos3);
+
+
+        IPage<Friend> page2 =new Page<>(1,100);
+        List<UserVo> userVosa = friendService.searchFriend("dani.altenwerth", page2);
+        List<UserVo> userVosb = userVosa;
+        assertEquals(userVosb,userVosa);
+
     }
 
     @Test
@@ -108,6 +124,10 @@ class FriendServiceTest {
         boolean b = friendService.respFriendReq("1574989640237195266", true);
         System.out.println(b);
         assertEquals(true,b);
+
+        boolean c = friendService.respFriendReq("1574989640237195266", false);
+//        System.out.println(c);
+        assertEquals(false,c);
     }
 
     @Test
