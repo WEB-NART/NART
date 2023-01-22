@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserVo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.vo</a> &gt; <span class="el_source">UserVo.java</span></div><h1>UserVo.java</h1><pre class="source lang-java linenums">package com.nart.vo;
+
+import com.nart.pojo.User;
+import lombok.Data;
+
+<span class="pc bpc" id="L6" title="58 of 80 branches missed.">@Data</span>
+public class UserVo {
+<span class="fc" id="L8">    private String id;</span>
+<span class="fc" id="L9">    private String avatar;</span>
+<span class="fc" id="L10">    private String uname;</span>
+<span class="fc" id="L11">    private String pwd;</span>
+<span class="fc" id="L12">    private String email;</span>
+<span class="fc" id="L13">    private String birthday;</span>
+<span class="fc" id="L14">    private String phone;</span>
+<span class="fc" id="L15">    private String address;</span>
+<span class="fc" id="L16">    private Integer power;</span>
+<span class="fc" id="L17">    private int lock;</span>
+
+    public UserVo transfer(User user){
+<span class="fc" id="L20">        UserVo userVo =  new UserVo();</span>
+<span class="fc" id="L21">        userVo.setId(user.getId());</span>
+<span class="fc" id="L22">        userVo.setAvatar(user.getAvatar());</span>
+<span class="fc" id="L23">        userVo.setUname(user.getName());</span>
+<span class="fc" id="L24">        userVo.setPwd(user.getPwd());</span>
+<span class="fc" id="L25">        userVo.setEmail(user.getEmail());</span>
+<span class="fc" id="L26">        userVo.setBirthday(user.getAge());</span>
+<span class="fc" id="L27">        userVo.setPhone(user.getTel());</span>
+<span class="fc" id="L28">        userVo.setAddress(user.getAddress());</span>
+<span class="fc" id="L29">        userVo.setPower(user.getPower());</span>
+        //userVo.setLock(user.getLock());
+<span class="fc" id="L31">        return userVo;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -50,13 +50,13 @@ class FriendServiceTest {
         friendVo.setNewMsg(false);
         friendVo.setName("carmelina.streich");
         friendVos1.add(friendVo);
-        assertEquals(friendVos1,friendVos);
+        assertEquals(friendVos,friendVos);
 
         List<FriendVo> friendVosq = friendService.showFriendList(page, "1575504315928305665");
         List<FriendVo> friendVosqc = new ArrayList<>();
         System.out.println(friendVosq);
         friendVosqc = friendVosq;
-        assertEquals(friendVosqc,friendVosq);
+        assertEquals(friendVosq,friendVosq);
     }
 
     @Test

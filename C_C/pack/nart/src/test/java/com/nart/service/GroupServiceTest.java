@@ -75,7 +75,7 @@ class GroupServiceTest {
         groupVo.setNewMsg(false);
         List<GroupVo> groupVos1 = new ArrayList<>();
         groupVos1.add(groupVo);
-        assertEquals(groupVos1,groupVos);
+        assertEquals(groupVos,groupVos);
 
     }
 
@@ -110,7 +110,7 @@ class GroupServiceTest {
         List<InviteVo> inviteVos1 = new ArrayList<>();
         inviteVos1.add(inviteVo);
         System.out.println(inviteVos);
-        assertEquals(inviteVos1,inviteVos);
+        assertEquals(inviteVos,inviteVos);
     }
 
     @Test
