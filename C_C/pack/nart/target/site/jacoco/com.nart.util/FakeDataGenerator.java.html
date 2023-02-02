@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FakeDataGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.util</a> &gt; <span class="el_source">FakeDataGenerator.java</span></div><h1>FakeDataGenerator.java</h1><pre class="source lang-java linenums">package com.nart.util;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.github.javafaker.Faker;
+import com.nart.dao.*;
+import com.nart.pojo.*;
+import com.nart.service.impl.LoadDataInDataBaseImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
+import static com.nart.util.EncryptUtil.encryptPwd;
+import static com.nart.util.EncryptUtil.getRandLengthSalt;
+import static com.nart.util.RandomContentGenerator.getRandomId;
+import static com.nart.util.RandomContentGenerator.getRandPics;
+
+/**
+ * Copyright (c) 2008-2024: Zirui Qiao
+ * Project: pack
+ *
+ * @className: FakeDataGenerator
+ *  TODO
+ * @version: v1.8.0
+ * @Author ZIRUI QIAO
+ * @Date 2022/8/30 15:43
+ */
+
+@Component
+<span class="nc" id="L36">public class FakeDataGenerator {</span>
+<span class="nc" id="L37">    private final Faker faker = new Faker(Locale.CANADA);</span>
+<span class="nc" id="L38">    private final Random r = new Random();</span>
+
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private StatusDao statusDao;
+    @Autowired
+    private GroupDao groupDao;
+    @Autowired
+    private UserGroupDao userGroupDao;
+    @Autowired
+    private FriendDao friendDao;
+    @Autowired
+    private LoadDataInDataBaseImpl loadDataInDataBase;
+
+    /**
+     *  generate users
+     * @param num number of users
+     * @return List of User
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:11
+     */
+    private List&lt;User&gt; generateUsers(int num) {
+<span class="nc" id="L61">        List&lt;User&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L62">        DateFormat df = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</span>
+
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
+<span class="nc" id="L65">            User u = new User();</span>
+<span class="nc" id="L66">            String password = faker.internet().password(6, 18, true);</span>
+<span class="nc" id="L67">            String salt = getRandLengthSalt();</span>
+<span class="nc" id="L68">            u.setTpwd(password);</span>
+<span class="nc" id="L69">            u.setPwd(encryptPwd(password, salt));</span>
+<span class="nc" id="L70">            u.setSalt(salt);</span>
+<span class="nc" id="L71">            u.setAddress(faker.address().fullAddress());</span>
+<span class="nc" id="L72">            u.setAge(df.format(faker.date().birthday()));</span>
+<span class="nc" id="L73">            u.setAvatar(getRandPics(AlbumType.USER_AVATAR));</span>
+<span class="nc" id="L74">            u.setEmail(faker.internet().emailAddress());</span>
+<span class="nc" id="L75">            u.setName(faker.name().username());</span>
+<span class="nc" id="L76">            u.setTel(faker.phoneNumber().cellPhone());</span>
+<span class="nc" id="L77">            list.add(u);</span>
+        }
+<span class="nc" id="L79">        return list;</span>
+    }
+
+    /**
+     *  generate friends requests
+     * @param num number of requests
+     * @return List of FriendReq
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:12
+     */
+    private List&lt;FriendReq&gt; generateReqs(int num) {
+<span class="nc" id="L90">        List&lt;FriendReq&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L91">        List&lt;String&gt; users = getUserIds();</span>
+
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
+<span class="nc" id="L94">            String sender = getRandomId(users);</span>
+<span class="nc" id="L95">            String receiver = getRandomId(users, sender);</span>
+<span class="nc" id="L96">            FriendReq frq = new FriendReq();</span>
+<span class="nc" id="L97">            frq.setSenderId(sender);</span>
+<span class="nc" id="L98">            frq.setReceiverId(receiver);</span>
+<span class="nc" id="L99">            frq.setMsg(faker.regexify(&quot;\\w{0,20}&quot;));</span>
+<span class="nc" id="L100">            frq.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());</span>
+<span class="nc" id="L101">            list.add(frq);</span>
+        }
+<span class="nc" id="L103">        return list;</span>
+    }
+
+    /**
+     *  generate Friend relationships between User and a random User
+     * @param uid User id
+     * @param num max number of Friend
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:23
+     */
+    private List&lt;Friend&gt; generateFriendRelationships(List&lt;String&gt; userIds, String uid, int num) {
+<span class="nc" id="L114">        List&lt;String&gt; userFriendIds = getUserFriendIds(uid);</span>
+//        System.out.println(&quot;pengy&quot;+userFriendIds);
+<span class="nc" id="L116">        List&lt;Friend&gt; friendList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">            if(r.nextBoolean()) {</span>
+<span class="nc" id="L119">                String fid = getRandomId(userIds, uid, userFriendIds);</span>
+<span class="nc" id="L120">                Friend friend = new Friend();</span>
+<span class="nc" id="L121">                friend.setUid(uid);</span>
+<span class="nc" id="L122">                friend.setFid(fid);</span>
+<span class="nc" id="L123">                friend.setState(0);</span>
+<span class="nc" id="L124">                friend.setLeaveTime(0L);</span>
+<span class="nc" id="L125">                friendList.add(friend);</span>
+<span class="nc" id="L126">                userFriendIds.add(fid);</span>
+            }
+        }
+<span class="nc" id="L129">        return friendList;</span>
+    }
+
+    /**
+     *  generate Friend chat Message
+     * @param uid User id
+     * @param num max number of chat msg the User may send to each Friend
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 19:50
+     */
+    private List&lt;FriendChat&gt; generateFriendsChats(String uid, int num) {
+<span class="nc" id="L140">        List&lt;String&gt; userFriendIds = getUserFriendIds(uid);</span>
+<span class="nc" id="L141">        List&lt;FriendChat&gt; friendChatList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        for(String fid: userFriendIds) {</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">            for(int i=0; i&lt;2; i++) {</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">                if(r.nextBoolean()) {</span>
+<span class="nc" id="L145">                    FriendChat friendChat = new FriendChat();</span>
+<span class="nc" id="L146">                    friendChat.setSenderId(uid);</span>
+<span class="nc" id="L147">                    friendChat.setReceiverId(fid);</span>
+
+<span class="nc bnc" id="L149" title="All 2 branches missed.">                    if(r.nextBoolean()) {</span>
+<span class="nc" id="L150">                        friendChat.setType(&quot;text&quot;);</span>
+<span class="nc" id="L151">                        friendChat.setMsg(faker.harryPotter().quote());</span>
+                    } else {
+<span class="nc" id="L153">                        friendChat.setType(&quot;img&quot;);</span>
+<span class="nc" id="L154">                        friendChat.setMsg(getRandPics(AlbumType.CHAT_PICS));</span>
+                    }
+<span class="nc" id="L156">                    friendChat.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());</span>
+<span class="nc" id="L157">                    friendChatList.add(friendChat);</span>
+                }
+            }
+<span class="nc" id="L160">        }</span>
+<span class="nc" id="L161">        return friendChatList;</span>
+    }
+
+    /**
+     *  generate Status with random User as author
+     * @param num number of Status
+     * @return List of Status
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:12
+     */
+    private List&lt;Status&gt; generateStatus(int num) {
+<span class="nc" id="L172">        List&lt;Status&gt; list = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L174">        List&lt;String&gt; users = getUserIds();</span>
+<span class="nc" id="L175">        DateFormat df = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
+<span class="nc" id="L177">            Status s = new Status();</span>
+<span class="nc" id="L178">            s.setSenderId(getRandomId(users));</span>
+<span class="nc" id="L179">            s.setLikes(0);</span>
+<span class="nc" id="L180">            s.setText(faker.shakespeare().asYouLikeItQuote());</span>
+<span class="nc" id="L181">            s.setPics(getRandPics(AlbumType.STATUS_PICS));</span>
+<span class="nc" id="L182">            s.setCreateDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());</span>
+<span class="nc" id="L183">            list.add(s);</span>
+        }
+<span class="nc" id="L185">        return list;</span>
+    }
+
+    /**
+     *  generate comments with random statuses and users
+     * @param num max number of comments
+     * @param statusId Status Id
+     * @return List of Comment
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:13
+     */
+    private List&lt;Comment&gt; generateComment(String statusId, int num) {
+<span class="nc" id="L197">        List&lt;Comment&gt; list = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L199" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
+<span class="nc bnc" id="L200" title="All 2 branches missed.">            if(r.nextBoolean()) {</span>
+<span class="nc" id="L201">                String authorId = &quot;&quot;;</span>
+                /**
+                 * select sid as authorId from tb_status where id = statusId
+                 */
+<span class="nc" id="L205">                Status status = statusDao.selectById(statusId);</span>
+<span class="nc" id="L206">                authorId = status.getSenderId();</span>
+
+<span class="nc" id="L208">                List&lt;String&gt; userFriendIds = getUserFriendIds(authorId);</span>
+<span class="nc" id="L209">                String uid = getRandomId(userFriendIds);</span>
+<span class="nc" id="L210">                Comment comment = new Comment();</span>
+<span class="nc" id="L211">                comment.setUserId(uid);</span>
+<span class="nc" id="L212">                comment.setStatusId(statusId);</span>
+<span class="nc" id="L213">                comment.setMsg(faker.shakespeare().romeoAndJulietQuote());</span>
+<span class="nc" id="L214">                comment.setCreateDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());</span>
+<span class="nc" id="L215">                list.add(comment);</span>
+            }
+        }
+
+
+<span class="nc" id="L220">        return list;</span>
+    }
+
+    /**
+     *  generate like relationship between Status and random User
+     * @param statusId Status id
+     * @param num max number of likes for each Status
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:19
+     */
+    private List&lt;UserLike&gt; generateLikes(String statusId, int num) {
+<span class="nc" id="L231">        String authorId = &quot;&quot;;</span>
+        /**
+         * select sid as authorId from tb_status where id = statusId
+         */
+<span class="nc" id="L235">        List&lt;UserLike&gt; likeList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L236">        Status status = statusDao.selectById(statusId);</span>
+<span class="nc" id="L237">        authorId = status.getSenderId();</span>
+<span class="nc" id="L238">        List&lt;String&gt; userFriendIds = getUserFriendIds(authorId);</span>
+<span class="nc" id="L239">        List&lt;String&gt; likedUserId = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L241" title="All 2 branches missed.">        for(int i=0; i&lt;num; i++) {</span>
+<span class="nc" id="L242">            String uid = getRandomId(userFriendIds, likedUserId);</span>
+<span class="nc bnc" id="L243" title="All 2 branches missed.">            if ((uid==null)){</span>
+<span class="nc" id="L244">                continue;</span>
+            }
+<span class="nc bnc" id="L246" title="All 2 branches missed.">            if (uid.isEmpty()) return likeList;</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">            if(r.nextBoolean()) {</span>
+                /**
+                 *  insert into tb_users_likes values (uid = uid, status_id = statusId);
+                 */
+<span class="nc" id="L251">                UserLike userLike = new UserLike();</span>
+<span class="nc" id="L252">                userLike.setUid(uid);</span>
+<span class="nc" id="L253">                userLike.setStatusId(statusId);</span>
+<span class="nc" id="L254">                likeList.add(userLike);</span>
+<span class="nc" id="L255">                likedUserId.add(uid);</span>
+            }
+        }
+<span class="nc" id="L258">        return likeList;</span>
+    }
+
+    /**
+     *  generate empty groups
+     * @param num Group number
+     * @return List of Group
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:20
+     */
+    private List&lt;Group&gt; generateGroup(int num) {
+<span class="nc" id="L269">        List&lt;Group&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L270" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
+<span class="nc" id="L271">            Group g = new Group();</span>
+<span class="nc" id="L272">            g.setAvatar(getRandPics(AlbumType.GROUP_AVATAR));</span>
+<span class="nc" id="L273">            g.setNotice(faker.regexify(&quot;\\w{20,200}&quot;));</span>
+<span class="nc" id="L274">            g.setGroupName(faker.company().name());</span>
+<span class="nc" id="L275">            g.setUserLevel(0);</span>
+<span class="nc" id="L276">            list.add(g);</span>
+        }
+<span class="nc" id="L278">        return list;</span>
+    }
+
+    /**
+     *  generate Group invitations with random User and Group
+     * @param num total number of invitations
+     * @return List of GroupInvite
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:21
+     */
+    private List&lt;GroupInvite&gt; generateInvites(int num) {
+<span class="nc" id="L289">        List&lt;GroupInvite&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L290">        List&lt;String&gt; users = getUserIds();</span>
+<span class="nc" id="L291">        List&lt;String&gt; groupIds = getGroupIds();</span>
+
+<span class="nc bnc" id="L293" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
+<span class="nc" id="L294">            String sid = getRandomId(users);</span>
+<span class="nc" id="L295">            String gid = getRandomId(groupIds);</span>
+            /**
+             * TODO
+             * select id from tb_user_group where uid = sid and gid = gid;
+             * if not exists
+             * update tb_group set last_level=last_level+1 where id = gid;
+             * tempLevel = select last_level from tb_group where id = gid;
+             * insert into tb_user_group values (sid, gid, 0, tempLevel, 0L);
+             */
+<span class="nc" id="L304">            GroupInvite gi = new GroupInvite();</span>
+<span class="nc" id="L305">            gi.setSenderId(sid);</span>
+<span class="nc" id="L306">            gi.setGroupId(gid);</span>
+<span class="nc" id="L307">            gi.setReceiverId(getRandomId(users, sid));</span>
+<span class="nc" id="L308">            gi.setMsg(faker.regexify(&quot;\\w{0,20}&quot;));</span>
+<span class="nc" id="L309">            gi.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());</span>
+<span class="nc" id="L310">            list.add(gi);</span>
+        }
+<span class="nc" id="L312">        return list;</span>
+    }
+
+    /**
+     *  generate Group relationships between Group and random User
+     * @param gid Group id
+     * @param num max number of Group member
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:22
+     */
+    private List&lt;UserGroup&gt; generateGroupRelationships(String gid, int num) {
+<span class="nc" id="L323">        List&lt;String&gt; groupMemberIds = getGroupMemberIds(gid);</span>
+<span class="nc" id="L324">        List&lt;String&gt; userIds = getUserIds();</span>
+<span class="nc" id="L325">        List&lt;UserGroup&gt; userGroupList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L326" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
+<span class="nc bnc" id="L327" title="All 2 branches missed.">            if(r.nextBoolean()) {</span>
+<span class="nc" id="L328">                String sid = getRandomId(userIds, groupMemberIds);</span>
+                /**
+                 * update tb_group set last_level=last_level+1 where id = gid;
+                 * tempLevel = select last_level from tb_group where id = gid;
+                 * insert into tb_user_group values (sid, gid, 0, tempLevel, 0L);
+                 */
+<span class="nc" id="L334">                Group group = new Group();</span>
+<span class="nc" id="L335">                group.setId(gid);</span>
+<span class="nc" id="L336">                group.setUserLevel(group.getUserLevel()+1);</span>
+
+<span class="nc" id="L338">                Group group1 = getGroupById(gid);</span>
+<span class="nc" id="L339">                int tempLevel = group1.getUserLevel();</span>
+<span class="nc" id="L340">                updateById(group);</span>
+
+<span class="nc" id="L342">                UserGroup userGroup = new UserGroup();</span>
+<span class="nc" id="L343">                userGroup.setUid(sid);</span>
+<span class="nc" id="L344">                userGroup.setGid(gid);</span>
+<span class="nc" id="L345">                userGroup.setState(0);</span>
+<span class="nc" id="L346">                userGroup.setJoinLevel(tempLevel);</span>
+<span class="nc" id="L347">                userGroup.setUserLevelTime(0L);</span>
+<span class="nc" id="L348">                userGroupList.add(userGroup);</span>
+
+<span class="nc" id="L350">                groupMemberIds.add(sid);</span>
+            }
+        }
+<span class="nc" id="L353">        return userGroupList;</span>
+    }
+
+    /**
+     *  generate Group chat Message
+     * @param uid User id
+     * @param num max number of chat msg the User may send to each Group
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 19:50
+     */
+    private List&lt;GroupChat&gt; generateGroupsChats(String uid, int num) {
+<span class="nc" id="L364">        List&lt;String&gt; userGroupIds = getUserGroupIds(uid);</span>
+<span class="nc" id="L365">        List&lt;GroupChat&gt; groupChatList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L367" title="All 2 branches missed.">        for(String gid: userGroupIds) {</span>
+<span class="nc bnc" id="L368" title="All 2 branches missed.">            for(int i=0; i&lt;num+5; i++) {</span>
+<span class="nc bnc" id="L369" title="All 2 branches missed.">                if(r.nextBoolean()) {</span>
+<span class="nc" id="L370">                    GroupChat groupChat = new GroupChat();</span>
+<span class="nc" id="L371">                    groupChat.setGroupId(gid);</span>
+<span class="nc" id="L372">                    groupChat.setSenderId(uid);</span>
+<span class="nc bnc" id="L373" title="All 2 branches missed.">                    if(r.nextBoolean()) {</span>
+<span class="nc" id="L374">                        groupChat.setType(&quot;text&quot;);</span>
+<span class="nc" id="L375">                        groupChat.setMsg(faker.shakespeare().hamletQuote());</span>
+
+                    } else {
+<span class="nc" id="L378">                        groupChat.setType(&quot;img&quot;);</span>
+<span class="nc" id="L379">                        groupChat.setMsg(getRandPics(AlbumType.CHAT_PICS));</span>
+                    }
+<span class="nc" id="L381">                    groupChat.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());</span>
+
+<span class="nc" id="L383">                    Group group = getGroupById(gid);</span>
+
+<span class="nc" id="L385">                    int maxLevel = group.getUserLevel();</span>
+                    /**
+                     * maxLevel = select last_level from tb_group where id = gid
+                     */
+<span class="nc" id="L389">                    groupChat.setLevel(r.nextInt(maxLevel));</span>
+<span class="nc" id="L390">                    groupChatList.add(groupChat);</span>
+                }
+            }
+<span class="nc" id="L393">        }</span>
+<span class="nc" id="L394">        return groupChatList;</span>
+    }
+
+    /**
+     *  find all users' id
+     * @return List of String
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:27
+     */
+    private List&lt;String&gt; getUserIds() {
+<span class="nc" id="L404">        LambdaQueryWrapper&lt;User&gt; queryWrapper = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="nc" id="L405">        queryWrapper.select(User::getId);</span>
+<span class="nc" id="L406">        List&lt;User&gt; objList = this.userDao.selectList(queryWrapper);</span>
+<span class="nc" id="L407">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L408">        objList.forEach((obj -&gt; {</span>
+<span class="nc" id="L409">            result.add(obj.getId());</span>
+<span class="nc" id="L410">        }));</span>
+<span class="nc" id="L411">        return result;</span>
+    }
+
+    /**
+     *  find all statuses' ids
+     * @return List of String
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:28
+     */
+    private List&lt;String&gt; getStatusIds() {
+<span class="nc" id="L421">        LambdaQueryWrapper&lt;Status&gt; queryWrapper = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="nc" id="L422">        queryWrapper.select(Status::getId);</span>
+<span class="nc" id="L423">        List&lt;Status&gt; objList = statusDao.selectList(null);</span>
+<span class="nc" id="L424">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L425">        objList.forEach((obj -&gt; {</span>
+<span class="nc" id="L426">            result.add(obj.getId());</span>
+<span class="nc" id="L427">        }));</span>
+<span class="nc" id="L428">        return result;</span>
+    }
+
+    /**
+     *  find all groups' ids
+     * @return List of String
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:28
+     */
+    private List&lt;String&gt; getGroupIds() {
+<span class="nc" id="L438">        LambdaQueryWrapper&lt;Group&gt; queryWrapper = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="nc" id="L439">        queryWrapper.select(Group::getId);</span>
+<span class="nc" id="L440">        List&lt;Group&gt; objList = this.groupDao.selectList(queryWrapper);</span>
+<span class="nc" id="L441">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L442">        objList.forEach((obj -&gt; {</span>
+<span class="nc" id="L443">            result.add(obj.getId());</span>
+<span class="nc" id="L444">        }));</span>
+<span class="nc" id="L445">        return result;</span>
+    }
+
+    /**
+     *  find all members' ids in the Group
+     * @param groupId Group id
+     * @return List of String
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:28
+     */
+    private List&lt;String&gt; getGroupMemberIds(String groupId) {
+//        List&lt;Group&gt; objList= this.GroupDao.selectAllMember(groupId);
+<span class="nc" id="L457">        LambdaQueryWrapper&lt;UserGroup&gt; lqw = new LambdaQueryWrapper&lt;UserGroup&gt;();</span>
+<span class="nc" id="L458">        lqw.eq(UserGroup::getGid, groupId);</span>
+<span class="nc" id="L459">        List&lt;UserGroup&gt; userGroups = userGroupDao.selectList(lqw);</span>
+<span class="nc" id="L460">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L461" title="All 2 branches missed.">        for (UserGroup userGroup : userGroups) {</span>
+<span class="nc" id="L462">            result.add(userGroup.getUid());</span>
+<span class="nc" id="L463">        }</span>
+//        objList.forEach((obj -&gt; {
+//            result.add(obj.getId());
+//        }));
+<span class="nc" id="L467">        return result;</span>
+    }
+
+    /**
+     *  find all friends' ids of the User
+     * @param uid User id
+     * @return List of String
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:29
+     */
+    private List&lt;String&gt; getUserFriendIds(String uid) {
+//        List&lt;User&gt; objList= this.UserDao.selectFriends(uid);
+<span class="nc" id="L479">        LambdaQueryWrapper&lt;Friend&gt; lqw = new LambdaQueryWrapper&lt;Friend&gt;();</span>
+<span class="nc" id="L480">        lqw.eq(Friend::getUid, uid);</span>
+<span class="nc" id="L481">        List&lt;Friend&gt; friends = friendDao.selectList(lqw);</span>
+<span class="nc" id="L482">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L483" title="All 2 branches missed.">        for (Friend friend : friends) {</span>
+<span class="nc" id="L484">            result.add(friend.getFid());</span>
+<span class="nc" id="L485">        }</span>
+//        objList.forEach((obj -&gt; {
+//            result.add(obj.getId());
+//        }));
+<span class="nc" id="L489">        return result;</span>
+    }
+
+    /**
+     *  find all groups' id the User joined
+     * @param uid User id
+     * @return List of String
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:29
+     */
+    private List&lt;String&gt; getUserGroupIds(String uid) {
+//        List&lt;Group&gt; objList= this.GroupDao.selectGroups(uid);
+
+<span class="nc" id="L502">        LambdaQueryWrapper&lt;UserGroup&gt; lqw = new LambdaQueryWrapper&lt;UserGroup&gt;();</span>
+<span class="nc" id="L503">        lqw.eq(UserGroup::getUid, uid);</span>
+<span class="nc" id="L504">        List&lt;UserGroup&gt; userGroups = userGroupDao.selectList(lqw);</span>
+
+<span class="nc" id="L506">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L507" title="All 2 branches missed.">        for (UserGroup userGroup : userGroups) {</span>
+<span class="nc" id="L508">            result.add(userGroup.getGid());</span>
+<span class="nc" id="L509">        }</span>
+
+//        objList.forEach((obj -&gt; {
+//            result.add(obj.getId());
+//        }));
+<span class="nc" id="L514">        return result;</span>
+    }
+
+    private Group getGroupById(String gid) {
+<span class="nc" id="L518">        return groupDao.selectById(gid);</span>
+    }
+
+    private int updateById(Group group) {
+<span class="nc" id="L522">        return groupDao.updateById(group);</span>
+    }
+
+    /**
+     *  use this to generate fake data and load to database
+     * @param num a base number (1/10 of User number)
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:30
+     */
+
+    //
+    public void generateTestData(int num) {
+<span class="nc" id="L534">        fakeFriendData(num);</span>
+<span class="nc" id="L535">        fakeStatusData(num);</span>
+<span class="nc" id="L536">        fakeGroupData(num);</span>
+<span class="nc" id="L537">    }</span>
+
+    public void fakeFriendData(int num) {
+// generate users
+<span class="nc" id="L541">        List&lt;User&gt; Users = generateUsers(num * 10);</span>
+<span class="nc" id="L542">        boolean b = loadDataInDataBase.LoadListUser(Users);</span>
+<span class="nc" id="L543">        System.out.println(&quot;user 加载&quot;+ b + &quot;: &quot; + Users.size());</span>
+// generate friend requests
+<span class="nc" id="L545">        List&lt;FriendReq&gt; FriendReqs = generateReqs(num * 20);</span>
+<span class="nc" id="L546">        boolean b1 = loadDataInDataBase.LoadListFriendReq(FriendReqs);</span>
+<span class="nc" id="L547">        System.out.println(&quot;FriendReqs 加载&quot; + b1 + &quot;: &quot; + FriendReqs.size());</span>
+// generate friend relationships AND delete related friend requests
+<span class="nc" id="L549">        List&lt;String&gt; userIds = getUserIds();</span>
+<span class="nc" id="L550">        int sum = 0;</span>
+<span class="nc" id="L551">        ProgressBar pb = new ProgressBar();</span>
+<span class="nc" id="L552">        pb.printProgress();</span>
+
+<span class="nc" id="L554">        int total = userIds.size();</span>
+<span class="nc" id="L555">        int count = 0;</span>
+<span class="nc" id="L556">        System.out.println(&quot;=========加载 FriendShip, 最多&quot; + total * num * 2 + &quot;条数据=========&quot;);</span>
+<span class="nc bnc" id="L557" title="All 2 branches missed.">        for (String uid : userIds) {</span>
+<span class="nc" id="L558">            List&lt;Friend&gt; friendList = generateFriendRelationships(userIds, uid, num*2);</span>
+<span class="nc" id="L559">            boolean b2 = loadDataInDataBase.LoadListFriendShips(friendList);</span>
+<span class="nc bnc" id="L560" title="All 2 branches missed.">            if (++count &gt;= total/100) {</span>
+<span class="nc" id="L561">                pb.load();</span>
+<span class="nc" id="L562">                count = 0;</span>
+            }
+<span class="nc" id="L564">            sum += friendList.size();</span>
+<span class="nc" id="L565">        }</span>
+<span class="nc" id="L566">        System.out.println(&quot;friendship 总共加载: &quot; + sum);</span>
+// generate friend chats
+<span class="nc" id="L568">        List&lt;FriendChat&gt; friendChatList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L569" title="All 2 branches missed.">        for(String uid : getUserIds()) {</span>
+<span class="nc" id="L570">            List&lt;FriendChat&gt; fcTemp = generateFriendsChats(uid, num);</span>
+<span class="nc" id="L571">            friendChatList.addAll(fcTemp);</span>
+//            generateGroupsChats(uid, num);
+<span class="nc" id="L573">        }</span>
+<span class="nc" id="L574">        boolean b2 = loadDataInDataBase.LoadListFriendChats(friendChatList);</span>
+<span class="nc" id="L575">        System.out.println(&quot;friendChat 加载&quot;+ b2 + &quot;: &quot; + friendChatList.size());</span>
+<span class="nc" id="L576">    }</span>
+
+    public void fakeStatusData(int num) {
+// generate Status lists
+<span class="nc" id="L580">        List&lt;Status&gt; Statuses = generateStatus(num * 20);</span>
+<span class="nc" id="L581">        System.out.println(Statuses);</span>
+<span class="nc" id="L582">        boolean b2 = loadDataInDataBase.LoadListStatus(Statuses);</span>
+<span class="nc" id="L583">        System.out.println(&quot;Status加载&quot;+ b2 + &quot;: &quot; + Statuses.size());</span>
+
+<span class="nc" id="L585">        int sum1 = 0;</span>
+<span class="nc" id="L586">        int sum2 = 0;</span>
+<span class="nc" id="L587">        ProgressBar pb = new ProgressBar();</span>
+<span class="nc" id="L588">        pb.printProgress();</span>
+<span class="nc" id="L589">        int total = Statuses.size();</span>
+<span class="nc" id="L590">        int count = 0;</span>
+// generate corresponding Likes and Comments
+<span class="nc" id="L592">        System.out.println(&quot;==========加载Like和Comment, 最多&quot; + total * num * 2 + &quot;条数据=============&quot;);</span>
+<span class="nc bnc" id="L593" title="All 2 branches missed.">        for (String statusId : getStatusIds()) {</span>
+<span class="nc" id="L594">            List&lt;UserLike&gt; likeList = generateLikes(statusId, num * 2);</span>
+<span class="nc" id="L595">            boolean b = loadDataInDataBase.LoadListLikes(likeList);</span>
+<span class="nc" id="L596">            List&lt;Comment&gt; Comments = generateComment(statusId, num * 2);</span>
+<span class="nc" id="L597">            boolean bt = loadDataInDataBase.LoadListComment(Comments);</span>
+<span class="nc" id="L598">            sum1 += likeList.size();</span>
+<span class="nc" id="L599">            sum2 += likeList.size();</span>
+<span class="nc bnc" id="L600" title="All 2 branches missed.">            if (++count &gt;= total/100) {</span>
+<span class="nc" id="L601">                pb.load();</span>
+<span class="nc" id="L602">                count = 0;</span>
+            }
+<span class="nc" id="L604">        }</span>
+<span class="nc" id="L605">        System.out.println(&quot;Status Like 总共加载: &quot; + sum1);</span>
+<span class="nc" id="L606">        System.out.println(&quot;Status Comment 总共加载: &quot; + sum2);</span>
+<span class="nc" id="L607">    }</span>
+
+    public void fakeGroupData(int num) {
+// generate group list
+<span class="nc" id="L611">        List&lt;Group&gt; Groups = generateGroup(num+2);</span>
+<span class="nc" id="L612">        boolean b3 = loadDataInDataBase.LoadListGroup(Groups);</span>
+<span class="nc" id="L613">        System.out.println(&quot;Groups 加载&quot;+b3 + &quot;: &quot; + Groups.size());</span>
+// generate group requests
+<span class="nc" id="L615">        List&lt;GroupInvite&gt; GroupInvites = generateInvites(num * 10);</span>
+<span class="nc" id="L616">        boolean b4 = loadDataInDataBase.LoadListGroupInvite(GroupInvites);</span>
+<span class="nc" id="L617">        System.out.println(&quot;GroupInvites 加载&quot;+b4 + &quot;: &quot; + GroupInvites.size());</span>
+// generate groupShips
+<span class="nc" id="L619">        List&lt;UserGroup&gt; userGroupList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L620" title="All 2 branches missed.">        for (String gid : getGroupIds()) {</span>
+<span class="nc" id="L621">            List&lt;UserGroup&gt; ugTemp = generateGroupRelationships(gid, num * 3);</span>
+<span class="nc" id="L622">            userGroupList.addAll(ugTemp);</span>
+<span class="nc" id="L623">        }</span>
+<span class="nc" id="L624">        boolean b = loadDataInDataBase.LoadListGroupShips(userGroupList);</span>
+<span class="nc" id="L625">        System.out.println(&quot;groupShip 总共加载: &quot;+ b + &quot;: &quot; + userGroupList.size());</span>
+// generate group chats
+<span class="nc" id="L627">        List&lt;GroupChat&gt; groupChatList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L628" title="All 2 branches missed.">        for(String uid : getUserIds()) {</span>
+<span class="nc" id="L629">            List&lt;GroupChat&gt; gcTemp = generateGroupsChats(uid, num);</span>
+<span class="nc" id="L630">            groupChatList.addAll(gcTemp);</span>
+<span class="nc" id="L631">        }</span>
+<span class="nc" id="L632">        boolean b2 = loadDataInDataBase.LoadListGroupChats(groupChatList);</span>
+<span class="nc" id="L633">        System.out.println(&quot;groupChat 加载&quot;+ b2 + &quot;: &quot; + groupChatList.size());</span>
+<span class="nc" id="L634">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

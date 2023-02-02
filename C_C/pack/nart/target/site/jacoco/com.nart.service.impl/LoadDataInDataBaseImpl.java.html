@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoadDataInDataBaseImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.service.impl</a> &gt; <span class="el_source">LoadDataInDataBaseImpl.java</span></div><h1>LoadDataInDataBaseImpl.java</h1><pre class="source lang-java linenums">package com.nart.service.impl;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.nart.dao.*;
+import com.nart.pojo.*;
+import com.nart.service.LoadDataInDataBase;
+import com.nart.util.ProgressBar;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Transactional
+@Service
+public class LoadDataInDataBaseImpl implements LoadDataInDataBase {
+
+    private final UserDao userDao;
+    private final FriendReqDao friendReqDao;
+    private final StatusDao statusDao;
+    private final GroupDao groupDao;
+    private final CommentDao commentDao;
+    private final GroupInviteDao groupInviteDao;
+    private final FriendDao friendDao;
+    private final FriendChatDao friendChatDao;
+    private final UserLikeDao userLikeDao;
+    private UserGroupDao userGroupDao;
+    private GroupChatDao groupChatDao;
+
+<span class="fc" id="L31">    private final ProgressBar pb = new ProgressBar();</span>
+
+    @Autowired
+    public LoadDataInDataBaseImpl(UserDao userDao,
+                                  FriendReqDao friendReqDao,
+                                  StatusDao statusDao,
+                                  GroupDao groupDao,
+                                  CommentDao commentDao,
+                                  GroupInviteDao groupInviteDao,
+                                  FriendDao friendDao,
+<span class="fc" id="L41">                                  FriendChatDao friendChatDao, UserLikeDao userLikeDao, UserGroupDao userGroupDao, GroupChatDao groupChatDao) {</span>
+<span class="fc" id="L42">        this.userDao = userDao;</span>
+<span class="fc" id="L43">        this.friendReqDao = friendReqDao;</span>
+<span class="fc" id="L44">        this.statusDao = statusDao;</span>
+<span class="fc" id="L45">        this.groupDao = groupDao;</span>
+<span class="fc" id="L46">        this.commentDao = commentDao;</span>
+<span class="fc" id="L47">        this.groupInviteDao = groupInviteDao;</span>
+<span class="fc" id="L48">        this.friendDao = friendDao;</span>
+<span class="fc" id="L49">        this.friendChatDao = friendChatDao;</span>
+<span class="fc" id="L50">        this.userLikeDao = userLikeDao;</span>
+<span class="fc" id="L51">        this.userGroupDao = userGroupDao;</span>
+<span class="fc" id="L52">        this.groupChatDao = groupChatDao;</span>
+<span class="fc" id="L53">    }</span>
+
+
+    @Override
+    public boolean LoadListUser(List&lt;User&gt; userList) {
+<span class="fc" id="L58">        boolean flag = true;</span>
+<span class="fc" id="L59">        int total = userList.size();</span>
+<span class="fc" id="L60">        int count = 0;</span>
+<span class="fc" id="L61">        System.out.println(&quot;=========加载 UserList, 共&quot; + total + &quot;条数据=========&quot;);</span>
+<span class="fc" id="L62">        pb.printProgress();</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        for (User user : userList) {</span>
+<span class="fc" id="L64">            int insert = userDao.insert(user);</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">            if (insert &lt;= 0) flag = false;</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">            if (++count &gt;= total/100) {</span>
+<span class="fc" id="L67">                pb.load();</span>
+<span class="fc" id="L68">                count = 0;</span>
+            }
+<span class="fc" id="L70">        }</span>
+<span class="fc" id="L71">        return flag;</span>
+    }
+
+    @Override
+    public boolean LoadListFriendReq(List&lt;FriendReq&gt; friendReqList) {
+<span class="fc" id="L76">        boolean flag = true;</span>
+<span class="fc" id="L77">        int total = friendReqList.size();</span>
+<span class="fc" id="L78">        int count = 0;</span>
+<span class="fc" id="L79">        System.out.println(&quot;=========加载 FriendRequest, 共&quot; + total + &quot;条数据=========&quot;);</span>
+<span class="fc" id="L80">        pb.printProgress();</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        for (FriendReq friendReq : friendReqList) {</span>
+<span class="fc" id="L82">            int insert = friendReqDao.insert(friendReq);</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">            if (insert &lt;= 0) flag = false;</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">            if (++count &gt;= total/100) {</span>
+<span class="fc" id="L85">                pb.load();</span>
+<span class="fc" id="L86">                count = 0;</span>
+            }
+<span class="fc" id="L88">        }</span>
+<span class="fc" id="L89">        return flag;</span>
+    }
+
+    @Override
+    public boolean LoadListStatus(List&lt;Status&gt; statusList) {
+<span class="fc" id="L94">        boolean flag = true;</span>
+<span class="fc" id="L95">        int total = statusList.size();</span>
+<span class="fc" id="L96">        int count = 0;</span>
+<span class="fc" id="L97">        System.out.println(&quot;=========加载 StatusList, 共&quot; + total + &quot;条数据=========&quot;);</span>
+<span class="fc" id="L98">        pb.printProgress();</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        for (Status status : statusList) {</span>
+<span class="fc" id="L100">            int insert = statusDao.insert(status);</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">            if (insert &lt;= 0) flag = false;</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">            if (++count &gt;= total/100) {</span>
+<span class="fc" id="L103">                pb.load();</span>
+<span class="fc" id="L104">                count = 0;</span>
+            }
+<span class="fc" id="L106">        }</span>
+<span class="fc" id="L107">        return flag;</span>
+    }
+
+    @Override
+    public boolean LoadListGroup(List&lt;Group&gt; groupList) {
+<span class="fc" id="L112">        boolean flag = true;</span>
+<span class="fc" id="L113">        int total = groupList.size();</span>
+<span class="fc" id="L114">        int count = 0;</span>
+<span class="fc" id="L115">        System.out.println(&quot;=========加载 GroupList, 共&quot; + total + &quot;条数据=========&quot;);</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        for (Group group : groupList) {</span>
+<span class="fc" id="L117">            int insert = groupDao.insert(group);</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">            if (insert &lt;= 0) flag = false;</span>
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">            if (++count &gt;= total/100) {</span>
+<span class="fc" id="L120">                pb.load();</span>
+<span class="fc" id="L121">                count = 0;</span>
+            }
+<span class="fc" id="L123">        }</span>
+<span class="fc" id="L124">        return flag;</span>
+    }
+
+    @Override
+    public boolean LoadListComment(List&lt;Comment&gt; commentList) {
+<span class="fc" id="L129">        boolean flag = true;</span>
+<span class="fc" id="L130">        System.out.println(&quot;写入 Comment&quot; + commentList.size());</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">        for (Comment comment : commentList) {</span>
+<span class="fc" id="L132">            int insert = commentDao.insert(comment);</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">            if (insert &lt;= 0) flag = false;</span>
+<span class="fc" id="L134">        }</span>
+
+<span class="fc" id="L136">        return flag;</span>
+
+    }
+
+    @Override
+    public boolean LoadListGroupInvite(List&lt;GroupInvite&gt; groupInviteList) {
+<span class="fc" id="L142">        boolean flag = true;</span>
+<span class="fc" id="L143">        int total = groupInviteList.size();</span>
+<span class="fc" id="L144">        int count = 0;</span>
+<span class="fc" id="L145">        System.out.println(&quot;=========加载 InviteList, 共&quot; + total + &quot;条数据=========&quot;);</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        for (GroupInvite groupInvite : groupInviteList) {</span>
+<span class="fc" id="L147">            int insert = groupInviteDao.insert(groupInvite);</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">            if (insert &lt;= 0) flag = false;</span>
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">            if (++count &gt;= total/100) {</span>
+<span class="fc" id="L150">                pb.load();</span>
+<span class="fc" id="L151">                count = 0;</span>
+            }
+<span class="fc" id="L153">        }</span>
+<span class="fc" id="L154">        return flag;</span>
+    }
+
+    @Override
+    public boolean LoadListFriendShips(List&lt;Friend&gt; friendList) {
+<span class="fc" id="L159">        List&lt;Integer&gt; totalDelete = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L160">        boolean flag = true;</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">        for (Friend friend : friendList) {</span>
+<span class="fc" id="L162">            Friend friendReverse = new Friend();</span>
+<span class="fc" id="L163">            friendReverse.setFid(friend.getUid());</span>
+<span class="fc" id="L164">            friendReverse.setUid(friend.getFid());</span>
+<span class="fc" id="L165">            friendReverse.setState(0);</span>
+<span class="fc" id="L166">            friendReverse.setLeaveTime(0L);</span>
+<span class="fc" id="L167">            int insert = friendDao.insert(friend);</span>
+<span class="fc" id="L168">            int insert1 = friendDao.insert(friendReverse);</span>
+<span class="pc bpc" id="L169" title="1 of 4 branches missed.">            if (insert &lt; 1 || insert1 &lt; 1) flag = false;</span>
+
+<span class="fc" id="L171">            LambdaQueryWrapper&lt;FriendReq&gt; lqw = new LambdaQueryWrapper&lt;FriendReq&gt;();</span>
+<span class="fc" id="L172">            lqw.select(FriendReq::getSenderId)</span>
+<span class="fc" id="L173">                    .eq(FriendReq::getSenderId, friend.getFid())</span>
+<span class="fc" id="L174">                    .eq(FriendReq::getReceiverId, friend.getUid())</span>
+<span class="fc" id="L175">                    .or()</span>
+<span class="fc" id="L176">                    .eq(FriendReq::getSenderId, friend.getUid())</span>
+<span class="fc" id="L177">                    .eq(FriendReq::getReceiverId, friend.getFid());</span>
+<span class="fc" id="L178">            int delete = friendReqDao.delete(lqw);</span>
+<span class="fc" id="L179">            totalDelete.add(delete);</span>
+<span class="fc" id="L180">        }</span>
+<span class="fc" id="L181">        int sum = totalDelete.stream().mapToInt(x -&gt; x).sum();</span>
+<span class="fc" id="L182">        return flag;</span>
+    }
+
+    @Override
+    public boolean LoadListFriendChats(List&lt;FriendChat&gt; friendChatList) {
+<span class="fc" id="L187">        boolean flag = true;</span>
+<span class="fc" id="L188">        int total = friendChatList.size();</span>
+<span class="fc" id="L189">        int count = 0;</span>
+<span class="fc" id="L190">        System.out.println(&quot;=========加载 FriendChatList, 共&quot; + total + &quot;条数据=========&quot;);</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">        for (FriendChat friendChat : friendChatList) {</span>
+<span class="fc" id="L192">            int insert = friendChatDao.insert(friendChat);</span>
+<span class="fc bfc" id="L193" title="All 2 branches covered.">            if (insert &lt; 1) flag = false;</span>
+<span class="pc bpc" id="L194" title="1 of 2 branches missed.">            if (++count &gt;= total/100) {</span>
+<span class="fc" id="L195">                pb.load();</span>
+<span class="fc" id="L196">                count = 0;</span>
+            }
+<span class="fc" id="L198">        }</span>
+<span class="fc" id="L199">        return flag;</span>
+    }
+
+    @Override
+    public boolean LoadListLikes(List&lt;UserLike&gt; likeList) {
+<span class="fc" id="L204">        boolean flag = true;</span>
+<span class="fc bfc" id="L205" title="All 2 branches covered.">        for (UserLike userLike : likeList) {</span>
+<span class="fc" id="L206">            System.out.println(&quot;写入 Likes&quot; + likeList.size());</span>
+<span class="fc" id="L207">            int insert = userLikeDao.insert(userLike);</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">            if (insert &lt; 1) flag = false;</span>
+<span class="fc" id="L209">        }</span>
+<span class="fc" id="L210">        return flag;</span>
+    }
+
+    @Override
+    public boolean LoadListGroupShips(List&lt;UserGroup&gt; userGroups) {
+<span class="fc" id="L215">        boolean flag = true;</span>
+<span class="fc" id="L216">        int total = userGroups.size();</span>
+<span class="fc" id="L217">        int count = 0;</span>
+<span class="fc" id="L218">        System.out.println(&quot;=========加载 GroupShips, 共&quot; + total + &quot;条数据=========&quot;);</span>
+<span class="fc bfc" id="L219" title="All 2 branches covered.">        for (UserGroup userGroup : userGroups) {</span>
+<span class="fc" id="L220">            int insert = userGroupDao.insert(userGroup);</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">            if (insert &lt; 1) flag = false;</span>
+<span class="pc bpc" id="L222" title="1 of 2 branches missed.">            if (++count &gt;= total/100) {</span>
+<span class="fc" id="L223">                pb.load();</span>
+<span class="fc" id="L224">                count = 0;</span>
+            }
+<span class="fc" id="L226">        }</span>
+<span class="fc" id="L227">        return flag;</span>
+    }
+
+    @Override
+    public boolean LoadListGroupChats(List&lt;GroupChat&gt; groupChatList) {
+<span class="fc" id="L232">        boolean flag = true;</span>
+<span class="fc" id="L233">        int total = groupChatList.size();</span>
+<span class="fc" id="L234">        int count = 0;</span>
+<span class="fc" id="L235">        System.out.println(&quot;=========加载 GroupChatList, 共&quot; + total + &quot;条数据=========&quot;);</span>
+<span class="fc bfc" id="L236" title="All 2 branches covered.">        for (GroupChat groupChat : groupChatList) {</span>
+<span class="fc" id="L237">            int insert = groupChatDao.insert(groupChat);</span>
+<span class="fc bfc" id="L238" title="All 2 branches covered.">            if (insert &lt; 1) flag = false;</span>
+<span class="pc bpc" id="L239" title="1 of 2 branches missed.">            if (++count &gt;= total/100) {</span>
+<span class="fc" id="L240">                pb.load();</span>
+<span class="fc" id="L241">                count = 0;</span>
+            }
+<span class="fc" id="L243">        }</span>
+<span class="fc" id="L244">        return flag;</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

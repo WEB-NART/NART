@@ -10,6 +10,8 @@ import org.springframework.context.ApplicationContext;
 public class TestApplication {
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(TestApplication.class, args);
+//        FakeDataGenerator fdg = new FakeDataGenerator();
+//        fdg.generateTestData(1);
     }
 
 }

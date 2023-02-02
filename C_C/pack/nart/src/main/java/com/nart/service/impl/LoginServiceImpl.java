@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Copyright (c) 2008-2024: Zirui Qiao
@@ -43,10 +44,11 @@ public class LoginServiceImpl implements LoginService {
         if (StringUtils.isBlank(uname) || StringUtils.isBlank(pwd)) {
             return Result.fail(ErrorCode.PARAMS_ERROR);
         }
-        String password = EncryptUtil.encryptPwd(pwd);
-        User user = userService.findUser(uname, password);
-        System.out.println(user);
-        if (user == null) {
+        User user = userService.findUserByName(uname);
+        String password = EncryptUtil.encryptPwd(pwd, user.getSalt());
+        boolean correct_pwd = Objects.equals(user.getPwd(), password);
+
+        if (!correct_pwd) {
             return Result.fail(ErrorCode.ACCOUNT_PWD_NOT_MATCH);
         }
         String token = EncryptUtil.createToken(Long.parseLong(user.getId()));
@@ -57,7 +59,8 @@ public class LoginServiceImpl implements LoginService {
         session.setAttribute("uid", "uid: " + user.getId());
         //System.out.println((String) session.getAttribute("uid"));
 
-        dataCounterService.updateOnlineUserAmount(true);
+        int i = dataCounterService.updateOnlineUserAmount(true);
+        boolean login = userService.login(user.getId());
         return Result.success(token);
     }
 
@@ -94,12 +97,13 @@ public class LoginServiceImpl implements LoginService {
         if (user != null) {
             return Result.fail(ErrorCode.ACCOUNT_EXIST);
         }
-        String password = EncryptUtil.encryptPwd(pwd);
-        User user1 = userService.register(email, uname, password);
+        String salt = EncryptUtil.getRandLengthSalt();
+        String password = EncryptUtil.encryptPwd(pwd, salt);
+        User user1 = userService.register(email, uname, password, salt);
 
-//        if(user1 == null) {
-//            return Result.fail(ErrorCode.REGISTER_ERROR);
-//        }
+        if(user1 == null) {
+            return Result.fail(ErrorCode.REGISTER_ERROR);
+        }
         String token = EncryptUtil.createToken(Long.parseLong(user1.getId()));
 
         redisUtil.set("TOKEN_" + token, user1, RedisUtil.DEFAULT_EXPIRE);

@@ -78,7 +78,7 @@ public class StatusController {
                     StatusVo transfer = statusVo.transfer(status);
 
                     User user = userDao.selectById(status.getSenderId());
-                    System.out.println(user);
+                    //System.out.println(user);
                     transfer.setAvatar(user.getAvatar());
                     transfer.setUname(user.getName());
                     statusVos.add(transfer);
@@ -97,7 +97,7 @@ public class StatusController {
                 StatusVo transfer = statusVo.transfer(status);
 
                 User user = userDao.selectById(status.getSenderId());
-                System.out.println(user);
+                //System.out.println(user);
                 transfer.setAvatar(user.getAvatar());
                 transfer.setUname(user.getName());
                 statusVos.add(transfer);
@@ -122,7 +122,7 @@ public class StatusController {
     @LogA
     @PostMapping("post")
     public Result postStatus(@RequestBody StatusVo statusInfo) {
-        System.out.println(statusInfo);
+        //System.out.println(statusInfo);
         Status status = new Status();
         status.setSenderId(UserThreadLocal.get().getId());
         status.setText(statusInfo.getMsg());
@@ -131,7 +131,7 @@ public class StatusController {
         List<String> pics = statusInfo.getPics();
         if(pics != null) {
             String join = StringUtils.join(pics.toArray(), ";");
-            System.out.println(join);
+            //System.out.println(join);
             status.setPics(join);
 //       status.setPics(GsonFormatter.toJsonString(statusInfo.getPics()));
         }

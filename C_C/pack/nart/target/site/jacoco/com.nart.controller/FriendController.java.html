@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FriendController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.controller</a> &gt; <span class="el_source">FriendController.java</span></div><h1>FriendController.java</h1><pre class="source lang-java linenums">package com.nart.controller;
+
+import com.nart.common.LogA;
+import com.nart.pojo.Friend;
+import com.nart.pojo.FriendReq;
+import com.nart.service.FriendService;
+import com.nart.util.ErrorCode;
+import com.nart.util.Result;
+import com.nart.util.UserThreadLocal;
+import com.nart.vo.FriendVo;
+import com.nart.vo.PageVo;
+import com.nart.vo.RequestVo;
+import com.nart.vo.UserVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * Copyright (c) 2008-2024: Zirui Qiao
+ * Project: pack
+ *
+ * @className: FriendController
+ *  TODO
+ * @version: v1.8.0
+ * @Author ZIRUI QIAO
+ * @Date 2022/8/31 14:40
+ */
+@RestController
+@RequestMapping(&quot;friend&quot;)
+<span class="nc" id="L31">public class FriendController {</span>
+
+    @Autowired
+    private FriendService friendService;
+
+    @LogA
+    @PostMapping(&quot;list&quot;)
+    public Result showFriendList(@RequestBody PageVo page) {
+<span class="nc" id="L39">        List&lt;FriendVo&gt; friendVos = friendService.showFriendList(</span>
+<span class="nc" id="L40">                page.toIPage(Friend.class), UserThreadLocal.get().getId());</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        if(friendVos == null) {</span>
+<span class="nc" id="L42">            return Result.fail(ErrorCode.SHOW_FRIEND_LIST_ERROR);</span>
+        }
+<span class="nc" id="L44">        return Result.success(friendVos);</span>
+    }
+
+    @LogA
+    @PostMapping(&quot;search/{input}&quot;)
+    public Result searchFriend(@RequestBody PageVo page,
+                               @PathVariable(&quot;input&quot;) String input) {
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if(input.equals(&quot;-1&quot;)) {</span>
+<span class="nc" id="L52">            List&lt;FriendVo&gt; userVos = friendService.showFriendList(</span>
+<span class="nc" id="L53">                    page.toIPage(Friend.class),</span>
+<span class="nc" id="L54">                    UserThreadLocal.get().getId()</span>
+            );
+<span class="nc bnc" id="L56" title="All 2 branches missed.">            if(userVos == null) {</span>
+<span class="nc" id="L57">                return Result.success(ErrorCode.SEARCH_FRIEND_ERROR);</span>
+            }
+<span class="nc" id="L59">            return Result.success(userVos);</span>
+        } else {
+<span class="nc" id="L61">            List&lt;UserVo&gt; userVos = friendService.searchFriend(input, page.toIPage(Friend.class));</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            if(userVos == null) {</span>
+<span class="nc" id="L63">                return Result.success(ErrorCode.SEARCH_FRIEND_ERROR);</span>
+            }
+<span class="nc" id="L65">            return Result.success(userVos);</span>
+        }
+    }
+
+    @LogA
+    @DeleteMapping(&quot;del/{friendId}&quot;)
+    public Result delFriend(@PathVariable(&quot;friendId&quot;) String fid) {
+<span class="nc" id="L72">        boolean b = friendService.delFriend(fid, UserThreadLocal.get().getId());</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if(b) {</span>
+<span class="nc" id="L74">            return Result.success(null);</span>
+        }
+<span class="nc" id="L76">        return Result.fail(ErrorCode.DEL_FRIEND_ERROR);</span>
+    }
+
+    @LogA
+    @PutMapping(&quot;state/{friendId}/{state}&quot;)
+    public Result changeFriendState(@PathVariable(&quot;friendId&quot;) String fid,
+                                    @PathVariable(&quot;state&quot;) Integer state) {
+<span class="nc" id="L83">        boolean b = friendService.changeFriendState(fid, UserThreadLocal.get().getId(), state);</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if(b) {</span>
+<span class="nc" id="L85">            return Result.success(null);</span>
+        }
+<span class="nc" id="L87">        return Result.fail(ErrorCode.CHANGE_FRIEND_STATE_ERROR);</span>
+    }
+
+    @LogA
+    @PostMapping(&quot;reqlist&quot;)
+    public Result showReqList(@RequestBody PageVo page) {
+<span class="nc" id="L93">        List&lt;RequestVo&gt; requestVos = friendService.showReqList(</span>
+<span class="nc" id="L94">                page.toIPage(FriendReq.class), UserThreadLocal.get().getId());</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if(requestVos == null) {</span>
+<span class="nc" id="L96">            return Result.fail(ErrorCode.SHOW_FRIEND_REQS_ERROR);</span>
+        }
+<span class="nc" id="L98">        return Result.success(requestVos);</span>
+    }
+
+    @LogA
+    @PostMapping(&quot;send&quot;)
+    public Result sendFriendReq(@RequestBody FriendReq reqInfo) {
+<span class="nc" id="L104">        boolean b = friendService.sendFriendReq(</span>
+<span class="nc" id="L105">                reqInfo.getReceiverId(), UserThreadLocal.get().getId(), reqInfo.getMsg());</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        if(b) {</span>
+<span class="nc" id="L107">            return Result.success(null);</span>
+        }
+<span class="nc" id="L109">        return Result.fail(ErrorCode.SEND_FRIEND_REQ_ERROR);</span>
+    }
+
+    @LogA
+    @GetMapping(&quot;resp/{requestId}/{agree}&quot;)
+    public Result respFriendReq(@PathVariable(&quot;requestId&quot;) String reqId,
+                                @PathVariable(&quot;agree&quot;) Boolean agree) {
+<span class="nc" id="L116">        boolean b = friendService.respFriendReq(reqId, agree);</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        if(b) {</span>
+<span class="nc" id="L118">            return Result.success(null);</span>
+        }
+<span class="nc" id="L120">        return Result.fail(ErrorCode.RESP_FRIEND_REQ_ERROR);</span>
+    }
+
+    @LogA
+    @PostMapping(&quot;searchNew/{input}&quot;)
+    public Result searchNew(@RequestBody PageVo page,
+                              @PathVariable(&quot;input&quot;) String input) {
+<span class="nc" id="L127">        List&lt;UserVo&gt; userVos = friendService.searchNew(input, page);</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        if(userVos == null) {</span>
+<span class="nc" id="L129">            return Result.success(ErrorCode.SEARCH_NEW_ERROR);</span>
+        }
+<span class="nc" id="L131">        return Result.success(userVos);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StatusVo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.vo</a> &gt; <span class="el_source">StatusVo.java</span></div><h1>StatusVo.java</h1><pre class="source lang-java linenums">package com.nart.vo;
+
+//import com.nart.dao.UserDao;
+
+import com.nart.pojo.Comment;
+import com.nart.pojo.Status;
+import lombok.Data;
+import org.springframework.stereotype.Service;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.StringTokenizer;
+
+
+@Service
+<span class="pc bpc" id="L18" title="48 of 80 branches missed.">@Data</span>
+public class StatusVo {
+<span class="fc" id="L20">    private String uid;</span>
+<span class="fc" id="L21">    private String uname;</span>
+<span class="fc" id="L22">    private String avatar;</span>
+<span class="fc" id="L23">    private String statusId;</span>
+<span class="fc" id="L24">    private DateVo createDate;</span>
+<span class="fc" id="L25">    private int likes;</span>
+<span class="fc" id="L26">    private Boolean liked;</span>
+<span class="fc" id="L27">    private String msg;</span>
+<span class="fc" id="L28">    private List&lt;String&gt; pics;</span>
+<span class="fc" id="L29">    private List&lt;CommentVo&gt; comments;</span>
+
+//    @Autowired
+//    private UserDao userDao;
+
+    public StatusVo transfer(Status status){
+<span class="fc" id="L35">        StatusVo statusVo = new StatusVo();</span>
+<span class="fc" id="L36">        statusVo.setStatusId(status.getId());</span>
+<span class="fc" id="L37">        statusVo.setUid(status.getSenderId());</span>
+
+<span class="fc" id="L39">        String senderId = status.getSenderId();</span>
+//        System.out.println(senderId);
+//        User user = userDao.selectById(senderId);
+//        System.out.println(user);
+//        statusVo.setUname(user.getName());
+//        statusVo.setAvatar(user.getAvatar());
+
+<span class="fc" id="L46">        Long createDate = status.getCreateDate();</span>
+<span class="fc" id="L47">        String dateToString = getDateToString(createDate);</span>
+<span class="fc" id="L48">        DateVo dateVo = new DateVo();</span>
+
+<span class="fc" id="L50">        DateVo dateVo1 = createDateVo(dateToString, dateVo);</span>
+<span class="fc" id="L51">        statusVo.setCreateDate(dateVo1);</span>
+
+<span class="fc" id="L53">        statusVo.setLikes(status.getLikes());</span>
+<span class="fc" id="L54">        statusVo.setLiked(status.getUserLike());</span>
+<span class="fc" id="L55">        statusVo.setMsg(status.getText());</span>
+
+        // statusVo pics
+<span class="fc" id="L58">        String pics = status.getPics();</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">        if (pics != null) {</span>
+<span class="fc" id="L60">            List&lt;String&gt; p = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L61">            StringTokenizer st = new StringTokenizer(pics,&quot;;&quot;);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            while(st.hasMoreElements()){</span>
+<span class="fc" id="L63">                p.add(st.nextToken());</span>
+            }
+<span class="fc" id="L65">            statusVo.setPics(p);</span>
+        }
+
+<span class="fc" id="L68">        List&lt;Comment&gt; commentList = status.getCommentList();</span>
+//        List&lt;CommentVo&gt; comments = statusVo.getComments();
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">        if(commentList == null) {</span>
+<span class="nc" id="L71">            return statusVo;</span>
+        }
+<span class="fc" id="L73">        List&lt;CommentVo&gt; comments = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        for (Comment comment : commentList) {</span>
+<span class="fc" id="L76">            CommentVo commentVo = new CommentVo();</span>
+<span class="fc" id="L77">            commentVo.setStatusId(comment.getStatusId());</span>
+
+<span class="fc" id="L79">            Long createDate1 = comment.getCreateDate();</span>
+<span class="fc" id="L80">            String dateToString1 = getDateToString(createDate1);</span>
+<span class="fc" id="L81">            DateVo date = new DateVo();</span>
+<span class="fc" id="L82">            DateVo dateVo2 = createDateVo(dateToString1, date);</span>
+<span class="fc" id="L83">            commentVo.setCreateDate(dateVo2);</span>
+<span class="fc" id="L84">            commentVo.setMsg(comment.getMsg());</span>
+<span class="fc" id="L85">            commentVo.setUname(comment.getUname());</span>
+<span class="fc" id="L86">            comments.add(commentVo);</span>
+<span class="fc" id="L87">        }</span>
+
+
+<span class="fc" id="L90">        statusVo.setComments(comments);</span>
+
+<span class="fc" id="L92">        return statusVo;</span>
+    }
+
+    public String getDateToString(long time) {
+
+<span class="fc" id="L97">        Date d = new Date(time);</span>
+        //sf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+<span class="fc" id="L99">        SimpleDateFormat sf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm&quot;);</span>
+<span class="fc" id="L100">        String format = sf.format(d);</span>
+//        System.out.println(format);
+<span class="fc" id="L102">        return format;</span>
+    }
+
+    public DateVo createDateVo(String dateToString, DateVo dateVo){
+<span class="fc" id="L106">        String nian = dateToString.substring(0, 4);</span>
+<span class="fc" id="L107">        int Nian = Integer.parseInt(nian);</span>
+//        System.out.println(Nian);
+<span class="fc" id="L109">        dateVo.setYear(Nian);</span>
+
+
+<span class="fc" id="L112">        String yue = dateToString.substring(5, 7);</span>
+<span class="fc" id="L113">        int YUE = Integer.parseInt(yue);</span>
+//        System.out.println(YUE);
+<span class="fc" id="L115">        dateVo.setMonth(YUE);</span>
+
+<span class="fc" id="L117">        String ri = dateToString.substring(8,10);</span>
+<span class="fc" id="L118">        int RI = Integer.parseInt(ri);</span>
+//        System.out.println(RI);
+<span class="fc" id="L120">        dateVo.setDay(RI);</span>
+
+<span class="fc" id="L122">        String xiaoshi = dateToString.substring(11,13);</span>
+<span class="fc" id="L123">        int XIAOSHI = Integer.parseInt(xiaoshi);</span>
+//        System.out.println(XIAOSHI);
+<span class="fc" id="L125">        dateVo.setHour(XIAOSHI);</span>
+
+<span class="fc" id="L127">        String fenzhong = dateToString.substring(14);</span>
+<span class="fc" id="L128">        int Fen = Integer.parseInt(fenzhong);</span>
+//        System.out.println(Fen);
+<span class="fc" id="L130">        dateVo.setMin(Fen);</span>
+
+<span class="fc" id="L132">        return dateVo;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

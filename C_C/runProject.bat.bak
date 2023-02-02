@@ -1,0 +1,6 @@
+﻿echo start
+cd /d "D:\GitHub\NART\C_C\pack\nart\src\main\resources\redis\"
+start redis-server.exe
+start "C_C Front_end" cmd /k "d: && cd D:\GitHub\NART\C_C\C_C_front && npm run dev"
+cd /d D:\GitHub\NART\C_C
+start "C_C Back_end" cmd /k call runBack.bat

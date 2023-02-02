@@ -2,6 +2,8 @@ package com.nart.vo;
 
 import lombok.Data;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,9 +16,7 @@ public class DateVo {
     private int min;
 
     public DateVo getDateToString(long time) {
-
         //System.out.println(time);
-
         String s = String.valueOf(time);
         String res;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -27,8 +27,23 @@ public class DateVo {
         //System.out.println(res);
         DateVo dateVo = new DateVo();
         return createDateVo(res,dateVo);
+    }
 
-
+    public long toLong() {
+        String dateString = String.valueOf(year) + "-" +
+                String.valueOf(month) + "-" +
+                String.valueOf(day) + " " +
+                String.valueOf(hour) + ":" +
+                String.valueOf(min);
+        DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date date = null;
+        try {
+            date = format1.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        assert date != null;
+        return date.getTime();
     }
 
     public DateVo createDateVo(String dateToString, DateVo dateVo){

@@ -32,6 +32,19 @@ public class UploadController {
     @Autowired
     private LoadDataInDataBase ld;
 
+
+    /**
+     * @Description: upload picture to cloud
+     * @param file picture list
+     * @param album album
+     *              0: Status album
+     *              1: user avatar album
+     *              2: group avatar album
+     *              others: chat album
+     * @return: com.nart.util.Result
+     * @Author: Zirui Qiao
+     * @Date: 2023-01-31 2:31 p.m.
+     */
     @PostMapping("{album}")
     public Result upload(@RequestPart("file") MultipartFile file, @PathVariable("album") Integer album) throws IOException {
         String name = file.getOriginalFilename();

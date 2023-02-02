@@ -28,4 +28,10 @@ public class Group {
 
     @TableField(exist = false)
     private Boolean newMessage;
+
+    public Group(String id) {
+        this.id = id;
+    }
+
+    public Group() {}
 }

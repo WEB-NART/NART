@@ -85,11 +85,7 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public boolean changeGroupInfo(Group group) {
         int i = groupDao.updateById(group);
-        boolean a = false;
-        if ( i == 1){
-            a = true;
-        }
-        return true;
+        return i >= 1;
     }
 
     @Override
@@ -287,14 +283,9 @@ public class GroupServiceImpl implements GroupService {
         int insert = userGroupDao.insert(userGroup);
 
         group.setUserLevel(userLevel+1);
-        groupDao.updateById(group);
+        int i = groupDao.updateById(group);
 
-        boolean a =false;
-        if (insert == 1){
-            a = true;
-        }
-
-        return a;
+        return i>=1;
     }
 
     @Override

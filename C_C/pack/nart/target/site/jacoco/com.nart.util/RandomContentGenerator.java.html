@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RandomContentGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.util</a> &gt; <span class="el_source">RandomContentGenerator.java</span></div><h1>RandomContentGenerator.java</h1><pre class="source lang-java linenums">package com.nart.util;
+
+import com.github.javafaker.Faker;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.List;
+import java.util.Locale;
+import java.util.Random;
+
+/**
+ * Copyright (c) 2008-2024: Zirui Qiao
+ * Project: pack
+ *
+ * @className: RandomContentGenerator
+ *  TODO
+ * @version: v1.8.0
+ * @Author ZIRUI QIAO
+ * @Date 2022/8/30 17:45
+ */
+<span class="nc" id="L23">public class RandomContentGenerator {</span>
+
+<span class="nc" id="L25">    private static final Faker faker = new Faker(Locale.CANADA);</span>
+
+<span class="nc" id="L27">    private static final Random r = new Random();</span>
+
+<span class="nc" id="L29">    private static Integer count = 0;</span>
+
+    private static final String testImgPath = &quot;D:\\GitHub\\NART\\C_C\\pack\\nart\\src\\main\\resources\\testImg\\&quot;;
+
+    public static String getRandomId(List&lt;String&gt; ids) {
+<span class="nc" id="L34">        int randomInt = r.nextInt(ids.size());</span>
+<span class="nc" id="L35">        return ids.get(randomInt);</span>
+    }
+
+    public static String getRandomId(List&lt;String&gt; ids, String diff) {
+        String result;
+        do {
+<span class="nc" id="L41">            int randomInt = r.nextInt(ids.size());</span>
+<span class="nc" id="L42">            result = ids.get(randomInt);</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        } while (result.equals(diff));</span>
+
+<span class="nc" id="L45">        return result;</span>
+    }
+
+    public static String getRandomId(List&lt;String&gt; ids, List&lt;String&gt; diff) {
+//        System.out.println(&quot;fushu&quot;+ids.size());
+        String result;
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if (ids.size()==0){</span>
+<span class="nc" id="L52">            return null;</span>
+        }
+        do {
+<span class="nc" id="L55">            int randomInt = r.nextInt(ids.size());</span>
+<span class="nc" id="L56">            result = ids.get(randomInt);</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        } while (diff.contains(result));</span>
+
+<span class="nc" id="L59">        return result;</span>
+    }
+
+    public static String getRandomId(List&lt;String&gt; ids, String diff1, List&lt;String&gt; diff2) {
+        String result;
+        do {
+<span class="nc" id="L65">            int randomInt = r.nextInt(ids.size());</span>
+<span class="nc" id="L66">            result = ids.get(randomInt);</span>
+<span class="nc bnc" id="L67" title="All 4 branches missed.">        } while (diff2.contains(result) || result.equals(diff1));</span>
+
+<span class="nc" id="L69">        return result;</span>
+    }
+
+    public static String getRandPics(AlbumType picType) {
+<span class="nc" id="L73">        String result = &quot;&quot;;</span>
+<span class="nc bnc" id="L74" title="All 5 branches missed.">        switch (picType) {</span>
+<span class="nc" id="L75">            case USER_AVATAR: result = getRandomPics(1,1); break;</span>
+<span class="nc" id="L76">            case GROUP_AVATAR: result = getRandomPics(1,2); break;</span>
+<span class="nc" id="L77">            case STATUS_PICS: result = getRandomPics(5,0); break;</span>
+<span class="nc" id="L78">            case CHAT_PICS: result = getRandomPics(1,3);</span>
+        }
+<span class="nc" id="L80">        return result;</span>
+    }
+
+    private static String getRandomPics(int picMaxAmount, int albumNumber) {
+<span class="nc" id="L84">        int max = 0;</span>
+<span class="nc" id="L85">        StringBuilder result = new StringBuilder();</span>
+
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (picMaxAmount &gt; 1) {</span>
+<span class="nc" id="L88">            max = r.nextInt(picMaxAmount);</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            for (int i = 0; i &lt; max + 1; i++) {</span>
+<span class="nc" id="L90">                String picUrl = getRandomPic(albumNumber);</span>
+<span class="nc bnc" id="L91" title="All 4 branches missed.">                while (picUrl.equals(&quot;&quot;) || picUrl.equals(&quot;repeat&quot;)) {</span>
+<span class="nc" id="L92">                    picUrl = getRandomPic(albumNumber);</span>
+                }
+<span class="nc" id="L94">                result.append(picUrl);</span>
+<span class="nc" id="L95">                result.append(&quot;;&quot;);</span>
+            }
+        } else {
+<span class="nc" id="L98">            String picUrl = getRandomPic(albumNumber);</span>
+<span class="nc bnc" id="L99" title="All 4 branches missed.">            while (picUrl.equals(&quot;&quot;) || picUrl.equals(&quot;repeat&quot;)) {</span>
+<span class="nc" id="L100">                picUrl = getRandomPic(albumNumber);</span>
+            }
+<span class="nc" id="L102">            result.append(picUrl);</span>
+        }
+
+<span class="nc" id="L105">        return result.toString();</span>
+    }
+
+    private static String getRandomPic(int albumNumber) {
+<span class="nc" id="L109">        int i = count++;</span>
+<span class="nc" id="L110">        String imgName = &quot;https://picsum.photos/400/400?random=&quot; + i;</span>
+<span class="nc" id="L111">        return imgName;</span>
+//        String imgPath = testImgPath + imgName;
+//        File file = new File(imgPath);
+//        byte[] bytes = new byte[0];
+//        try {
+//            bytes = fileToByte(file);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        if (bytes.length == 0) return &quot;&quot;;
+//
+//        String suffix = StringUtils.substringAfterLast(imgName, &quot;.&quot;);
+//        String fileName = UUID.randomUUID().toString() + &quot;.&quot; + suffix;
+//        String url = &quot;&quot;;
+//        try {
+//            url = ImgtuUtil.uploadPic(bytes, fileName, albumNumber);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        if(StringUtils.isNotBlank(url)) {
+//            if(url.equals(&quot;400&quot;)) {
+//                return &quot;repeat&quot;;
+//            }
+//            return url;
+//        }
+//        return &quot;&quot;;
+    }
+
+    private static byte[] fileToByte(File img) throws Exception {
+<span class="nc" id="L140">        ByteArrayOutputStream baos = new ByteArrayOutputStream();</span>
+<span class="nc" id="L141">        byte[] bytes = new byte[0];</span>
+        try {
+            BufferedImage bi;
+<span class="nc" id="L144">            bi = ImageIO.read(img);</span>
+<span class="nc" id="L145">            ImageIO.write(bi, &quot;jpg&quot;, baos);</span>
+<span class="nc" id="L146">            bytes = baos.toByteArray();</span>
+<span class="nc" id="L147">            System.err.println(bytes.length);</span>
+<span class="nc" id="L148">        } catch (Exception e) {</span>
+<span class="nc" id="L149">            e.printStackTrace();</span>
+        } finally {
+<span class="nc" id="L151">            baos.close();</span>
+        }
+<span class="nc" id="L153">        return bytes;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

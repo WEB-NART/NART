@@ -10,6 +10,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Copyright (c) 2008-2024: Zirui Qiao
@@ -23,11 +24,26 @@ import java.util.Map;
  */
 @Slf4j
 public class EncryptUtil {
-    private static final String salt = "2361578nart!@#";
+    //private static final String salt = "2361578nart!@#";
     private static final String jwtToken = "123456Nart!@#$$";
 
-    public static String encryptPwd(String pwd) {
+    public static String encryptPwd(String pwd, String salt) {
         return DigestUtils.md5Hex(pwd + salt);
+    }
+
+    private static String getSalt(int len) {
+        char[] chars = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()_+").toCharArray();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < len; i++) {
+            char aChar = chars[new Random().nextInt(chars.length)];
+            sb.append(aChar);
+        }
+        return sb.toString();
+    }
+
+    public static String getRandLengthSalt() {
+        int len = new Random().nextInt(12);
+        return getSalt(len);
     }
 
     public static String createToken(Long userId){
@@ -54,15 +70,5 @@ public class EncryptUtil {
         }
         return null;
 
-    }
-
-    public static void main(String[] args) {
-        String token = EncryptUtil.createToken(100L);
-        System.out.println(token);
-        Map<String, Object> map = EncryptUtil.checkToken(token);
-        System.out.println(map.get("userId"));
-        System.out.println("9ef18e57327e49d5d09aba8f8e58e2b9");
-        System.out.println("1452a94dfb8d4c81b08c88bf3565490a");
-        System.out.println(encryptPwd("123457"));
     }
 }

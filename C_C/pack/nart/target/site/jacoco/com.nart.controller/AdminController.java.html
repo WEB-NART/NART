@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdminController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.controller</a> &gt; <span class="el_source">AdminController.java</span></div><h1>AdminController.java</h1><pre class="source lang-java linenums">package com.nart.controller;
+
+import com.nart.common.LogA;
+import com.nart.pojo.Comment;
+import com.nart.pojo.Status;
+import com.nart.pojo.User;
+import com.nart.service.AdminService;
+import com.nart.service.LoginService;
+import com.nart.service.UserService;
+import com.nart.util.ErrorCode;
+import com.nart.util.Result;
+import com.nart.util.UserThreadLocal;
+import com.nart.vo.CommentVo;
+import com.nart.vo.StatusVo;
+import com.nart.vo.UserVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
+
+
+@RestController
+@RequestMapping(&quot;/admin&quot;)
+<span class="nc" id="L27">public class AdminController {</span>
+
+    @Autowired
+    private AdminService adminService;
+
+    @LogA
+    @GetMapping(&quot;allUser&quot;)
+
+    public Result showAllUserInfo() {
+<span class="nc" id="L36">        List&lt;User&gt; users = adminService.showAllUserInfo();</span>
+<span class="nc" id="L37">        List&lt;UserVo&gt; userVos = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L38">        UserVo userVo = new UserVo();</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        for (User user : users) {</span>
+<span class="nc" id="L40">            UserVo transfer = userVo.transfer(user);</span>
+<span class="nc" id="L41">            userVos.add(transfer);</span>
+<span class="nc" id="L42">        }</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (userVos == null) {</span>
+<span class="nc" id="L44">            Result.fail(ErrorCode.USER_NOT_EXIST);</span>
+        }
+
+<span class="nc" id="L47">        return Result.success(userVos);</span>
+    }
+
+    @LogA
+    @GetMapping(&quot;allUserNum&quot;)
+    public Result showAllUserNum() {
+<span class="nc" id="L53">        int i = adminService.showAllUserNum();</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if (i &lt; 0) {</span>
+<span class="nc" id="L55">            Result.fail(ErrorCode.UNDEFINED);</span>
+        }
+
+<span class="nc" id="L58">        return Result.success(i);</span>
+    }
+
+    @LogA
+    @GetMapping(&quot;onlineUser&quot;)
+    public Result showOnlineUserInfo() {
+<span class="nc" id="L64">        List&lt;User&gt; users = adminService.showOnlineUserInfo();</span>
+
+<span class="nc" id="L66">        List&lt;UserVo&gt; userVos = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L67">        UserVo userVo = new UserVo();</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        for (User user : users) {</span>
+<span class="nc" id="L69">            UserVo transfer = userVo.transfer(user);</span>
+<span class="nc" id="L70">            userVos.add(transfer);</span>
+<span class="nc" id="L71">        }</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (userVos == null) {</span>
+<span class="nc" id="L73">            Result.fail(ErrorCode.USER_NOT_EXIST);</span>
+        }
+<span class="nc" id="L75">        return Result.success(userVos);</span>
+    }
+
+    @LogA
+    @GetMapping(&quot;onlineUserNum&quot;)
+    public Result showOnlineUserNum() {
+<span class="nc" id="L81">        int i = adminService.showOnlineUserNum();</span>
+
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        if (i &lt; 0) {</span>
+<span class="nc" id="L84">            Result.fail(ErrorCode.UNDEFINED);</span>
+        }
+
+<span class="nc" id="L87">        return Result.success(i);</span>
+    }
+
+    @LogA
+    @GetMapping(&quot;allStatus&quot;)
+    public Result showAllStatusInfo() {
+
+<span class="nc" id="L94">        List&lt;Status&gt; statuses = adminService.showAllStatusInfo();</span>
+<span class="nc" id="L95">        List&lt;StatusVo&gt; statusVos = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L96">        StatusVo statusVo = new StatusVo();</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        for (Status status : statuses) {</span>
+<span class="nc" id="L98">            StatusVo transfer = statusVo.transfer(status);</span>
+<span class="nc" id="L99">            statusVos.add(transfer);</span>
+<span class="nc" id="L100">        }</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if (statusVos == null) {</span>
+<span class="nc" id="L102">            Result.fail(ErrorCode.UNDEFINED);</span>
+        }
+<span class="nc" id="L104">        return Result.success(statusVos);</span>
+    }
+
+    @LogA
+    @GetMapping(&quot;allStatusNum&quot;)
+    public Result showAllStatusNum() {
+<span class="nc" id="L110">        int i = adminService.showAllStatusNum();</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (i &lt; 0) {</span>
+<span class="nc" id="L112">            Result.fail(ErrorCode.UNDEFINED);</span>
+        }
+<span class="nc" id="L114">        return Result.success(i);</span>
+    }
+
+    @LogA
+    @GetMapping(&quot;allComment&quot;)
+    public Result showAllCommentInfo() {
+
+<span class="nc" id="L121">        List&lt;Comment&gt; comments = adminService.showAllCommentInfo();</span>
+
+<span class="nc" id="L123">        List&lt;CommentVo&gt; commentVos = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L124">        CommentVo commentVo = new CommentVo();</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        for (Comment comment : comments) {</span>
+<span class="nc" id="L126">            CommentVo transfer = commentVo.transfer(comment);</span>
+<span class="nc" id="L127">            commentVos.add(transfer);</span>
+<span class="nc" id="L128">        }</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (commentVos == null) {</span>
+<span class="nc" id="L130">            Result.fail(ErrorCode.UNDEFINED);</span>
+        }
+<span class="nc" id="L132">        return Result.success(commentVos);</span>
+    }
+
+    @LogA
+    @GetMapping(&quot;allCommentNum&quot;)
+    public Result showAllCommentNum() {
+<span class="nc" id="L138">        int i = adminService.showAllCommentNum();</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        if (i &lt; 0) {</span>
+<span class="nc" id="L140">            Result.fail(ErrorCode.UNDEFINED);</span>
+        }
+<span class="nc" id="L142">        return Result.success(i);</span>
+    }
+
+    @LogA
+    @GetMapping(&quot;searchUser/{id}&quot;)
+    public Result searchUser(@PathVariable(&quot;id&quot;) String id) {
+<span class="nc" id="L148">        User user = adminService.searchUser(id);</span>
+
+<span class="nc bnc" id="L150" title="All 2 branches missed.">        if (user == null) {</span>
+<span class="nc" id="L151">            Result.fail(ErrorCode.UNDEFINED);</span>
+        }
+<span class="nc" id="L153">        return Result.success(user);</span>
+    }
+
+    @LogA
+    @GetMapping(&quot;blockUser/{id}&quot;)
+    public Result blockUser(@PathVariable(&quot;id&quot;) String id) {
+<span class="nc" id="L159">        boolean b = adminService.blockUser(id);</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">        if (b == false) {</span>
+<span class="nc" id="L161">            Result.fail(ErrorCode.UNDEFINED);</span>
+        }
+<span class="nc" id="L163">        return Result.success(b);</span>
+    }
+
+    @LogA
+    @GetMapping(&quot;deleteStatus/{id}&quot;)
+    public Result deleteStatus(@PathVariable(&quot;id&quot;) String id) {
+
+<span class="nc" id="L170">        boolean b = adminService.deleteStatus(id);</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">        if (b == false) {</span>
+<span class="nc" id="L172">            Result.fail(ErrorCode.UNDEFINED);</span>
+        }
+<span class="nc" id="L174">        return Result.success(b);</span>
+    }
+
+    @LogA
+    @GetMapping(&quot;deleteComment/{id}&quot;)
+    public Result deleteComment(@PathVariable(&quot;id&quot;) String id) {
+<span class="nc" id="L180">        boolean b = adminService.deleteComment(id);</span>
+
+<span class="nc bnc" id="L182" title="All 2 branches missed.">        if (b == false) {</span>
+<span class="nc" id="L183">            Result.fail(ErrorCode.UNDEFINED);</span>
+        }
+<span class="nc" id="L185">        return Result.success(b);</span>
+    }
+
+
+//
+//    @LogA
+//    @PutMapping(&quot;login&quot;)
+//    public Result login(@RequestBody UserVo uInfo, HttpSession session) {
+////        System.out.println(uInfo);
+//        return loginService.login(uInfo.getUname(), uInfo.getPwd(), session);
+//    }
+//
+//    @LogA
+//    @PutMapping(&quot;logout&quot;)
+//    public Result logout(@RequestHeader(&quot;Authorization&quot;) String token) {
+//
+//        userService.upDatetime(UserThreadLocal.get().getId());
+//        return loginService.logout(token);
+//
+//        //应该在这个时候更新friend和group里的离开时间
+//    }
+//
+//    @LogA
+//    @PostMapping(&quot;register&quot;)
+//    public Result register(@RequestBody UserVo uInfo, HttpSession session){
+//        return loginService.register(uInfo.getEmail(), uInfo.getUname(), uInfo.getPwd(), session);
+//    }
+//
+//    @LogA
+//    @GetMapping(&quot;info/{id}&quot;)
+//    public Result showUserInfo(@PathVariable(&quot;id&quot;) String id) {
+//        System.out.println(id);
+//        User user;
+//        if(id.equals(&quot;-1&quot;)) {
+//            user = userService.showUserInfo(UserThreadLocal.get().getId());
+//        } else {
+//            user = userService.showUserInfo(id);
+//        }
+//        if(user == null) {
+//            Result.fail(ErrorCode.USER_NOT_EXIST);
+//        }
+//        UserVo userVo = new UserVo();
+//        UserVo transfer = userVo.transfer(user);
+//        return Result.success(transfer);
+//    }
+
+//    @LogA
+//    @GetMapping
+//    public Result showUnameAvatar() {
+//        User user = userService.showUnameAvatar(UserThreadLocal.get().getId());
+////        System.out.println(user);
+//        UserVo userVo = new UserVo();
+//        UserVo transfer = userVo.transfer(user);
+
+//        userService.upDatetime(UserThreadLocal.get().getId());
+
+//        return Result.success(transfer);
+//    }
+
+//    @LogA
+//    @PutMapping(&quot;changeInfo&quot;)
+//    public Result changeUserInfo(@RequestBody UserVo uInfo){
+//        boolean b = userService.changeUserInfo(uInfo, UserThreadLocal.get().getId());
+//        if(b) {
+//            return Result.success(null);
+//        }
+//        return Result.fail(ErrorCode.CHANGE_INFO_ERROR);
+//    }
+//}
+    }
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ErrorCode.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.util</a> &gt; <span class="el_source">ErrorCode.java</span></div><h1>ErrorCode.java</h1><pre class="source lang-java linenums">package com.nart.util;
+
+import lombok.AllArgsConstructor;
+
+/**
+ * Copyright (c) 2008-2024: Zirui Qiao
+ * Project: pack
+ *
+ * @className: ErrorCode
+ *  show what error it is
+ * @version: v1.8.0
+ * @Author ZIRUI QIAO
+ * @Date 2022/8/31 13:29
+ */
+<span class="fc" id="L15">@AllArgsConstructor</span>
+public enum ErrorCode {
+<span class="fc" id="L17">    UNDEFINED(99999, &quot;undefined error&quot;),</span>
+
+<span class="fc" id="L19">    ACCOUNT_EXIST(10001, &quot;account already exists&quot;),</span>
+<span class="fc" id="L20">    PARAMS_ERROR(10101, &quot;username or password format incorrect&quot;),</span>
+<span class="fc" id="L21">    REGISTER_ERROR(10901, &quot;register failed: unknown reason&quot;),</span>
+<span class="fc" id="L22">    CHANGE_INFO_ERROR(10901, &quot;change personal information failed: unknown reason&quot;),</span>
+<span class="fc" id="L23">    ACCOUNT_PWD_NOT_MATCH(10501, &quot;username and password not match&quot;),</span>
+<span class="fc" id="L24">    USER_NOT_EXIST(10502, &quot;User not exists&quot;),</span>
+<span class="fc" id="L25">    SESSION_TIME_OUT(11001, &quot;session time out&quot;),</span>
+<span class="fc" id="L26">    NO_LOGIN(10301, &quot;need login&quot;),</span>
+<span class="fc" id="L27">    SHOW_FRIEND_LIST_ERROR(20901, &quot;show friends list failed: unknown reason&quot;),</span>
+<span class="fc" id="L28">    SEARCH_FRIEND_ERROR(20902, &quot;search friends failed: unknown reason&quot;),</span>
+<span class="fc" id="L29">    DEL_FRIEND_ERROR(20903, &quot;delete Friend failed: unknown reason&quot;),</span>
+<span class="fc" id="L30">    CHANGE_FRIEND_STATE_ERROR(20904, &quot;change Friend state failed: unknown reason&quot;),</span>
+<span class="fc" id="L31">    SHOW_FRIEND_REQS_ERROR(20905, &quot;show friends requests failed: unknown reason&quot;),</span>
+<span class="fc" id="L32">    SEND_FRIEND_REQ_ERROR(20906, &quot;send Friend request failed: unknown reason&quot;),</span>
+<span class="fc" id="L33">    RESP_FRIEND_REQ_ERROR(20907, &quot;response to Friend request failed: unknown reason&quot;),</span>
+<span class="fc" id="L34">    SEARCH_NEW_ERROR(20908, &quot;search new friends failed: unknown reason&quot;),</span>
+<span class="fc" id="L35">    SHOW_GROUP_MEMBER_ERROR(30901, &quot;show group members list failed: unknown reason&quot;),</span>
+<span class="fc" id="L36">    CHANGE_GROUP_INFO_ERROR(30902, &quot;change group information failed: unknown reason&quot;),</span>
+<span class="fc" id="L37">    SHOW_GROUP_LIST_ERROR(30903, &quot;show group list failed: unknown reason&quot;),</span>
+<span class="fc" id="L38">    LEAVE_GROUP_ERROR(30904, &quot;leave group failed: unknown reason&quot;),</span>
+<span class="fc" id="L39">    CHANGE_GROUP_STATE_ERROR(30905, &quot;change group state failed: unknown reason&quot;),</span>
+<span class="fc" id="L40">    SHOW_GROUP_INVITE_LIST_ERROR(30906, &quot;show group invite list failed: unknown, reason&quot;),</span>
+<span class="fc" id="L41">    SEND_GROUP_INVITE_ERROR(30907, &quot;send group invite failed: unknown reason&quot;),</span>
+<span class="fc" id="L42">    RESP_GROUP_INVITE_ERROR(30908, &quot;response to group invite failed: unknown reason&quot;),</span>
+<span class="fc" id="L43">    CREATE_GROUP_ERROR(30909, &quot;create group failed: unknown reason&quot;),</span>
+<span class="fc" id="L44">    LIKE_STATUS_ERROR(40901, &quot;like status failed: unknown reason&quot;),</span>
+<span class="fc" id="L45">    POST_STATUS_ERROR(40902, &quot;post status failed: unknown reason&quot;),</span>
+<span class="fc" id="L46">    DEL_STATUS_ERROR(40903, &quot;delete status failed: unknown reason&quot;),</span>
+<span class="fc" id="L47">    SHOW_COMMENT_LIST_ERROR(50901, &quot;show comment list failed: unknown reason&quot;),</span>
+<span class="fc" id="L48">    POST_COMMENT_ERROR(50902, &quot;post comment failed: unknown reason&quot;),</span>
+<span class="fc" id="L49">    SHOW_FRIEND_CHAT_HISTORY_ERROR(60901, &quot;show friend chat history failed: unknown reason&quot;),</span>
+<span class="fc" id="L50">    SHOW_GROUP_CHAT_HISTORY_ERROR(70901, &quot;show group chat history failed: unknown reason&quot;),</span>
+<span class="fc" id="L51">    SEND_FRIEND_CHAT_HISTORY_ERROR(60902, &quot;send friend chat failed: unknown reason&quot;),</span>
+<span class="fc" id="L52">    SEND_GROUP_CHAT_HISTORY_ERROR(70902, &quot;send group chat failed: unknown reason&quot;),</span>
+<span class="fc" id="L53">    LEAVE_FRIEND_CHAT_ERROR(60903, &quot;update leave friend chatRoom time failed: unknown reason&quot;),</span>
+<span class="fc" id="L54">    LEAVE_GROUP_CHAT_ERROR(70903, &quot;update leave group chatRoom time failed: unknown reason&quot;),</span>
+
+<span class="fc" id="L56">    UPLOAD_ERROR(80401, &quot;upload picture failed&quot;),</span>
+<span class="fc" id="L57">    UPLOAD_REPEAT_ERROR(80402, &quot;upload repeat&quot;),</span>
+<span class="fc" id="L58">    UPLOAD_DELETE_ERROR(80403, &quot;delete picture fail&quot;),</span>
+<span class="fc" id="L59">    ALREADY_DELETE_ERROR(80404, &quot;already deleted&quot;),</span>
+<span class="fc" id="L60">    TOKEN_ERROR(90001, &quot;token illegal&quot;),</span>
+
+    /**
+     * Error code rules.
+     * 5 digits.
+     * The 10,000 and 1,000 digits represent the type of service in which the error occurred.
+     * 10: User
+     * 20: Friend
+     * 30: Group
+     * 40: Status
+     * 50: Comment
+     * 60: FriendChat
+     * 70: GroupChat
+     * 80: Upload
+     * 90: Token
+     * 11: Session
+     * 99: Unknown
+     *, more types will be added as we come across them, just write them down
+     * 01 and 02 are not used because int types cannot start with 0
+     *
+     * Hundreds of digits represent the error type.
+     * 0: Matching error (login information match error, registration information match already exists, token match failed ...)
+     * 1: Type error (message format/type is incorrect...)
+     * 3: Permission error (No permission/not logged in....)
+     * 4: http request error (currently only occurs with Upload.)
+     * 5: Not present (user, dynamic, group, etc. does not exist, id does not exist)
+     * 9: Unknown
+     * more types to be added as you encounter them, just write them down
+     *, more types are encountered, just write them down.
+     * The tens and single digits represent errors, with a different number for each error
+     * e.g. 10001 is the first error of the user match error
+     * 10002 is the second error of this type, each new error encountered is stacked upwards in turn
+     * 99: Unknown
+     *
+     * This rule can be changed if you think something is wrong, just leave a record!
+     */
+    ;
+
+    private Integer code;
+    private String msg;
+
+    public int getCode() {
+<span class="fc" id="L102">        return code;</span>
+    }
+
+    public void setCode(int code) {
+<span class="nc" id="L106">        this.code = code;</span>
+<span class="nc" id="L107">    }</span>
+
+    public String getMsg() {
+<span class="fc" id="L110">        return msg;</span>
+    }
+
+    public void setMsg(String msg) {
+<span class="nc" id="L114">        this.msg = msg;</span>
+<span class="nc" id="L115">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

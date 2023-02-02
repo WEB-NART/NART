@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MessageVo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.vo</a> &gt; <span class="el_source">MessageVo.java</span></div><h1>MessageVo.java</h1><pre class="source lang-java linenums">package com.nart.vo;
+
+import com.nart.pojo.FriendChat;
+import com.nart.pojo.GroupChat;
+import lombok.Data;
+import org.springframework.stereotype.Service;
+
+@Service
+<span class="pc bpc" id="L9" title="43 of 78 branches missed.">@Data</span>
+public class MessageVo {
+<span class="fc" id="L11">    private String msgId;</span>
+<span class="fc" id="L12">    private String msgType;</span>
+<span class="fc" id="L13">    private String type;</span>
+
+<span class="fc" id="L15">    private String chatId;</span>
+<span class="fc" id="L16">    private String senderId;</span>
+<span class="fc" id="L17">    private String senderName;</span>
+<span class="fc" id="L18">    private String senderAvatar;</span>
+<span class="fc" id="L19">    private DateVo sentDate;</span>
+<span class="fc" id="L20">    private String msg;</span>
+
+
+    public MessageVo Ftransfer(FriendChat friendChat){
+<span class="fc" id="L24">        MessageVo messageVo = new MessageVo();</span>
+<span class="fc" id="L25">        messageVo.setMsgId(String.valueOf(friendChat.getId()));</span>
+<span class="fc" id="L26">        messageVo.setMsgType(friendChat.getType());</span>
+<span class="fc" id="L27">        messageVo.setChatId(friendChat.getReceiverId());</span>
+<span class="fc" id="L28">        messageVo.setSenderId(friendChat.getSenderId());</span>
+<span class="fc" id="L29">        DateVo dateVo = new DateVo();</span>
+<span class="fc" id="L30">        DateVo dateToString = dateVo.getDateToString(friendChat.getDate());</span>
+<span class="fc" id="L31">        messageVo.setSentDate(dateToString);</span>
+
+<span class="fc" id="L33">        messageVo.setMsg(friendChat.getMsg());</span>
+
+<span class="fc" id="L35">        return messageVo;</span>
+    }
+
+    public MessageVo Gtransfer(GroupChat groupChat){
+<span class="fc" id="L39">        MessageVo messageVo = new MessageVo();</span>
+<span class="fc" id="L40">        messageVo.setMsgId(String.valueOf(groupChat.getId()));</span>
+<span class="fc" id="L41">        messageVo.setMsgType(groupChat.getType());</span>
+<span class="fc" id="L42">        messageVo.setChatId(groupChat.getGroupId());</span>
+<span class="fc" id="L43">        messageVo.setSenderId(groupChat.getSenderId());</span>
+<span class="fc" id="L44">        DateVo dateVo = new DateVo();</span>
+<span class="fc" id="L45">        DateVo dateToString = dateVo.getDateToString(groupChat.getDate());</span>
+<span class="fc" id="L46">        messageVo.setSentDate(dateToString);</span>
+<span class="fc" id="L47">        messageVo.setMsg(groupChat.getMsg());</span>
+<span class="fc" id="L48">        return messageVo;</span>
+    }
+
+    public GroupChat MtoG() {
+<span class="fc" id="L52">        GroupChat groupChat = new GroupChat();</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        if (msgId != null) {</span>
+<span class="fc" id="L54">            groupChat.setId(Long.valueOf(this.msgId));</span>
+        }
+<span class="fc" id="L56">        groupChat.setType(this.msgType);</span>
+<span class="fc" id="L57">        groupChat.setGroupId(this.chatId);</span>
+<span class="fc" id="L58">        groupChat.setSenderId(this.senderId);</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">        if (sentDate != null) {</span>
+<span class="fc" id="L60">            groupChat.setDate(this.sentDate.toLong());</span>
+        }
+<span class="fc" id="L62">        groupChat.setMsg(this.msg);</span>
+<span class="fc" id="L63">        return groupChat;</span>
+    }
+
+    public FriendChat MtoF() {
+<span class="fc" id="L67">        FriendChat friendChat = new FriendChat();</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if (msgId != null) {</span>
+<span class="fc" id="L69">            friendChat.setId(Long.valueOf(this.msgId));</span>
+        }
+<span class="fc" id="L71">        friendChat.setType(this.msgType);</span>
+<span class="fc" id="L72">        friendChat.setReceiverId(this.chatId);</span>
+<span class="fc" id="L73">        friendChat.setSenderId(this.senderId);</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        if (sentDate != null) {</span>
+<span class="fc" id="L75">            friendChat.setDate(this.sentDate.toLong());</span>
+        }
+<span class="fc" id="L77">        friendChat.setMsg(this.msg);</span>
+<span class="fc" id="L78">        return friendChat;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

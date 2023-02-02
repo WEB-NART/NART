@@ -170,11 +170,7 @@ public class ChatServiceImpl implements ChatService {
             long timeStamp = getTimeStamp();
             friend.setLeaveTime(timeStamp);
             int i = friendDao.updateById(friend);
-            boolean e = false;
-            if (i == 1){
-                e = true;
-            }
-            return e;
+            return i >= 1;
         }else {
             LambdaQueryWrapper<UserGroup> lqw = new LambdaQueryWrapper<UserGroup>();
             lqw.eq(UserGroup::getGid, roomId);
@@ -185,11 +181,7 @@ public class ChatServiceImpl implements ChatService {
 
             userGroup.setUserLevelTime(t);
             int i = userGroupDao.updateById(userGroup);
-            boolean a = false;
-            if (i == 1){
-                a = true;
-            }
-            return a;
+            return i >= 1;
         }
 
     }
@@ -202,9 +194,8 @@ public class ChatServiceImpl implements ChatService {
                     .eq(FriendChat::getReceiverId, UserThreadLocal.get().getId())
                     .ge(FriendChat::getDate, leaveTime);
 
-            FriendChat friendChat = friendChatDao.selectOne(lqw);
-            if (friendChat != null) return true;
-            else return false;
+            List<FriendChat> friendChat = friendChatDao.selectList(lqw);
+            return friendChat != null && friendChat.size() != 0;
         }else {
             LambdaQueryWrapper<GroupChat> lqw = new LambdaQueryWrapper<>();
             lqw.eq(GroupChat::getGroupId, id)
@@ -214,8 +205,7 @@ public class ChatServiceImpl implements ChatService {
 //            System.out.println(groupChats);
             int size = groupChats.size();
 //            System.out.println(size);
-            if (size != 0) return true;
-            else return false;
+            return size != 0;
         }
     }
 
@@ -229,8 +219,7 @@ public class ChatServiceImpl implements ChatService {
             e.printStackTrace();
         }
 
-        long s = Long.parseLong(String.valueOf(date.getTime()));
-        return s;
+        return Long.parseLong(String.valueOf(date.getTime()));
     }
 
     private static String getCurrentDate() {

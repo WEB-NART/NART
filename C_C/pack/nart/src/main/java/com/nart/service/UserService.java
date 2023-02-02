@@ -17,15 +17,14 @@ import com.nart.vo.UserVo;
 public interface UserService {
 
     /**
-     * This method allows the user to find the user by username and password
+     * This method set user state as login
      *
-     * @param uname
-     * @param pwd
+     * @param userId
      * @return User
      * @Author Yunzhou Liu
      * @Date 2023-1-14
      */
-    User findUser(String uname, String pwd);
+    boolean login(String userId);
 
     /**
      * This method allows the user to find the user through the user name
@@ -53,11 +52,12 @@ public interface UserService {
      * @param email
      * @param name
      * @param pwd
+     * @param salt
      * @return User
      * @Author Yunzhou Liu
      * @Date 2023-1-14
      */
-    User register(String email, String name, String pwd);
+    User register(String email, String name, String pwd, String salt);
 
     /**
      * This method displays information for a specific user

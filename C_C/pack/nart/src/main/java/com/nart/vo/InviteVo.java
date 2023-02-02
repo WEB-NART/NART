@@ -1,14 +1,8 @@
 package com.nart.vo;
 
 
-import com.nart.dao.GroupDao;
-import com.nart.dao.GroupInviteDao;
-import com.nart.dao.UserDao;
-import com.nart.pojo.Group;
 import com.nart.pojo.GroupInvite;
-import com.nart.pojo.User;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,6 +30,14 @@ public class InviteVo {
 //        inviteVo.setSenderName(user.getName());
 
         return inviteVo;
+    }
+
+    public GroupInvite toGI() {
+        GroupInvite groupInvite = new GroupInvite();
+        groupInvite.setId(this.id);
+        groupInvite.setGroupId(this.groupId);
+        groupInvite.setMsg(this.msg);
+        return groupInvite;
     }
 
 }

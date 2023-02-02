@@ -22,4 +22,19 @@ public class GroupVo {
         groupVo.setNewMsg(group.getNewMessage());
         return groupVo;
     }
+
+    public Group toGroup() {
+        Group group = new Group();
+        group.setId(this.id);
+        group.setGroupName(this.name);
+        group.setAvatar(this.avatar);
+        group.setNotice(this.notice);
+        if (this.state != null) {
+            group.setState(this.state);
+        }
+        if (this.newMsg != null) {
+            group.setNewMessage(this.newMsg);
+        }
+        return group;
+    }
 }
