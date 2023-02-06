@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UploadController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.controller</a> &gt; <span class="el_source">UploadController.java</span></div><h1>UploadController.java</h1><pre class="source lang-java linenums">package com.nart.controller;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UploadController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.controller</a> &gt; <span class="el_source">UploadController.java</span></div><h1>UploadController.java</h1><pre class="source lang-java linenums">package com.nart.controller;
 
 import com.nart.common.LogA;
 import com.nart.util.ErrorCode;
@@ -27,45 +27,58 @@ import java.util.UUID;
 @RestController
 @RequestMapping(&quot;upload&quot;)
 @LogA
-<span class="fc" id="L30">public class UploadController {</span>
+<span class="nc" id="L30">public class UploadController {</span>
 
     @Autowired
     private LoadDataInDataBase ld;
 
+
+    /**
+     * @Description: upload picture to cloud
+     * @param file picture list
+     * @param album album
+     *              0: Status album
+     *              1: user avatar album
+     *              2: group avatar album
+     *              others: chat album
+     * @return: com.nart.util.Result
+     * @Author: Zirui Qiao
+     * @Date: 2023-01-31 2:31 p.m.
+     */
     @PostMapping(&quot;{album}&quot;)
     public Result upload(@RequestPart(&quot;file&quot;) MultipartFile file, @PathVariable(&quot;album&quot;) Integer album) throws IOException {
-<span class="nc" id="L37">        String name = file.getOriginalFilename();</span>
-<span class="nc" id="L38">        String suffix = StringUtils.substringAfterLast(name, &quot;.&quot;);</span>
-<span class="nc" id="L39">        String fileName = UUID.randomUUID().toString() + &quot;.&quot; + suffix;</span>
-<span class="nc" id="L40">        String s = ImgtuUtil.uploadPic(file.getBytes(), fileName, album);</span>
+<span class="nc" id="L50">        String name = file.getOriginalFilename();</span>
+<span class="nc" id="L51">        String suffix = StringUtils.substringAfterLast(name, &quot;.&quot;);</span>
+<span class="nc" id="L52">        String fileName = UUID.randomUUID().toString() + &quot;.&quot; + suffix;</span>
+<span class="nc" id="L53">        String s = ImgtuUtil.uploadPic(file.getBytes(), fileName, album);</span>
 
-<span class="nc bnc" id="L42" title="All 2 branches missed.">        if(StringUtils.isNotBlank(s)) {</span>
-<span class="nc bnc" id="L43" title="All 2 branches missed.">            if(s.equals(&quot;400&quot;)) {</span>
-<span class="nc" id="L44">                return Result.fail(ErrorCode.UPLOAD_REPEAT_ERROR);</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if(StringUtils.isNotBlank(s)) {</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">            if(s.equals(&quot;400&quot;)) {</span>
+<span class="nc" id="L57">                return Result.fail(ErrorCode.UPLOAD_REPEAT_ERROR);</span>
             }
-<span class="nc" id="L46">            return Result.success(s);</span>
+<span class="nc" id="L59">            return Result.success(s);</span>
         }
-<span class="nc" id="L48">        return Result.fail(ErrorCode.UPLOAD_ERROR);</span>
+<span class="nc" id="L61">        return Result.fail(ErrorCode.UPLOAD_ERROR);</span>
     }
 
     @PutMapping(&quot;delete/{id}&quot;)
     public Result delete(@PathVariable(&quot;id&quot;) String id) throws IOException {
-<span class="nc" id="L53">        String s = ImgtuUtil.deletePic(id);</span>
+<span class="nc" id="L66">        String s = ImgtuUtil.deletePic(id);</span>
 
-<span class="nc bnc" id="L55" title="All 2 branches missed.">        if(StringUtils.isNotBlank(s)) {</span>
-<span class="nc bnc" id="L56" title="All 2 branches missed.">            if(s.equals(&quot;400&quot;))</span>
-<span class="nc" id="L57">                return Result.fail(ErrorCode.ALREADY_DELETE_ERROR);</span>
-<span class="nc bnc" id="L58" title="All 2 branches missed.">            else if (s.equals(&quot;200&quot;))</span>
-<span class="nc" id="L59">                return Result.success(s);</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if(StringUtils.isNotBlank(s)) {</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">            if(s.equals(&quot;400&quot;))</span>
+<span class="nc" id="L70">                return Result.fail(ErrorCode.ALREADY_DELETE_ERROR);</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            else if (s.equals(&quot;200&quot;))</span>
+<span class="nc" id="L72">                return Result.success(s);</span>
         }
-<span class="nc" id="L61">        return Result.fail(ErrorCode.UPLOAD_DELETE_ERROR);</span>
+<span class="nc" id="L74">        return Result.fail(ErrorCode.UPLOAD_DELETE_ERROR);</span>
     }
 
     @GetMapping(&quot;test&quot;)
     public Result test() {
-<span class="nc" id="L66">        FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();</span>
-<span class="nc" id="L67">        fakeDataGenerator.generateTestData(1);</span>
-<span class="nc" id="L68">        return Result.success(&quot;yes&quot;);</span>
+<span class="nc" id="L79">        FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();</span>
+<span class="nc" id="L80">        fakeDataGenerator.generateTestData(1);</span>
+<span class="nc" id="L81">        return Result.success(&quot;yes&quot;);</span>
     }
 
 

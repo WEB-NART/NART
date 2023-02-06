@@ -23,7 +23,6 @@ public class DataCounterServiceImpl implements DataCounterService {
             dataCounterDao.updateUserAmountm(1);
             return 2;
         }
-
     }
 
     @Override

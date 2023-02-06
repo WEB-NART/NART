@@ -19,5 +19,4 @@ public class Comment {
 
     @TableField(exist = false)
     private String uname;
-
 }

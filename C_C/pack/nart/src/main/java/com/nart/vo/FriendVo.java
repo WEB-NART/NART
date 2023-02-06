@@ -30,4 +30,14 @@ public class FriendVo {
         return friendVo;
 
     }
+
+    public Friend toFriend() {
+        Friend friend = new Friend();
+        friend.setFid(this.id);
+        friend.setAvatar(this.avatar);
+        friend.setName(this.name);
+        friend.setState(this.state);
+        friend.setNewMessage(this.newMsg);
+        return friend;
+    }
 }

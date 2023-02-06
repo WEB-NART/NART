@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserVo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.vo</a> &gt; <span class="el_source">UserVo.java</span></div><h1>UserVo.java</h1><pre class="source lang-java linenums">package com.nart.vo;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserVo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.vo</a> &gt; <span class="el_source">UserVo.java</span></div><h1>UserVo.java</h1><pre class="source lang-java linenums">package com.nart.vo;
 
 import com.nart.pojo.User;
 import lombok.Data;
 
-<span class="pc bpc" id="L6" title="58 of 80 branches missed.">@Data</span>
+<span class="pc bpc" id="L6" title="36 of 80 branches missed.">@Data</span>
 public class UserVo {
 <span class="fc" id="L8">    private String id;</span>
 <span class="fc" id="L9">    private String avatar;</span>
@@ -29,6 +29,20 @@ public class UserVo {
 <span class="fc" id="L29">        userVo.setPower(user.getPower());</span>
         //userVo.setLock(user.getLock());
 <span class="fc" id="L31">        return userVo;</span>
+    }
+
+    public User toUser() {
+<span class="fc" id="L35">        User user = new User();</span>
+<span class="fc" id="L36">        user.setId(this.id);</span>
+<span class="fc" id="L37">        user.setAvatar(this.avatar);</span>
+<span class="fc" id="L38">        user.setName(this.uname);</span>
+<span class="fc" id="L39">        user.setPwd(this.pwd);</span>
+<span class="fc" id="L40">        user.setEmail(this.email);</span>
+<span class="fc" id="L41">        user.setAge(this.birthday);</span>
+<span class="fc" id="L42">        user.setTel(this.phone);</span>
+<span class="fc" id="L43">        user.setAddress(this.address);</span>
+<span class="fc" id="L44">        user.setPower(this.power);</span>
+<span class="fc" id="L45">        return user;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

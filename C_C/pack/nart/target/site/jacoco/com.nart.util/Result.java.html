@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Result.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.util</a> &gt; <span class="el_source">Result.java</span></div><h1>Result.java</h1><pre class="source lang-java linenums">package com.nart.util;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Result.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.util</a> &gt; <span class="el_source">Result.java</span></div><h1>Result.java</h1><pre class="source lang-java linenums">package com.nart.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import lombok.Data;
  * @Author ZIRUI QIAO
  * @Date 2022/8/31 13:27
  */
-<span class="pc bpc" id="L16" title="24 of 38 branches missed.">@Data</span>
+<span class="pc bpc" id="L16" title="21 of 38 branches missed.">@Data</span>
 <span class="fc" id="L17">@AllArgsConstructor</span>
 public class Result {
 <span class="fc" id="L19">    private Boolean success;</span>
@@ -26,7 +26,7 @@ public class Result {
     }
 
     public static Result fail(int code, String msg) {
-<span class="nc" id="L29">        return new Result(false, code, msg, null);</span>
+<span class="fc" id="L29">        return new Result(false, code, msg, null);</span>
     }
 
     public static Result fail(ErrorCode errorCode) {

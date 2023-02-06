@@ -12,11 +12,11 @@ import java.util.List;
 @TableName("tb_user")
 public class User {
 
-// 主键生成策略
-
     @TableId(type = IdType.ASSIGN_ID)
     private String id;
     private String pwd;
+    private String tpwd;
+    private String salt;
     private String avatar;
     @TableField(value = "uname")
     private String name;
@@ -26,7 +26,6 @@ public class User {
     private String age;
     @TableField(value = "on_line")
     private Integer userOnline;
-    private String tpwd;
     private Integer power;
     private Integer state;
     @TableField(exist = false)

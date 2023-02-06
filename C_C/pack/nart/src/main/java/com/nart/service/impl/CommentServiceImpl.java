@@ -55,16 +55,12 @@ public class CommentServiceImpl implements CommentService {
         Comment.setUserId(sid);
         long l = System.currentTimeMillis();
         Long createTime = l;
-        System.out.println(l);
+        //System.out.println(l);
         Comment.setCreateDate(createTime);
         dataCounterService.updateCommentAmount(true);
         int a = commentDao.insert(Comment);
 //        System.out.println(a);
-        boolean r = false;
-        if (a == 1){
-            r = true;
-        }
-        return r;
+        return a >= 1;
     }
 
     @Override
@@ -72,10 +68,11 @@ public class CommentServiceImpl implements CommentService {
         LambdaQueryWrapper<Comment> lqw = new LambdaQueryWrapper<Comment>();
         lqw.eq(Comment::getStatusId, statusId);
         List<Comment> Comments = commentDao.selectList(lqw);
+        boolean flag = true;
         for (Comment comment : Comments) {
             int i = commentDao.deleteById(comment.getId());
-//            if(i <= 0) return false;
+            if(i <= 0) flag = false;
         }
-        return true;
+        return flag;
     }
 }

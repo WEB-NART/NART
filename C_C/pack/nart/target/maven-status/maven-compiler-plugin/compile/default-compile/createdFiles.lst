@@ -33,13 +33,13 @@ com\nart\service\impl\LoginServiceImpl.class
 com\nart\TestApplication.class
 com\nart\pojo\User.class
 com\nart\controller\FriendController.class
-com\nart\common\LogBspect.class
 com\nart\dao\GroupDao.class
 com\nart\common\ChatEndPoint.class
 com\nart\handler\LoginInterceptor.class
 com\nart\service\AdminService.class
 com\nart\handler\WebSocketListener.class
 com\nart\service\impl\GroupServiceImpl.class
+com\nart\util\AlbumType.class
 com\nart\controller\StatusController.class
 com\nart\config\MybatisPlusConfig.class
 com\nart\controller\UploadController.class
@@ -74,7 +74,6 @@ com\nart\vo\InviteVo.class
 com\nart\vo\FriendVo.class
 com\nart\dao\UserLikeDao.class
 com\nart\util\FakeDataGenerator.class
-com\nart\common\LogB.class
 com\nart\util\RedisUtil.class
 com\nart\pojo\Message.class
 com\nart\handler\AllExceptionHander.class
@@ -88,7 +87,9 @@ com\nart\config\ThreadPoolConfig.class
 com\nart\service\impl\DataCounterServiceImpl.class
 com\nart\dao\GroupChatDao.class
 com\nart\config\WebMVCConfig.class
+com\nart\util\ProgressBar.class
 com\nart\service\impl\FriendServiceImpl.class
+com\nart\util\RandomContentGenerator$1.class
 com\nart\vo\CommentVo.class
 com\nart\util\CopyUtil.class
 com\nart\controller\AdminController.class

@@ -19,14 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class WebSocketListener implements ServletRequestListener {
 
+    public WebSocketListener() {}
+
     @Override
     public void requestInitialized(ServletRequestEvent sre) {
         // 将所有request请求都携带上httpSession
         ((HttpServletRequest) sre.getServletRequest()).getSession();
-    }
-
-    public WebSocketListener() {
-
     }
 
     @Override

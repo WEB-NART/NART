@@ -15,6 +15,7 @@ import com.nart.util.EncryptUtil;
 import com.nart.util.UserThreadLocal;
 import com.nart.vo.PageVo;
 import com.nart.vo.UserVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,19 +45,13 @@ public class UserServiceImpl implements UserService {
         this.userGroupDao = userGroupDao;
     }
 
-
     @Override
-    public User findUser(String uname, String pwd) {
-        LambdaQueryWrapper<User> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(User::getName, uname).eq(User::getPwd, pwd);
-        User user = userDao.selectOne(lqw);
-
-        if (user != null) {
-            user.setUserOnline(1);
-            userDao.updateById(user);
-            return user;
-        }
-        return null;
+    public boolean login(String userId) {
+        User user = new User();
+        user.setId(userId);
+        user.setUserOnline(1);
+        int i = userDao.updateById(user);
+        return i >= 1;
     }
 
     @Override
@@ -77,22 +72,22 @@ public class UserServiceImpl implements UserService {
             user.setUserOnline(0);
             int i = userDao.updateById(user);
             dataCounterService.updateOnlineUserAmount(false);
-            boolean a = false;
-            if (i == 1){
-                a =true;
-            }
-            return a;
+            return i>=1;
         }
         return false;
     }
 
     @Override
-    public User register(String email, String name, String pwd) {
+    public User register(String email, String name, String pwd, String salt) {
         User user = new User();
         user.setEmail(email);
         user.setName(name);
         user.setPwd(pwd);
+        user.setTpwd(pwd);
+        user.setSalt(salt);
         user.setUserOnline(0);
+        user.setPower(0);
+        user.setState(0);
         user.setAvatar("https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png");
         int insert = userDao.insert(user);
         int i = dataCounterService.updateUserAmount(true);
@@ -122,12 +117,13 @@ public class UserServiceImpl implements UserService {
 //        System.out.println(tpwd);
         String pwd = userVo.getPwd();
 //        System.out.println(pwd);
-        if(!userVo.getPwd().isEmpty() && userVo.getPwd().equals(tpwd)) {
+        if(!userVo.getPwd().isEmpty() && !userVo.getPwd().equals(tpwd)) {
             user.setTpwd(userVo.getPwd());
-            String password = EncryptUtil.encryptPwd(userVo.getPwd());
+            String salt = user.getSalt();
+            String password = EncryptUtil.encryptPwd(userVo.getPwd(), salt);
             user.setPwd(password);
         }
-        if(!userVo.getAvatar().isEmpty()) {
+        if(!StringUtils.isBlank(userVo.getAvatar())) {
             user.setAvatar(userVo.getAvatar());
         }
         if(userVo.getPhone() != null && !userVo.getPhone().isEmpty()) {
@@ -143,11 +139,7 @@ public class UserServiceImpl implements UserService {
             user.setAge(userVo.getBirthday());
         }
         int i = userDao.updateById(user);
-        boolean a = false;
-        if (i == 1){
-            a = true;
-        }
-        return a;
+        return i >= 1;
     }
 
     @Override
@@ -175,8 +167,8 @@ public class UserServiceImpl implements UserService {
 //        System.out.println(id);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         long time = timestamp.getTime();
-        System.out.println(userId);
-        System.out.println("现在的时间是  "+time);
+        //System.out.println(userId);
+        //System.out.println("现在的时间是  "+time);
 
 //        String userId = "1574989632599367682";
         LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<>();
@@ -194,12 +186,14 @@ public class UserServiceImpl implements UserService {
         lqw1.eq(UserGroup::getUid, userId);
         List<UserGroup> userGroups = userGroupDao.selectList(lqw1);
 
+        boolean flag = true;
         if (userGroups.size()>0){
             for (UserGroup userGroup : userGroups) {
                 userGroup.setUserLevelTime(time);
-                userGroupDao.updateById(userGroup);
+                int i = userGroupDao.updateById(userGroup);
+                if (i <= 0) flag = false;
             }
         }
-        return true;
+        return flag;
     }
 }

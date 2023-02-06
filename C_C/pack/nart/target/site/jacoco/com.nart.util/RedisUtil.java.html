@@ -1,17 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RedisUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.util</a> &gt; <span class="el_source">RedisUtil.java</span></div><h1>RedisUtil.java</h1><pre class="source lang-java linenums">package com.nart.util;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RedisUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.util</a> &gt; <span class="el_source">RedisUtil.java</span></div><h1>RedisUtil.java</h1><pre class="source lang-java linenums">package com.nart.util;
 
 import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -25,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  * @Date 2022/9/2 14:26
  */
 @Component
-<span class="fc" id="L28">public class RedisUtil {</span>
+<span class="fc" id="L24">public class RedisUtil {</span>
     @Autowired
     private RedisTemplate&lt;String, Object&gt; redisTemplate;
 
@@ -54,7 +50,7 @@ import java.util.concurrent.TimeUnit;
     /**
      * json conversion
      */
-<span class="fc" id="L57">    private final static Gson gson = new Gson();</span>
+<span class="fc" id="L53">    private final static Gson gson = new Gson();</span>
 
     /**
      * Save data
@@ -64,13 +60,13 @@ import java.util.concurrent.TimeUnit;
      * @param expire
      */
     public void set(String key, Object value, long expire) {
-<span class="pc bpc" id="L67" title="2 of 4 branches missed.">        if (!StringUtils.isBlank(key) &amp;&amp; value != null) {</span>
-<span class="fc" id="L68">            redisTemplate.opsForValue().set(key, value);</span>
+<span class="fc bfc" id="L63" title="All 4 branches covered.">        if (!StringUtils.isBlank(key) &amp;&amp; value != null) {</span>
+<span class="fc" id="L64">            redisTemplate.opsForValue().set(key, value);</span>
         }
-<span class="pc bpc" id="L70" title="1 of 2 branches missed.">        if (expire != NOT_EXPIRE) {</span>
-<span class="fc" id="L71">            expire(key, expire);</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (expire != NOT_EXPIRE) {</span>
+<span class="fc" id="L67">            expire(key, expire);</span>
         }
-<span class="fc" id="L73">    }</span>
+<span class="fc" id="L69">    }</span>
 
     /**
      * Save data Expires by default one day
@@ -79,8 +75,8 @@ import java.util.concurrent.TimeUnit;
      * @param value
      */
     public void set(String key, Object value) {
-<span class="nc" id="L82">        set(key, value, NOT_EXPIRE);</span>
-<span class="nc" id="L83">    }</span>
+<span class="fc" id="L78">        set(key, value, NOT_EXPIRE);</span>
+<span class="fc" id="L79">    }</span>
 
     /**
      * Get the data and change the expiry time
@@ -90,19 +86,19 @@ import java.util.concurrent.TimeUnit;
      * @return
      */
     public Object get(String key, long expire) {
-<span class="nc" id="L93">        Object value = redisTemplate.opsForValue().get(key);</span>
-<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (expire != NOT_EXPIRE) {</span>
-<span class="nc" id="L95">            expire(key, expire);</span>
+<span class="fc" id="L89">        Object value = redisTemplate.opsForValue().get(key);</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        if (expire != NOT_EXPIRE) {</span>
+<span class="fc" id="L91">            expire(key, expire);</span>
         }
-<span class="nc" id="L97">        return value;</span>
+<span class="fc" id="L93">        return value;</span>
     }
 
     public &lt;T&gt; T get(String key, Class&lt;T&gt; clazz, long expire) {
-<span class="fc" id="L101">        String value = stringRedisTemplate.opsForValue().get(key);</span>
-<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if (expire != NOT_EXPIRE) {</span>
-<span class="nc" id="L103">            redisTemplate.expire(key, expire, TimeUnit.SECONDS);</span>
+<span class="fc" id="L97">        String value = stringRedisTemplate.opsForValue().get(key);</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        if (expire != NOT_EXPIRE) {</span>
+<span class="fc" id="L99">            redisTemplate.expire(key, expire, TimeUnit.SECONDS);</span>
         }
-<span class="pc bpc" id="L105" title="1 of 2 branches missed.">        return value == null ? null : fromJson(value, clazz);</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        return value == null ? null : fromJson(value, clazz);</span>
     }
 
     /**
@@ -115,8 +111,9 @@ import java.util.concurrent.TimeUnit;
      * @Date: 2023-01-08 5:59 p.m.
      */
     public &lt;T&gt; T get(String key, Class&lt;T&gt; clazz) {
-<span class="fc" id="L118">        return get(key, clazz, NOT_EXPIRE);</span>
+<span class="fc" id="L114">        return get(key, clazz, NOT_EXPIRE);</span>
     }
+
 
     /**
      * Access to data
@@ -125,27 +122,8 @@ import java.util.concurrent.TimeUnit;
      * @return
      */
     public Object get(String key) {
-<span class="nc" id="L128">        return get(key, NOT_EXPIRE);</span>
+<span class="fc" id="L125">        return get(key, NOT_EXPIRE);</span>
     }
-
-    /**
-     * Matching query e.g. test* Query all keys starting with test
-     *
-     * @param pattern
-     * @return
-     */
-    public Set&lt;String&gt; keys(String pattern) {
-<span class="nc" id="L138">        return redisTemplate.keys(pattern);</span>
-    }
-
-    /**
-     * Match Delete test* Delete all keys starting with test
-     *
-     * @param pattern
-     */
-    public void deleteByPattern(String pattern) {
-<span class="nc" id="L147">        redisTemplate.delete(keys(pattern));</span>
-<span class="nc" id="L148">    }</span>
 
     /**
      * Delete the specified key
@@ -153,8 +131,8 @@ import java.util.concurrent.TimeUnit;
      * @param key
      */
     public void delete(String key) {
-<span class="fc" id="L156">        redisTemplate.delete(key);</span>
-<span class="fc" id="L157">    }</span>
+<span class="fc" id="L134">        redisTemplate.delete(key);</span>
+<span class="fc" id="L135">    }</span>
 
     /**
      * Bulk delete
@@ -162,87 +140,8 @@ import java.util.concurrent.TimeUnit;
      * @param keys
      */
     public void delete(Collection&lt;String&gt; keys) {
-<span class="nc" id="L165">        redisTemplate.delete(keys);</span>
-<span class="nc" id="L166">    }</span>
-
-    /**
-     * Get the specified key-value pair
-     *
-     * @param key
-     * @param field
-     * @return
-     */
-    public Object hGet(String key, String field) {
-<span class="nc" id="L176">        return redisTemplate.opsForHash().get(key, field);</span>
-    }
-
-    /**
-     * Get all key-value pairs
-     *
-     * @param key
-     * @return
-     */
-    public Map&lt;String, Object&gt; hGetAll(String key) {
-<span class="nc" id="L186">        HashOperations&lt;String, String, Object&gt; hashOperations = redisTemplate.opsForHash();</span>
-<span class="nc" id="L187">        return hashOperations.entries(key);</span>
-    }
-
-    public Set&lt;Object&gt; hGetField(String key) {
-<span class="nc" id="L191">        Set&lt;Object&gt; fieldSet = redisTemplate.opsForHash().keys(key);</span>
-<span class="nc" id="L192">        return fieldSet;</span>
-    }
-
-    /**
-     * Batch save Default one day expiry
-     *
-     * @param key
-     * @param map
-     */
-    public void hMSet(String key, Map&lt;String, Object&gt; map) {
-<span class="nc" id="L202">        hMSet(key, map, NOT_EXPIRE);</span>
-<span class="nc" id="L203">    }</span>
-
-    /**
-     * Batch saving Customised expiry times
-     *
-     * @param key
-     * @param map
-     * @param expire
-     */
-    public void hMSet(String key, Map&lt;String, Object&gt; map, long expire) {
-<span class="nc" id="L213">        redisTemplate.opsForHash().putAll(key, map);</span>
-
-<span class="nc bnc" id="L215" title="All 2 branches missed.">        if (expire != NOT_EXPIRE) {</span>
-<span class="nc" id="L216">            expire(key, expire);</span>
-        }
-<span class="nc" id="L218">    }</span>
-
-    /**
-     * Add a new hashMap value Default expires in one day
-     *
-     * @param key
-     * @param field
-     * @param value
-     */
-    public void hSet(String key, String field, Object value) {
-<span class="nc" id="L228">        hSet(key, field, value, NOT_EXPIRE);</span>
-<span class="nc" id="L229">    }</span>
-
-    /**
-     * New hashMap value Custom expiry time
-     *
-     * @param key
-     * @param field
-     * @param value
-     * @param expire
-     */
-    public void hSet(String key, String field, Object value, long expire) {
-<span class="nc" id="L240">        redisTemplate.opsForHash().put(key, field, value);</span>
-
-<span class="nc bnc" id="L242" title="All 2 branches missed.">        if (expire != NOT_EXPIRE) {</span>
-<span class="nc" id="L243">            expire(key, expire);</span>
-        }
-<span class="nc" id="L245">    }</span>
+<span class="fc" id="L143">        redisTemplate.delete(keys);</span>
+<span class="fc" id="L144">    }</span>
 
     /**
      * Modify expiry time
@@ -251,150 +150,14 @@ import java.util.concurrent.TimeUnit;
      * @param expire
      */
     public void expire(String key, long expire) {
-<span class="fc" id="L254">        redisTemplate.expire(key, expire, TimeUnit.SECONDS);</span>
-<span class="fc" id="L255">    }</span>
+<span class="fc" id="L153">        redisTemplate.expire(key, expire, TimeUnit.SECONDS);</span>
+<span class="fc" id="L154">    }</span>
 
-    /**
-     * Deleting key-value pairs from variables
-     *
-     * @param key
-     * @param fields
-     */
-    public void hDel(String key, Object... fields) {
-<span class="nc" id="L264">        redisTemplate.opsForHash().delete(key, fields);</span>
-<span class="nc" id="L265">    }</span>
-
-    /**
-     * Add element value to the left Default day expires
-     *
-     * @param key
-     * @param value
-     */
-    public void leftPush(String key, Object value) {
-<span class="nc" id="L274">        leftPush(key, value, NOT_EXPIRE);</span>
-<span class="nc" id="L275">    }</span>
-
-    /**
-     * Add element value on the left Customize expiry time
-     *
-     * @param key
-     * @param value
-     * @param expire
-     */
-    public void leftPush(String key, Object value, long expire) {
-<span class="nc" id="L285">        redisTemplate.opsForList().leftPush(key, value);</span>
-
-<span class="nc bnc" id="L287" title="All 2 branches missed.">        if (expire != NOT_EXPIRE) {</span>
-<span class="nc" id="L288">            expire(key, expire);</span>
-        }
-<span class="nc" id="L290">    }</span>
-
-    /**
-     * Remove the element to the right of the set
-     *
-     * @param key
-     * @return
-     */
-    public Object rightPop(String key) {
-<span class="nc" id="L299">        return redisTemplate.opsForList().rightPop(key);</span>
-    }
-
-    /**
-     * Add new member to Set
-     *
-     * @param key
-     * @param value
-     */
-    public void addToSet(String key, long expire, String... value) {
-<span class="nc" id="L309">        stringRedisTemplate.opsForSet().add(key, value);</span>
-
-<span class="nc bnc" id="L311" title="All 2 branches missed.">        if (expire != NOT_EXPIRE) {</span>
-<span class="nc" id="L312">            expire(key, expire);</span>
-        }
-<span class="nc" id="L314">    }</span>
-
-    /**
-     * Delete the corresponding member of a Set
-     *
-     * @param key
-     * @param value
-     */
-    public void removeFromSet(String key, String value) {
-<span class="nc" id="L323">        stringRedisTemplate.opsForSet().remove(key, value);</span>
-<span class="nc" id="L324">    }</span>
-
-    /**
-     * Get all members of Set
-     *
-     * @param key
-     * @return
-     */
-    public Set&lt;String&gt; membersOfSet(String key) {
-<span class="nc" id="L333">        Set&lt;String&gt; members = stringRedisTemplate.opsForSet().members(key);</span>
-<span class="nc" id="L334">        return members;</span>
-    }
-
-    /**
-     * Gets whether a Set contains members
-     *
-     * @param key
-     * @param value
-     * @return
-     */
-    public boolean setContainsWarn(String key, String value) {
-<span class="nc" id="L345">        return stringRedisTemplate.opsForSet().isMember(key, value);</span>
-    }
-
-    /**
-     * Add to set
-     *
-     * @param key
-     * @param value
-     * @param expire
-     */
-    public void addSet(String key, Object value, long expire) {
-<span class="nc" id="L356">        redisTemplate.opsForSet().add(key, value);</span>
-<span class="nc bnc" id="L357" title="All 2 branches missed.">        if (expire != NOT_EXPIRE) {</span>
-<span class="nc" id="L358">            expire(key, expire);</span>
-        }
-<span class="nc" id="L360">    }</span>
-
-    /**
-     * Query set by key
-     *
-     * @param key
-     */
-    public Set&lt;Object&gt; members(String key) {
-<span class="nc" id="L368">        return redisTemplate.opsForSet().members(key);</span>
-    }
-
-    /**
-     * Delete the corresponding member of a Set
-     *
-     * @param key
-     * @param value
-     */
-    public void removeOfSet(String key, Object value) {
-<span class="nc" id="L378">        stringRedisTemplate.opsForSet().remove(key, value);</span>
-<span class="nc" id="L379">    }</span>
-
-    public long inc(String key) {
-<span class="nc" id="L382">        return redisTemplate.opsForValue().increment(key);</span>
-    }
-
-    public Boolean hasKey(String key) {
-<span class="nc" id="L386">        return redisTemplate.hasKey(key);</span>
-    }
-
-    public List&lt;Object&gt; getAllByKey(String keysPattern) {
-<span class="nc" id="L390">        Set&lt;String&gt; keys = redisTemplate.keys(keysPattern);</span>
-<span class="nc" id="L391">        return redisTemplate.opsForValue().multiGet(keys);</span>
-    }
     /**
      * JSON data, converted to Object
      */
     private &lt;T&gt; T fromJson(String json, Class&lt;T&gt; clazz){
-<span class="fc" id="L397">        return gson.fromJson(json, clazz);</span>
+<span class="fc" id="L160">        return gson.fromJson(json, clazz);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

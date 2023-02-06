@@ -75,4 +75,14 @@ public interface LoadDataInDataBase {
      * @Date 2023-1-14
      */
     boolean LoadListGroupInvite(List<GroupInvite> groupInviteList);
+
+    boolean LoadListFriendShips(List<Friend> friendList);
+
+    boolean LoadListFriendChats(List<FriendChat> friendChatList);
+
+    boolean LoadListLikes(List<UserLike> likeList);
+
+    boolean LoadListGroupShips(List<UserGroup> userGroups);
+
+    boolean LoadListGroupChats(List<GroupChat> groupChatList);
 }

@@ -53,7 +53,7 @@ public class ChatEndPoint {
         onlineUsers.put(uid, this);
         onlineUsers.forEach((key, value) -> {
             String temp = key + ": " + value.toString();
-            log.info(temp);
+            //log.info(temp);
         });
     }
 

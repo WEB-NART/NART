@@ -2,6 +2,11 @@ package com.nart.util;
 
 import com.github.javafaker.Faker;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -19,15 +24,21 @@ import java.util.Random;
 public class RandomContentGenerator {
 
     private static final Faker faker = new Faker(Locale.CANADA);
+
+    private static final Random r = new Random();
+
+    private static Integer count = 0;
+
+    private static final String testImgPath = "D:\\GitHub\\NART\\C_C\\pack\\nart\\src\\main\\resources\\testImg\\";
+
     public static String getRandomId(List<String> ids) {
-        Random r = new Random();
         int randomInt = r.nextInt(ids.size());
         return ids.get(randomInt);
     }
 
     public static String getRandomId(List<String> ids, String diff) {
-        Random r = new Random();
         String result;
+        if(ids.size() == 1 && ids.get(0).equals(diff)) return null;
         do {
             int randomInt = r.nextInt(ids.size());
             result = ids.get(randomInt);
@@ -37,10 +48,9 @@ public class RandomContentGenerator {
     }
 
     public static String getRandomId(List<String> ids, List<String> diff) {
-        Random r = new Random();
-
 //        System.out.println("fushu"+ids.size());
         String result;
+        if(diff.containsAll(ids)) return null;
         if (ids.size()==0){
             return null;
         }
@@ -53,25 +63,101 @@ public class RandomContentGenerator {
     }
 
     public static String getRandomId(List<String> ids, String diff1, List<String> diff2) {
-        Random r = new Random();
         String result;
+        List<String> diff = new ArrayList<>();
+        diff.addAll(diff2);
+        diff.add(diff1);
+        if(diff.containsAll(ids)) return null;
         do {
             int randomInt = r.nextInt(ids.size());
             result = ids.get(randomInt);
-        } while (diff2.contains(result) || result.equals(diff1));
+        } while (diff.contains(result));
 
         return result;
     }
 
-
-    public static String getRandomPics() {
-        Random r = new Random();
-        int max = r.nextInt(5);
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < max + 1; i++) {
-            result.append(faker.internet().image());
-            result.append(";");
+    public static String getRandPics(AlbumType picType) {
+        String result = "";
+        switch (picType) {
+            case USER_AVATAR: result = getRandomPics(1,1); break;
+            case GROUP_AVATAR: result = getRandomPics(1,2); break;
+            case STATUS_PICS: result = getRandomPics(5,0); break;
+            case CHAT_PICS: result = getRandomPics(1,3);
         }
+        return result;
+    }
+
+    private static String getRandomPics(int picMaxAmount, int albumNumber) {
+        int max = 0;
+        StringBuilder result = new StringBuilder();
+
+        if (picMaxAmount > 1) {
+            max = r.nextInt(picMaxAmount);
+            for (int i = 0; i < max + 1; i++) {
+                String picUrl = getRandomPic(albumNumber);
+                while (picUrl.equals("") || picUrl.equals("repeat")) {
+                    picUrl = getRandomPic(albumNumber);
+                }
+                result.append(picUrl);
+                result.append(";");
+            }
+        } else {
+            String picUrl = getRandomPic(albumNumber);
+            while (picUrl.equals("") || picUrl.equals("repeat")) {
+                picUrl = getRandomPic(albumNumber);
+            }
+            result.append(picUrl);
+        }
+
         return result.toString();
     }
+
+    private static String getRandomPic(int albumNumber) {
+        int i = count++;
+        String imgName = "https://picsum.photos/400/400?random=" + i;
+        return imgName;
+//        String imgPath = testImgPath + imgName;
+//        File file = new File(imgPath);
+//        byte[] bytes = new byte[0];
+//        try {
+//            bytes = fileToByte(file);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        if (bytes.length == 0) return "";
+//
+//        String suffix = StringUtils.substringAfterLast(imgName, ".");
+//        String fileName = UUID.randomUUID().toString() + "." + suffix;
+//        String url = "";
+//        try {
+//            url = ImgtuUtil.uploadPic(bytes, fileName, albumNumber);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        if(StringUtils.isNotBlank(url)) {
+//            if(url.equals("400")) {
+//                return "repeat";
+//            }
+//            return url;
+//        }
+//        return "";
+    }
+
+    private static byte[] fileToByte(File img) throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] bytes = new byte[0];
+        try {
+            BufferedImage bi;
+            bi = ImageIO.read(img);
+            ImageIO.write(bi, "jpg", baos);
+            bytes = baos.toByteArray();
+            System.err.println(bytes.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            baos.close();
+        }
+        return bytes;
+    }
+
 }

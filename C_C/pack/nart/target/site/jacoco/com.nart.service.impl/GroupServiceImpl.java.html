@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GroupServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.service.impl</a> &gt; <span class="el_source">GroupServiceImpl.java</span></div><h1>GroupServiceImpl.java</h1><pre class="source lang-java linenums">package com.nart.service.impl;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GroupServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.service.impl</a> &gt; <span class="el_source">GroupServiceImpl.java</span></div><h1>GroupServiceImpl.java</h1><pre class="source lang-java linenums">package com.nart.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -85,239 +85,230 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public boolean changeGroupInfo(Group group) {
 <span class="fc" id="L87">        int i = groupDao.updateById(group);</span>
-<span class="fc" id="L88">        boolean a = false;</span>
-<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        if ( i == 1){</span>
-<span class="fc" id="L90">            a = true;</span>
-        }
-<span class="fc" id="L92">        return true;</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        return i &gt;= 1;</span>
     }
 
     @Override
     public List&lt;GroupVo&gt; showGroupList(IPage page) {
-<span class="fc" id="L97">        String id = UserThreadLocal.get().getId();</span>
+<span class="fc" id="L93">        String id = UserThreadLocal.get().getId();</span>
 //        String id =&quot;1574989639117316098&quot;;
-<span class="fc" id="L99">        LambdaQueryWrapper&lt;UserGroup&gt; lqw = new LambdaQueryWrapper&lt;UserGroup&gt;();</span>
-<span class="fc" id="L100">        lqw.orderBy(true,false, UserGroup::getUserLevelTime);</span>
-<span class="fc" id="L101">        lqw.eq(UserGroup::getUid,id);</span>
-<span class="fc" id="L102">        IPage iPage = userGroupDao.selectPage(page, lqw);</span>
+<span class="fc" id="L95">        LambdaQueryWrapper&lt;UserGroup&gt; lqw = new LambdaQueryWrapper&lt;UserGroup&gt;();</span>
+<span class="fc" id="L96">        lqw.orderBy(true,false, UserGroup::getUserLevelTime);</span>
+<span class="fc" id="L97">        lqw.eq(UserGroup::getUid,id);</span>
+<span class="fc" id="L98">        IPage iPage = userGroupDao.selectPage(page, lqw);</span>
 
-<span class="fc" id="L104">        List&lt;UserGroup&gt; records = iPage.getRecords();</span>
+<span class="fc" id="L100">        List&lt;UserGroup&gt; records = iPage.getRecords();</span>
 
-<span class="fc" id="L106">        List&lt;Group&gt; groupList = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L107" title="All 2 branches covered.">        for (UserGroup record : records) {</span>
-<span class="fc" id="L108">            String gid = record.getGid();</span>
-<span class="fc" id="L109">            Group group = groupDao.selectById(gid);</span>
-<span class="fc" id="L110">            boolean hasNewMsg = chatService.existNewMsg(gid, false, record.getUserLevelTime());</span>
-<span class="fc" id="L111">            group.setNewMessage(hasNewMsg);</span>
-<span class="fc" id="L112">            groupList.add(group);</span>
-<span class="fc" id="L113">        }</span>
+<span class="fc" id="L102">        List&lt;Group&gt; groupList = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        for (UserGroup record : records) {</span>
+<span class="fc" id="L104">            String gid = record.getGid();</span>
+<span class="fc" id="L105">            Group group = groupDao.selectById(gid);</span>
+<span class="fc" id="L106">            boolean hasNewMsg = chatService.existNewMsg(gid, false, record.getUserLevelTime());</span>
+<span class="fc" id="L107">            group.setNewMessage(hasNewMsg);</span>
+<span class="fc" id="L108">            groupList.add(group);</span>
+<span class="fc" id="L109">        }</span>
 
-<span class="fc" id="L115">        GroupVo groupVo = new GroupVo();</span>
-<span class="fc" id="L116">        List&lt;GroupVo&gt; groupVos = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L117" title="All 2 branches covered.">        for (Group group : groupList) {</span>
-<span class="fc" id="L118">            GroupVo transfer = groupVo.transfer(group);</span>
-<span class="fc" id="L119">            groupVos.add(transfer);</span>
-<span class="fc" id="L120">        }</span>
+<span class="fc" id="L111">        GroupVo groupVo = new GroupVo();</span>
+<span class="fc" id="L112">        List&lt;GroupVo&gt; groupVos = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        for (Group group : groupList) {</span>
+<span class="fc" id="L114">            GroupVo transfer = groupVo.transfer(group);</span>
+<span class="fc" id="L115">            groupVos.add(transfer);</span>
+<span class="fc" id="L116">        }</span>
 
-<span class="fc" id="L122">        return groupVos;</span>
+<span class="fc" id="L118">        return groupVos;</span>
     }
 
     @Override
     public boolean leaveGroup(String gid, String uid) {
-<span class="fc" id="L127">        LambdaQueryWrapper&lt;UserGroup&gt; lqw = new LambdaQueryWrapper&lt;UserGroup&gt;();</span>
-<span class="fc" id="L128">        lqw.eq(UserGroup::getGid,gid);</span>
-<span class="fc" id="L129">        lqw.eq(UserGroup::getUid,uid);</span>
-<span class="fc" id="L130">        int delete = userGroupDao.delete(lqw);</span>
-<span class="fc" id="L131">        boolean a = false;</span>
-<span class="pc bpc" id="L132" title="1 of 2 branches missed.">        if (delete == 1){</span>
-<span class="fc" id="L133">            a = true;</span>
+<span class="fc" id="L123">        LambdaQueryWrapper&lt;UserGroup&gt; lqw = new LambdaQueryWrapper&lt;UserGroup&gt;();</span>
+<span class="fc" id="L124">        lqw.eq(UserGroup::getGid,gid);</span>
+<span class="fc" id="L125">        lqw.eq(UserGroup::getUid,uid);</span>
+<span class="fc" id="L126">        int delete = userGroupDao.delete(lqw);</span>
+<span class="fc" id="L127">        boolean a = false;</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">        if (delete == 1){</span>
+<span class="fc" id="L129">            a = true;</span>
         }
-<span class="fc" id="L135">        return a;</span>
+<span class="fc" id="L131">        return a;</span>
     }
 
     @Override
     public boolean changeGroupState(String gid, String uid, int state) {
 
-<span class="fc" id="L141">        LambdaQueryWrapper&lt;UserGroup&gt; lqw = new LambdaQueryWrapper&lt;UserGroup&gt;();</span>
-<span class="fc" id="L142">        lqw.eq(UserGroup::getGid,gid);</span>
-<span class="fc" id="L143">        lqw.eq(UserGroup::getUid,uid);</span>
+<span class="fc" id="L137">        LambdaQueryWrapper&lt;UserGroup&gt; lqw = new LambdaQueryWrapper&lt;UserGroup&gt;();</span>
+<span class="fc" id="L138">        lqw.eq(UserGroup::getGid,gid);</span>
+<span class="fc" id="L139">        lqw.eq(UserGroup::getUid,uid);</span>
 
-<span class="fc" id="L145">        UserGroup userGroup = new UserGroup();</span>
-<span class="fc" id="L146">        userGroup.setState(state);</span>
-<span class="fc" id="L147">        int update = userGroupDao.update(userGroup, lqw);</span>
-<span class="fc" id="L148">        boolean a = false;</span>
-<span class="pc bpc" id="L149" title="1 of 2 branches missed.">        if (update == 1){</span>
-<span class="fc" id="L150">            a = true;</span>
+<span class="fc" id="L141">        UserGroup userGroup = new UserGroup();</span>
+<span class="fc" id="L142">        userGroup.setState(state);</span>
+<span class="fc" id="L143">        int update = userGroupDao.update(userGroup, lqw);</span>
+<span class="fc" id="L144">        boolean a = false;</span>
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">        if (update == 1){</span>
+<span class="fc" id="L146">            a = true;</span>
         }
-<span class="fc" id="L152">        return a;</span>
+<span class="fc" id="L148">        return a;</span>
     }
 
     @Override
     public List&lt;InviteVo&gt; showInviteList(IPage page) {
-<span class="fc" id="L157">        String id = UserThreadLocal.get().getId();</span>
-<span class="fc" id="L158">        LambdaQueryWrapper&lt;GroupInvite&gt; lqw = new LambdaQueryWrapper&lt;GroupInvite&gt;();</span>
-<span class="fc" id="L159">        lqw.eq(GroupInvite::getReceiverId,id);</span>
-<span class="fc" id="L160">        lqw.orderBy(true,false, GroupInvite::getDate);</span>
+<span class="fc" id="L153">        String id = UserThreadLocal.get().getId();</span>
+<span class="fc" id="L154">        LambdaQueryWrapper&lt;GroupInvite&gt; lqw = new LambdaQueryWrapper&lt;GroupInvite&gt;();</span>
+<span class="fc" id="L155">        lqw.eq(GroupInvite::getReceiverId,id);</span>
+<span class="fc" id="L156">        lqw.orderBy(true,false, GroupInvite::getDate);</span>
 
-<span class="fc" id="L162">        IPage iPage = groupInviteDao.selectPage(page, lqw);</span>
-<span class="fc" id="L163">        List&lt;GroupInvite&gt; records = iPage.getRecords();</span>
+<span class="fc" id="L158">        IPage iPage = groupInviteDao.selectPage(page, lqw);</span>
+<span class="fc" id="L159">        List&lt;GroupInvite&gt; records = iPage.getRecords();</span>
 
-<span class="fc" id="L165">        InviteVo inviteVo = new InviteVo();</span>
-<span class="fc" id="L166">        List&lt;InviteVo&gt; inviteVos =  new ArrayList&lt;&gt;();</span>
-
-
-<span class="fc bfc" id="L169" title="All 2 branches covered.">        for (GroupInvite record : records) {</span>
-<span class="fc" id="L170">            InviteVo transfer = inviteVo.transfer(record);</span>
-
-<span class="fc" id="L172">            Group group = groupDao.selectById(record.getGroupId());</span>
-<span class="fc" id="L173">            transfer.setGroupName(group.getGroupName());</span>
-<span class="fc" id="L174">            transfer.setReceiverId(record.getReceiverId());</span>
-<span class="fc" id="L175">            transfer.setGroupAvatar(group.getAvatar());</span>
+<span class="fc" id="L161">        InviteVo inviteVo = new InviteVo();</span>
+<span class="fc" id="L162">        List&lt;InviteVo&gt; inviteVos =  new ArrayList&lt;&gt;();</span>
 
 
-<span class="fc" id="L178">            User user = userDao.selectById(record.getSenderId());</span>
-<span class="fc" id="L179">            transfer.setSenderName(user.getName());</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        for (GroupInvite record : records) {</span>
+<span class="fc" id="L166">            InviteVo transfer = inviteVo.transfer(record);</span>
+
+<span class="fc" id="L168">            Group group = groupDao.selectById(record.getGroupId());</span>
+<span class="fc" id="L169">            transfer.setGroupName(group.getGroupName());</span>
+<span class="fc" id="L170">            transfer.setReceiverId(record.getReceiverId());</span>
+<span class="fc" id="L171">            transfer.setGroupAvatar(group.getAvatar());</span>
 
 
-<span class="fc" id="L182">            inviteVos.add(transfer);</span>
-<span class="fc" id="L183">        }</span>
+<span class="fc" id="L174">            User user = userDao.selectById(record.getSenderId());</span>
+<span class="fc" id="L175">            transfer.setSenderName(user.getName());</span>
 
 
-<span class="fc" id="L186">        return inviteVos;</span>
+<span class="fc" id="L178">            inviteVos.add(transfer);</span>
+<span class="fc" id="L179">        }</span>
+
+
+<span class="fc" id="L182">        return inviteVos;</span>
     }
 
     // groupInvite contain gid rid msg,need sid
     @Override
     public boolean sendInvite(GroupInvite groupInvite) {
-<span class="fc" id="L192">        groupInvite.setSenderId(UserThreadLocal.get().getId());</span>
-<span class="fc" id="L193">        groupInvite.setDate(new Date().getTime());</span>
-<span class="fc" id="L194">        int insert = groupInviteDao.insert(groupInvite);</span>
-<span class="fc" id="L195">        boolean a = false;</span>
-<span class="pc bpc" id="L196" title="1 of 2 branches missed.">        if (insert == 1){</span>
-<span class="fc" id="L197">            a = true;</span>
+<span class="fc" id="L188">        groupInvite.setSenderId(UserThreadLocal.get().getId());</span>
+<span class="fc" id="L189">        groupInvite.setDate(new Date().getTime());</span>
+<span class="fc" id="L190">        int insert = groupInviteDao.insert(groupInvite);</span>
+<span class="fc" id="L191">        boolean a = false;</span>
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">        if (insert == 1){</span>
+<span class="fc" id="L193">            a = true;</span>
         }
-<span class="fc" id="L199">        return a;</span>
+<span class="fc" id="L195">        return a;</span>
     }
 
     @Override
     public boolean respGroupInvite(String InviteId, Boolean agree) {
 
-<span class="fc" id="L205">        GroupInvite groupInvite = groupInviteDao.selectById(InviteId);</span>
-<span class="fc bfc" id="L206" title="All 2 branches covered.">        if(agree){</span>
+<span class="fc" id="L201">        GroupInvite groupInvite = groupInviteDao.selectById(InviteId);</span>
+<span class="fc bfc" id="L202" title="All 2 branches covered.">        if(agree){</span>
 
-<span class="fc" id="L208">            String rid = groupInvite.getReceiverId();</span>
-<span class="fc" id="L209">            String groupId = groupInvite.getGroupId();</span>
+<span class="fc" id="L204">            String rid = groupInvite.getReceiverId();</span>
+<span class="fc" id="L205">            String groupId = groupInvite.getGroupId();</span>
 
-<span class="fc" id="L211">            UserGroup userGroup = new UserGroup();</span>
-<span class="fc" id="L212">            userGroup.setGid(groupId);</span>
-<span class="fc" id="L213">            userGroup.setUid(rid);</span>
-<span class="fc" id="L214">            Group group = groupDao.selectById(groupId);</span>
-<span class="fc" id="L215">            userGroup.setJoinLevel(group.getUserLevel()+1);</span>
-<span class="fc" id="L216">            int insert = userGroupDao.insert(userGroup);</span>
-<span class="pc bpc" id="L217" title="1 of 2 branches missed.">            if (insert &lt;= 0) return false;</span>
-<span class="fc" id="L218">            int i = groupInviteDao.deleteById(InviteId);</span>
-<span class="pc bpc" id="L219" title="1 of 2 branches missed.">            return i&gt;0;</span>
+<span class="fc" id="L207">            UserGroup userGroup = new UserGroup();</span>
+<span class="fc" id="L208">            userGroup.setGid(groupId);</span>
+<span class="fc" id="L209">            userGroup.setUid(rid);</span>
+<span class="fc" id="L210">            Group group = groupDao.selectById(groupId);</span>
+<span class="fc" id="L211">            userGroup.setJoinLevel(group.getUserLevel()+1);</span>
+<span class="fc" id="L212">            int insert = userGroupDao.insert(userGroup);</span>
+<span class="fc bfc" id="L213" title="All 2 branches covered.">            if (insert &lt;= 0) return false;</span>
+<span class="fc" id="L214">            int i = groupInviteDao.deleteById(InviteId);</span>
+<span class="pc bpc" id="L215" title="1 of 2 branches missed.">            return i&gt;0;</span>
         }else {
-<span class="fc" id="L221">            int i = groupInviteDao.deleteById(InviteId);</span>
-<span class="pc bpc" id="L222" title="1 of 2 branches missed.">            return i&gt;0;</span>
+<span class="fc" id="L217">            int i = groupInviteDao.deleteById(InviteId);</span>
+<span class="fc bfc" id="L218" title="All 2 branches covered.">            return i&gt;0;</span>
         }
 
     }
 
     @Override
     public boolean createGroup(String groupName,String uid) {
-<span class="fc" id="L229">        LambdaQueryWrapper&lt;Group&gt; lqw = new LambdaQueryWrapper&lt;Group&gt;();</span>
-<span class="fc" id="L230">        lqw.eq(Group::getGroupName,groupName);</span>
-<span class="fc" id="L231">        String notic = String.valueOf(Math.random() * 100);</span>
+<span class="fc" id="L225">        LambdaQueryWrapper&lt;Group&gt; lqw = new LambdaQueryWrapper&lt;Group&gt;();</span>
+<span class="fc" id="L226">        lqw.eq(Group::getGroupName,groupName);</span>
+<span class="fc" id="L227">        String notic = String.valueOf(Math.random() * 100);</span>
 //        System.out.println(notic);
-<span class="fc" id="L233">        Group group = new Group();</span>
+<span class="fc" id="L229">        Group group = new Group();</span>
 
-<span class="fc bfc" id="L235" title="All 2 branches covered.">        if (groupName.equals(&quot;-1&quot;)){</span>
-<span class="fc" id="L236">            group.setGroupName(null);</span>
-<span class="fc" id="L237">            group.setNotice(notic);</span>
+<span class="fc bfc" id="L231" title="All 2 branches covered.">        if (groupName.equals(&quot;-1&quot;)){</span>
+<span class="fc" id="L232">            group.setGroupName(null);</span>
+<span class="fc" id="L233">            group.setNotice(notic);</span>
         }else{
-<span class="fc" id="L239">            group.setGroupName(groupName);</span>
+<span class="fc" id="L235">            group.setGroupName(groupName);</span>
         }
 
 
-<span class="fc" id="L243">        int insert = groupDao.insert(group);</span>
+<span class="fc" id="L239">        int insert = groupDao.insert(group);</span>
 
-<span class="fc bfc" id="L245" title="All 2 branches covered.">        if (groupName.equals(&quot;-1&quot;)){</span>
-<span class="fc" id="L246">            LambdaQueryWrapper&lt;Group&gt; lqw1 = new LambdaQueryWrapper&lt;Group&gt;();</span>
-<span class="fc" id="L247">            lqw1.eq(Group::getNotice,notic);</span>
+<span class="fc bfc" id="L241" title="All 2 branches covered.">        if (groupName.equals(&quot;-1&quot;)){</span>
+<span class="fc" id="L242">            LambdaQueryWrapper&lt;Group&gt; lqw1 = new LambdaQueryWrapper&lt;Group&gt;();</span>
+<span class="fc" id="L243">            lqw1.eq(Group::getNotice,notic);</span>
 
-<span class="fc" id="L249">            Group group2 = groupDao.selectOne(lqw1);</span>
+<span class="fc" id="L245">            Group group2 = groupDao.selectOne(lqw1);</span>
 //            System.out.println(group2);
-<span class="fc" id="L251">            String id = group2.getId();</span>
-<span class="fc" id="L252">            UserGroup userGroup = new UserGroup();</span>
-<span class="fc" id="L253">            userGroup.setGid(id);</span>
-<span class="fc" id="L254">            userGroup.setUid(uid);</span>
-<span class="fc" id="L255">            userGroup.setJoinLevel(1);</span>
-<span class="fc" id="L256">            int insert1 = userGroupDao.insert(userGroup);</span>
+<span class="fc" id="L247">            String id = group2.getId();</span>
+<span class="fc" id="L248">            UserGroup userGroup = new UserGroup();</span>
+<span class="fc" id="L249">            userGroup.setGid(id);</span>
+<span class="fc" id="L250">            userGroup.setUid(uid);</span>
+<span class="fc" id="L251">            userGroup.setJoinLevel(1);</span>
+<span class="fc" id="L252">            int insert1 = userGroupDao.insert(userGroup);</span>
 //            System.out.println(insert1);
 
-<span class="fc" id="L259">        }else{</span>
-<span class="fc" id="L260">            Group group1 = groupDao.selectOne(lqw);</span>
-<span class="fc" id="L261">            String id = group1.getId();</span>
-<span class="fc" id="L262">            UserGroup userGroup = new UserGroup();</span>
-<span class="fc" id="L263">            userGroup.setGid(id);</span>
-<span class="fc" id="L264">            userGroup.setUid(uid);</span>
-<span class="fc" id="L265">            userGroup.setJoinLevel(1);</span>
-<span class="fc" id="L266">            int insert1 = userGroupDao.insert(userGroup);</span>
+<span class="fc" id="L255">        }else{</span>
+<span class="fc" id="L256">            Group group1 = groupDao.selectOne(lqw);</span>
+<span class="fc" id="L257">            String id = group1.getId();</span>
+<span class="fc" id="L258">            UserGroup userGroup = new UserGroup();</span>
+<span class="fc" id="L259">            userGroup.setGid(id);</span>
+<span class="fc" id="L260">            userGroup.setUid(uid);</span>
+<span class="fc" id="L261">            userGroup.setJoinLevel(1);</span>
+<span class="fc" id="L262">            int insert1 = userGroupDao.insert(userGroup);</span>
         }
 
-<span class="fc" id="L269">        boolean q = false;</span>
-<span class="pc bpc" id="L270" title="1 of 2 branches missed.">        if (insert == 1){</span>
-<span class="fc" id="L271">            q = true;</span>
+<span class="fc" id="L265">        boolean q = false;</span>
+<span class="fc bfc" id="L266" title="All 2 branches covered.">        if (insert == 1){</span>
+<span class="fc" id="L267">            q = true;</span>
         }
-<span class="fc" id="L273">        return q;</span>
+<span class="fc" id="L269">        return q;</span>
     }
 
     @Override
     public boolean joinGroup(String groupId) {
-<span class="fc" id="L278">        Group group = groupDao.selectById(groupId);</span>
-<span class="fc" id="L279">        int userLevel = group.getUserLevel();</span>
+<span class="fc" id="L274">        Group group = groupDao.selectById(groupId);</span>
+<span class="fc" id="L275">        int userLevel = group.getUserLevel();</span>
 
-<span class="fc" id="L281">        String id = UserThreadLocal.get().getId();</span>
-<span class="fc" id="L282">        UserGroup userGroup = new UserGroup();</span>
-<span class="fc" id="L283">        userGroup.setGid(groupId);</span>
-<span class="fc" id="L284">        userGroup.setUid(id);</span>
-<span class="fc" id="L285">        userGroup.setJoinLevel(userLevel+1);</span>
+<span class="fc" id="L277">        String id = UserThreadLocal.get().getId();</span>
+<span class="fc" id="L278">        UserGroup userGroup = new UserGroup();</span>
+<span class="fc" id="L279">        userGroup.setGid(groupId);</span>
+<span class="fc" id="L280">        userGroup.setUid(id);</span>
+<span class="fc" id="L281">        userGroup.setJoinLevel(userLevel+1);</span>
 
-<span class="fc" id="L287">        int insert = userGroupDao.insert(userGroup);</span>
+<span class="fc" id="L283">        int insert = userGroupDao.insert(userGroup);</span>
 
-<span class="fc" id="L289">        group.setUserLevel(userLevel+1);</span>
-<span class="fc" id="L290">        groupDao.updateById(group);</span>
+<span class="fc" id="L285">        group.setUserLevel(userLevel+1);</span>
+<span class="fc" id="L286">        int i = groupDao.updateById(group);</span>
 
-<span class="fc" id="L292">        boolean a =false;</span>
-<span class="pc bpc" id="L293" title="1 of 2 branches missed.">        if (insert == 1){</span>
-<span class="fc" id="L294">            a = true;</span>
-        }
-
-<span class="fc" id="L297">        return a;</span>
+<span class="fc bfc" id="L288" title="All 2 branches covered.">        return i&gt;=1;</span>
     }
 
     @Override
     public Set&lt;String&gt; findAllMembers(String gid) {
-<span class="fc" id="L302">        LambdaQueryWrapper&lt;UserGroup&gt; lqw = new LambdaQueryWrapper&lt;UserGroup&gt;();</span>
-<span class="fc" id="L303">        lqw.eq(UserGroup::getGid,gid);</span>
+<span class="fc" id="L293">        LambdaQueryWrapper&lt;UserGroup&gt; lqw = new LambdaQueryWrapper&lt;UserGroup&gt;();</span>
+<span class="fc" id="L294">        lqw.eq(UserGroup::getGid,gid);</span>
 
-<span class="fc" id="L305">        List&lt;UserGroup&gt; userGroups = userGroupDao.selectList(lqw);</span>
-<span class="fc" id="L306">        Set&lt;String&gt; ids = new HashSet&lt;&gt;();</span>
-<span class="fc bfc" id="L307" title="All 2 branches covered.">        for (UserGroup record : userGroups) {</span>
-<span class="fc" id="L308">            String uid = record.getUid();</span>
-<span class="fc" id="L309">            ids.add(uid);</span>
-<span class="fc" id="L310">        }</span>
+<span class="fc" id="L296">        List&lt;UserGroup&gt; userGroups = userGroupDao.selectList(lqw);</span>
+<span class="fc" id="L297">        Set&lt;String&gt; ids = new HashSet&lt;&gt;();</span>
+<span class="fc bfc" id="L298" title="All 2 branches covered.">        for (UserGroup record : userGroups) {</span>
+<span class="fc" id="L299">            String uid = record.getUid();</span>
+<span class="fc" id="L300">            ids.add(uid);</span>
+<span class="fc" id="L301">        }</span>
 
-<span class="fc" id="L312">        return ids;</span>
+<span class="fc" id="L303">        return ids;</span>
     }
 
     @Override
     public Group findGroup(String groupName) {
-<span class="fc" id="L317">        LambdaQueryWrapper&lt;Group&gt; lqw = new LambdaQueryWrapper&lt;Group&gt;();</span>
-<span class="fc" id="L318">        lqw.eq(Group::getGroupName,groupName);</span>
-<span class="fc" id="L319">        Group group = groupDao.selectOne(lqw);</span>
-<span class="fc" id="L320">        return group;</span>
+<span class="fc" id="L308">        LambdaQueryWrapper&lt;Group&gt; lqw = new LambdaQueryWrapper&lt;Group&gt;();</span>
+<span class="fc" id="L309">        lqw.eq(Group::getGroupName,groupName);</span>
+<span class="fc" id="L310">        Group group = groupDao.selectOne(lqw);</span>
+<span class="fc" id="L311">        return group;</span>
     }
 
 

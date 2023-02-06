@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 @Transactional
 @Service
 public class FriendServiceImpl implements FriendService {
@@ -63,7 +64,7 @@ public class FriendServiceImpl implements FriendService {
             record.setEmail(user.getEmail());
             record.setAvatar(user.getAvatar());
             int userOnline = user.getUserOnline();
-            System.out.println(userOnline);
+            //System.out.println(userOnline);
             if(userOnline==1){
                 record.setOnline(true);
             }else {
@@ -114,7 +115,7 @@ public class FriendServiceImpl implements FriendService {
             String fid = friend.getFid();
             User user = userDao.selectById(fid);
             String name1 = user.getName();
-            if (name1.contains(name)){
+            if (name1.toLowerCase().contains(name.toLowerCase())){
                 friendName.add(user);
             }
         }
@@ -129,7 +130,7 @@ public class FriendServiceImpl implements FriendService {
         int size = Math.toIntExact(page.getSize());
         int start = (pageNumber -1) * size;
         int end  = size + start;
-        System.out.println(userVos);
+        //System.out.println(userVos);
         List<UserVo> userVos1;
         if(start > userVos.size()) {
             userVos1 = new ArrayList<>();

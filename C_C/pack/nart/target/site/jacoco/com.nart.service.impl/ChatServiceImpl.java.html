@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChatServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.service.impl</a> &gt; <span class="el_source">ChatServiceImpl.java</span></div><h1>ChatServiceImpl.java</h1><pre class="source lang-java linenums">package com.nart.service.impl;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChatServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.service.impl</a> &gt; <span class="el_source">ChatServiceImpl.java</span></div><h1>ChatServiceImpl.java</h1><pre class="source lang-java linenums">package com.nart.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -120,7 +120,7 @@ public class ChatServiceImpl implements ChatService {
 
 <span class="fc" id="L121">            User user = userDao.selectById(record.getSenderId());</span>
 //            System.out.println(user);
-<span class="pc bpc" id="L123" title="1 of 2 branches missed.">            if(user!=null){</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">            if(user!=null){</span>
 <span class="fc" id="L124">                ftransfer.setSenderName(user.getName());</span>
 <span class="fc" id="L125">                ftransfer.setSenderAvatar(user.getAvatar());</span>
             }
@@ -148,7 +148,7 @@ public class ChatServiceImpl implements ChatService {
 <span class="fc" id="L148">            MessageVo ftransfer = messageVo.Gtransfer(record);</span>
 
 <span class="fc" id="L150">            User user = userDao.selectById(record.getSenderId());</span>
-<span class="pc bpc" id="L151" title="1 of 2 branches missed.">            if (user != null) {</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">            if (user != null) {</span>
 <span class="fc" id="L152">                ftransfer.setSenderName(user.getName());</span>
 <span class="fc" id="L153">                ftransfer.setSenderAvatar(user.getAvatar());</span>
             }
@@ -170,73 +170,62 @@ public class ChatServiceImpl implements ChatService {
 <span class="fc" id="L170">            long timeStamp = getTimeStamp();</span>
 <span class="fc" id="L171">            friend.setLeaveTime(timeStamp);</span>
 <span class="fc" id="L172">            int i = friendDao.updateById(friend);</span>
-<span class="fc" id="L173">            boolean e = false;</span>
-<span class="pc bpc" id="L174" title="1 of 2 branches missed.">            if (i == 1){</span>
-<span class="fc" id="L175">                e = true;</span>
-            }
-<span class="fc" id="L177">            return e;</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">            return i &gt;= 1;</span>
         }else {
-<span class="fc" id="L179">            LambdaQueryWrapper&lt;UserGroup&gt; lqw = new LambdaQueryWrapper&lt;UserGroup&gt;();</span>
-<span class="fc" id="L180">            lqw.eq(UserGroup::getGid, roomId);</span>
-<span class="fc" id="L181">            lqw.eq(UserGroup::getUid, UserThreadLocal.get().getId());</span>
-<span class="fc" id="L182">            UserGroup userGroup = userGroupDao.selectOne(lqw);</span>
+<span class="fc" id="L175">            LambdaQueryWrapper&lt;UserGroup&gt; lqw = new LambdaQueryWrapper&lt;UserGroup&gt;();</span>
+<span class="fc" id="L176">            lqw.eq(UserGroup::getGid, roomId);</span>
+<span class="fc" id="L177">            lqw.eq(UserGroup::getUid, UserThreadLocal.get().getId());</span>
+<span class="fc" id="L178">            UserGroup userGroup = userGroupDao.selectOne(lqw);</span>
 
-<span class="fc" id="L184">            long t = getTimeStamp();</span>
+<span class="fc" id="L180">            long t = getTimeStamp();</span>
 
-<span class="fc" id="L186">            userGroup.setUserLevelTime(t);</span>
-<span class="fc" id="L187">            int i = userGroupDao.updateById(userGroup);</span>
-<span class="fc" id="L188">            boolean a = false;</span>
-<span class="pc bpc" id="L189" title="1 of 2 branches missed.">            if (i == 1){</span>
-<span class="fc" id="L190">                a = true;</span>
-            }
-<span class="fc" id="L192">            return a;</span>
+<span class="fc" id="L182">            userGroup.setUserLevelTime(t);</span>
+<span class="fc" id="L183">            int i = userGroupDao.updateById(userGroup);</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">            return i &gt;= 1;</span>
         }
 
     }
 
     @Override
     public boolean existNewMsg(String id, Boolean isF, Long leaveTime) {
-<span class="fc bfc" id="L199" title="All 2 branches covered.">        if (isF){</span>
-<span class="fc" id="L200">            LambdaQueryWrapper&lt;FriendChat&gt; lqw = new LambdaQueryWrapper&lt;&gt;();</span>
-<span class="fc" id="L201">            lqw.eq(FriendChat::getSenderId, id)</span>
-<span class="fc" id="L202">                    .eq(FriendChat::getReceiverId, UserThreadLocal.get().getId())</span>
-<span class="fc" id="L203">                    .ge(FriendChat::getDate, leaveTime);</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">        if (isF){</span>
+<span class="fc" id="L192">            LambdaQueryWrapper&lt;FriendChat&gt; lqw = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="fc" id="L193">            lqw.eq(FriendChat::getSenderId, id)</span>
+<span class="fc" id="L194">                    .eq(FriendChat::getReceiverId, UserThreadLocal.get().getId())</span>
+<span class="fc" id="L195">                    .ge(FriendChat::getDate, leaveTime);</span>
 
-<span class="fc" id="L205">            FriendChat friendChat = friendChatDao.selectOne(lqw);</span>
-<span class="fc bfc" id="L206" title="All 2 branches covered.">            if (friendChat != null) return true;</span>
-<span class="fc" id="L207">            else return false;</span>
+<span class="fc" id="L197">            List&lt;FriendChat&gt; friendChat = friendChatDao.selectList(lqw);</span>
+<span class="fc bfc" id="L198" title="All 4 branches covered.">            return friendChat != null &amp;&amp; friendChat.size() != 0;</span>
         }else {
-<span class="fc" id="L209">            LambdaQueryWrapper&lt;GroupChat&gt; lqw = new LambdaQueryWrapper&lt;&gt;();</span>
-<span class="fc" id="L210">            lqw.eq(GroupChat::getGroupId, id)</span>
-<span class="fc" id="L211">                    .ge(GroupChat::getDate, leaveTime);</span>
+<span class="fc" id="L200">            LambdaQueryWrapper&lt;GroupChat&gt; lqw = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="fc" id="L201">            lqw.eq(GroupChat::getGroupId, id)</span>
+<span class="fc" id="L202">                    .ge(GroupChat::getDate, leaveTime);</span>
 
-<span class="fc" id="L213">            List&lt;GroupChat&gt; groupChats = groupChatDao.selectList(lqw);</span>
+<span class="fc" id="L204">            List&lt;GroupChat&gt; groupChats = groupChatDao.selectList(lqw);</span>
 //            System.out.println(groupChats);
-<span class="fc" id="L215">            int size = groupChats.size();</span>
+<span class="fc" id="L206">            int size = groupChats.size();</span>
 //            System.out.println(size);
-<span class="fc bfc" id="L217" title="All 2 branches covered.">            if (size != 0) return true;</span>
-<span class="fc" id="L218">            else return false;</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">            return size != 0;</span>
         }
     }
 
     private long getTimeStamp() {
-<span class="fc" id="L223">        String currentDate = getCurrentDate();</span>
-<span class="fc" id="L224">        SimpleDateFormat sf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm&quot;);</span>
-<span class="fc" id="L225">        Date date = new Date();</span>
+<span class="fc" id="L213">        String currentDate = getCurrentDate();</span>
+<span class="fc" id="L214">        SimpleDateFormat sf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm&quot;);</span>
+<span class="fc" id="L215">        Date date = new Date();</span>
         try {
-<span class="fc" id="L227">            date = sf.parse(currentDate);</span>
-<span class="nc" id="L228">        } catch (ParseException e) {</span>
-<span class="nc" id="L229">            e.printStackTrace();</span>
-<span class="fc" id="L230">        }</span>
+<span class="fc" id="L217">            date = sf.parse(currentDate);</span>
+<span class="nc" id="L218">        } catch (ParseException e) {</span>
+<span class="nc" id="L219">            e.printStackTrace();</span>
+<span class="fc" id="L220">        }</span>
 
-<span class="fc" id="L232">        long s = Long.parseLong(String.valueOf(date.getTime()));</span>
-<span class="fc" id="L233">        return s;</span>
+<span class="fc" id="L222">        return Long.parseLong(String.valueOf(date.getTime()));</span>
     }
 
     private static String getCurrentDate() {
-<span class="fc" id="L237">        Date d = new Date();</span>
-<span class="fc" id="L238">        SimpleDateFormat sf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm&quot;);</span>
-<span class="fc" id="L239">        return sf.format(d);</span>
+<span class="fc" id="L226">        Date d = new Date();</span>
+<span class="fc" id="L227">        SimpleDateFormat sf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm&quot;);</span>
+<span class="fc" id="L228">        return sf.format(d);</span>
     }
 
 

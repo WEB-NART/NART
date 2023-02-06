@@ -30,4 +30,18 @@ public class UserVo {
         //userVo.setLock(user.getLock());
         return userVo;
     }
+
+    public User toUser() {
+        User user = new User();
+        user.setId(this.id);
+        user.setAvatar(this.avatar);
+        user.setName(this.uname);
+        user.setPwd(this.pwd);
+        user.setEmail(this.email);
+        user.setAge(this.birthday);
+        user.setTel(this.phone);
+        user.setAddress(this.address);
+        user.setPower(this.power);
+        return user;
+    }
 }
