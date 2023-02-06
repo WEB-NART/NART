@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @Date 2022/7/25 14:22
  */
 @ControllerAdvice
-<span class="nc" id="L20">public class AllExceptionHander {</span>
+<span class="fc" id="L20">public class AllExceptionHander {</span>
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public Result doException(Exception e) {
-<span class="nc" id="L24">        e.printStackTrace();</span>
-<span class="nc" id="L25">        return Result.fail(ErrorCode.UNDEFINED);</span>
+<span class="fc" id="L24">        e.printStackTrace();</span>
+<span class="fc" id="L25">        return Result.fail(ErrorCode.UNDEFINED);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

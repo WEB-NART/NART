@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -37,6 +38,7 @@ public class RandomContentGenerator {
 
     public static String getRandomId(List<String> ids, String diff) {
         String result;
+        if(ids.size() == 1 && ids.get(0).equals(diff)) return null;
         do {
             int randomInt = r.nextInt(ids.size());
             result = ids.get(randomInt);
@@ -48,6 +50,7 @@ public class RandomContentGenerator {
     public static String getRandomId(List<String> ids, List<String> diff) {
 //        System.out.println("fushu"+ids.size());
         String result;
+        if(diff.containsAll(ids)) return null;
         if (ids.size()==0){
             return null;
         }
@@ -61,10 +64,14 @@ public class RandomContentGenerator {
 
     public static String getRandomId(List<String> ids, String diff1, List<String> diff2) {
         String result;
+        List<String> diff = new ArrayList<>();
+        diff.addAll(diff2);
+        diff.add(diff1);
+        if(diff.containsAll(ids)) return null;
         do {
             int randomInt = r.nextInt(ids.size());
             result = ids.get(randomInt);
-        } while (diff2.contains(result) || result.equals(diff1));
+        } while (diff.contains(result));
 
         return result;
     }

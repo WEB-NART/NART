@@ -111,7 +111,7 @@ public class LogAspect {
         log.info("}");
     }
 
-    public void readBody(JoinPoint joinPoint) {
+    private void readBody(JoinPoint joinPoint) {
         try {
             // catch request, record request content
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder

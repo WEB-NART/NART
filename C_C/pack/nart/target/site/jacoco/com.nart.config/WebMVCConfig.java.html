@@ -18,36 +18,36 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @Date 2022/12/25 13:05
  */
 @Configuration
-<span class="nc" id="L21">public class WebMVCConfig implements WebMvcConfigurer {</span>
+<span class="fc" id="L21">public class WebMVCConfig implements WebMvcConfigurer {</span>
 
     @Autowired
     private LoginInterceptor loginInterceptor;
 
-<span class="nc" id="L26">    public static String IPADDR = &quot;localhost&quot;;</span>
+<span class="fc" id="L26">    public static String IPADDR = &quot;localhost&quot;;</span>
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-<span class="nc" id="L29">        registry.addMapping(&quot;/**&quot;)</span>
-<span class="nc" id="L30">                .allowedOrigins(</span>
+<span class="fc" id="L29">        registry.addMapping(&quot;/**&quot;)</span>
+<span class="fc" id="L30">                .allowedOrigins(</span>
                         &quot;http://&quot; + IPADDR + &quot;:8888&quot;,
                         &quot;http://&quot; + IPADDR + &quot;:5173&quot;,
                         &quot;https://imgse.com&quot;,
                         &quot;https://s1.ax1x.com&quot;,
                         &quot;ws://&quot; + IPADDR + &quot;:8888/chat&quot;)
-<span class="nc" id="L36">                .allowedMethods(&quot;PUT&quot;, &quot;DELETE&quot;, &quot;POST&quot;, &quot;GET&quot;)</span>
-<span class="nc" id="L37">                .allowCredentials(true)</span>
-<span class="nc" id="L38">                .maxAge(3600);</span>
-<span class="nc" id="L39">    }</span>
+<span class="fc" id="L36">                .allowedMethods(&quot;PUT&quot;, &quot;DELETE&quot;, &quot;POST&quot;, &quot;GET&quot;)</span>
+<span class="fc" id="L37">                .allowCredentials(true)</span>
+<span class="fc" id="L38">                .maxAge(3600);</span>
+<span class="fc" id="L39">    }</span>
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // set intercept ports
-<span class="nc" id="L44">        registry.addInterceptor(loginInterceptor)</span>
-<span class="nc" id="L45">                .addPathPatterns(&quot;/**/**&quot;)</span>
-<span class="nc" id="L46">                .excludePathPatterns(&quot;/user/login&quot;)</span>
-<span class="nc" id="L47">                .excludePathPatterns(&quot;/user/register&quot;)</span>
-<span class="nc" id="L48">                .excludePathPatterns(&quot;/upload&quot;)</span>
-<span class="nc" id="L49">                .excludePathPatterns(&quot;/upload/*&quot;)</span>
-<span class="nc" id="L50">                .excludePathPatterns(&quot;/upload/delete/*&quot;);</span>
-<span class="nc" id="L51">    }</span>
+<span class="fc" id="L44">        registry.addInterceptor(loginInterceptor)</span>
+<span class="fc" id="L45">                .addPathPatterns(&quot;/**/**&quot;)</span>
+<span class="fc" id="L46">                .excludePathPatterns(&quot;/user/login&quot;)</span>
+<span class="fc" id="L47">                .excludePathPatterns(&quot;/user/register&quot;)</span>
+<span class="fc" id="L48">                .excludePathPatterns(&quot;/upload&quot;)</span>
+<span class="fc" id="L49">                .excludePathPatterns(&quot;/upload/*&quot;)</span>
+<span class="fc" id="L50">                .excludePathPatterns(&quot;/upload/delete/*&quot;);</span>
+<span class="fc" id="L51">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

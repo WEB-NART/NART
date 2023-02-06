@@ -23,20 +23,20 @@ import javax.annotation.Resource;
  * @Date 2022/12/25 14:22
  */
 @Configuration
-<span class="nc" id="L26">public class RedisConfig {</span>
+<span class="fc" id="L26">public class RedisConfig {</span>
     @Resource
     private RedisConnectionFactory factory;
 
     @Bean
     public RedisTemplate&lt;String, Object&gt; redisTemplate() {
-<span class="nc" id="L32">        RedisTemplate&lt;String, Object&gt; redisTemplate = new RedisTemplate&lt;&gt;();</span>
-<span class="nc" id="L33">        redisTemplate.setKeySerializer(new StringRedisSerializer());</span>
-<span class="nc" id="L34">        redisTemplate.setValueSerializer(new FastJsonRedisSerializer&lt;&gt;(Object.class));</span>
-<span class="nc" id="L35">        redisTemplate.setHashKeySerializer(new StringRedisSerializer());</span>
-<span class="nc" id="L36">        redisTemplate.setHashValueSerializer(new FastJsonRedisSerializer&lt;&gt;(Object.class));</span>
-<span class="nc" id="L37">        redisTemplate.setConnectionFactory(factory);</span>
+<span class="fc" id="L32">        RedisTemplate&lt;String, Object&gt; redisTemplate = new RedisTemplate&lt;&gt;();</span>
+<span class="fc" id="L33">        redisTemplate.setKeySerializer(new StringRedisSerializer());</span>
+<span class="fc" id="L34">        redisTemplate.setValueSerializer(new FastJsonRedisSerializer&lt;&gt;(Object.class));</span>
+<span class="fc" id="L35">        redisTemplate.setHashKeySerializer(new StringRedisSerializer());</span>
+<span class="fc" id="L36">        redisTemplate.setHashValueSerializer(new FastJsonRedisSerializer&lt;&gt;(Object.class));</span>
+<span class="fc" id="L37">        redisTemplate.setConnectionFactory(factory);</span>
 
-<span class="nc" id="L39">        return redisTemplate;</span>
+<span class="fc" id="L39">        return redisTemplate;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

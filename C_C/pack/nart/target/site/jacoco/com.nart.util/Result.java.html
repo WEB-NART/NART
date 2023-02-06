@@ -13,7 +13,7 @@ import lombok.Data;
  * @Author ZIRUI QIAO
  * @Date 2022/8/31 13:27
  */
-<span class="pc bpc" id="L16" title="27 of 38 branches missed.">@Data</span>
+<span class="pc bpc" id="L16" title="21 of 38 branches missed.">@Data</span>
 <span class="fc" id="L17">@AllArgsConstructor</span>
 public class Result {
 <span class="fc" id="L19">    private Boolean success;</span>
@@ -26,7 +26,7 @@ public class Result {
     }
 
     public static Result fail(int code, String msg) {
-<span class="nc" id="L29">        return new Result(false, code, msg, null);</span>
+<span class="fc" id="L29">        return new Result(false, code, msg, null);</span>
     }
 
     public static Result fail(ErrorCode errorCode) {

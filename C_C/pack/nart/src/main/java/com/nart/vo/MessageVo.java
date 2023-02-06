@@ -77,5 +77,4 @@ public class MessageVo {
         friendChat.setMsg(this.msg);
         return friendChat;
     }
-
 }

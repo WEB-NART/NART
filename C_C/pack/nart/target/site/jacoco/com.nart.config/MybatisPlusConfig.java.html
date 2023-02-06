@@ -16,12 +16,12 @@ import org.springframework.context.annotation.Configuration;
  * @Date 2022/12/25 11:02
  */
 @Configuration
-<span class="nc" id="L19">public class MybatisPlusConfig {</span>
+<span class="fc" id="L19">public class MybatisPlusConfig {</span>
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor(){
-<span class="nc" id="L22">         MybatisPlusInterceptor mpInterceptor=new MybatisPlusInterceptor();</span>
-<span class="nc" id="L23">        mpInterceptor.addInnerInterceptor(new PaginationInnerInterceptor());</span>
-<span class="nc" id="L24">        return mpInterceptor;</span>
+<span class="fc" id="L22">         MybatisPlusInterceptor mpInterceptor=new MybatisPlusInterceptor();</span>
+<span class="fc" id="L23">        mpInterceptor.addInnerInterceptor(new PaginationInnerInterceptor());</span>
+<span class="fc" id="L24">        return mpInterceptor;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

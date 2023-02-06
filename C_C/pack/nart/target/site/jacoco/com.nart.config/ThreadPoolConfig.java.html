@@ -19,20 +19,20 @@ import java.util.concurrent.Executor;
  */
 @Configuration
 @EnableAsync
-<span class="nc" id="L22">public class ThreadPoolConfig {</span>
+<span class="fc" id="L22">public class ThreadPoolConfig {</span>
 
     @Bean(&quot;taskExecutor&quot;)
     public Executor asyncServiceExecutor() {
-<span class="nc" id="L26">        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();</span>
+<span class="fc" id="L26">        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();</span>
 
-<span class="nc" id="L28">        executor.setCorePoolSize(5);</span>
-<span class="nc" id="L29">        executor.setMaxPoolSize(20);</span>
-<span class="nc" id="L30">        executor.setQueueCapacity(Integer.MAX_VALUE);</span>
-<span class="nc" id="L31">        executor.setKeepAliveSeconds(60);</span>
-<span class="nc" id="L32">        executor.setThreadNamePrefix(&quot;nart-app&quot;);</span>
-<span class="nc" id="L33">        executor.setWaitForTasksToCompleteOnShutdown(true);</span>
-<span class="nc" id="L34">        executor.initialize();</span>
-<span class="nc" id="L35">        return executor;</span>
+<span class="fc" id="L28">        executor.setCorePoolSize(5);</span>
+<span class="fc" id="L29">        executor.setMaxPoolSize(20);</span>
+<span class="fc" id="L30">        executor.setQueueCapacity(Integer.MAX_VALUE);</span>
+<span class="fc" id="L31">        executor.setKeepAliveSeconds(60);</span>
+<span class="fc" id="L32">        executor.setThreadNamePrefix(&quot;nart-app&quot;);</span>
+<span class="fc" id="L33">        executor.setWaitForTasksToCompleteOnShutdown(true);</span>
+<span class="fc" id="L34">        executor.initialize();</span>
+<span class="fc" id="L35">        return executor;</span>
     }
 }
 

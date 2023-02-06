@@ -43,6 +43,7 @@ class CommentVoTest {
 
         // Verify the results
         assertThat(result).isEqualTo(expectedResult);
+
     }
 
     @Test

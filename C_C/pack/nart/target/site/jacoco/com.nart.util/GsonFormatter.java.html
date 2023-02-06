@@ -13,10 +13,10 @@ import com.google.gson.Gson;
  * @Date 2022/9/1 13:22
  */
 <span class="nc" id="L15">public class GsonFormatter {</span>
-<span class="nc" id="L16">    private static final Gson gson = new Gson();</span>
+<span class="fc" id="L16">    private static final Gson gson = new Gson();</span>
 
     public static String toJsonString(Object obj) {
-<span class="nc" id="L19">        return gson.toJson(obj);</span>
+<span class="fc" id="L19">        return gson.toJson(obj);</span>
     }
 
     public static &lt;T&gt; T fromJsonToObj(String str, Class&lt;T&gt; type) {

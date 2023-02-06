@@ -19,18 +19,16 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class WebSocketListener implements ServletRequestListener {
 
+<span class="fc" id="L22">    public WebSocketListener() {}</span>
+
     @Override
     public void requestInitialized(ServletRequestEvent sre) {
         // 将所有request请求都携带上httpSession
-<span class="nc" id="L25">        ((HttpServletRequest) sre.getServletRequest()).getSession();</span>
-<span class="nc" id="L26">    }</span>
-
-<span class="nc" id="L28">    public WebSocketListener() {</span>
-
-<span class="nc" id="L30">    }</span>
+<span class="fc" id="L27">        ((HttpServletRequest) sre.getServletRequest()).getSession();</span>
+<span class="fc" id="L28">    }</span>
 
     @Override
     public void requestDestroyed(ServletRequestEvent sre) {
-<span class="nc" id="L34">    }</span>
+<span class="fc" id="L32">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
