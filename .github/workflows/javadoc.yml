@@ -32,7 +32,7 @@ jobs:
         run: |
           rm -rf docs
           mkdir -vp docs
-          ls ./pack/target
+          ls ./pack
           pwd
           ls ./pack/nart
           pwd
