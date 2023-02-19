@@ -20,10 +20,10 @@ import java.util.List;
  * Project: pack
  *
  * @className: ChatController
- *  TODO
+ *  chat related request controller
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/8/31 15:16
+ * @Date 2023/01/12 15:16
  */
 @RestController
 @RequestMapping("chat")

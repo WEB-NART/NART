@@ -29,7 +29,7 @@ import static com.nart.util.RandomContentGenerator.getRandPics;
  *  TODO
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/8/30 15:43
+ * @Date 2022/01/16 15:43
  */
 
 @Component
@@ -55,7 +55,7 @@ public class FakeDataGenerator {
      * @param num number of users
      * @return List of User
      * @Author Zirui Qiao
-     * @Date 2022/8/30 20:11
+     * @Date 2022/01/16 20:11
      */
     private List<User> generateUsers(int num) {
         List<User> list = new ArrayList<>();
@@ -84,7 +84,7 @@ public class FakeDataGenerator {
      * @param num number of requests
      * @return List of FriendReq
      * @Author Zirui Qiao
-     * @Date 2022/8/30 20:12
+     * @Date 2022/01/16 20:12
      */
     private List<FriendReq> generateReqs(int num) {
         List<FriendReq> list = new ArrayList<>();
@@ -108,7 +108,7 @@ public class FakeDataGenerator {
      * @param uid User id
      * @param num max number of Friend
      * @Author Zirui Qiao
-     * @Date 2022/8/30 20:23
+     * @Date 2022/01/16 20:23
      */
     private List<Friend> generateFriendRelationships(List<String> userIds, String uid, int num) {
         List<String> userFriendIds = getUserFriendIds(uid);
@@ -134,7 +134,7 @@ public class FakeDataGenerator {
      * @param uid User id
      * @param num max number of chat msg the User may send to each Friend
      * @Author Zirui Qiao
-     * @Date 2022/8/30 19:50
+     * @Date 2022/01/16 19:50
      */
     private List<FriendChat> generateFriendsChats(String uid, int num) {
         List<String> userFriendIds = getUserFriendIds(uid);
@@ -166,7 +166,7 @@ public class FakeDataGenerator {
      * @param num number of Status
      * @return List of Status
      * @Author Zirui Qiao
-     * @Date 2022/8/30 20:12
+     * @Date 2022/01/16 20:12
      */
     private List<Status> generateStatus(int num) {
         List<Status> list = new ArrayList<>();
@@ -191,7 +191,7 @@ public class FakeDataGenerator {
      * @param statusId Status Id
      * @return List of Comment
      * @Author Zirui Qiao
-     * @Date 2022/8/30 20:13
+     * @Date 2022/01/16 20:13
      */
     private List<Comment> generateComment(String statusId, int num) {
         List<Comment> list = new ArrayList<>();
@@ -225,7 +225,7 @@ public class FakeDataGenerator {
      * @param statusId Status id
      * @param num max number of likes for each Status
      * @Author Zirui Qiao
-     * @Date 2022/8/30 20:19
+     * @Date 2022/01/16 20:19
      */
     private List<UserLike> generateLikes(String statusId, int num) {
         String authorId = "";
@@ -263,7 +263,7 @@ public class FakeDataGenerator {
      * @param num Group number
      * @return List of Group
      * @Author Zirui Qiao
-     * @Date 2022/8/30 20:20
+     * @Date 2022/01/16 20:20
      */
     private List<Group> generateGroup(int num) {
         List<Group> list = new ArrayList<>();
@@ -283,7 +283,7 @@ public class FakeDataGenerator {
      * @param num total number of invitations
      * @return List of GroupInvite
      * @Author Zirui Qiao
-     * @Date 2022/8/30 20:21
+     * @Date 2022/01/16 20:21
      */
     private List<GroupInvite> generateInvites(int num) {
         List<GroupInvite> list = new ArrayList<>();
@@ -317,7 +317,7 @@ public class FakeDataGenerator {
      * @param gid Group id
      * @param num max number of Group member
      * @Author Zirui Qiao
-     * @Date 2022/8/30 20:22
+     * @Date 2022/01/16 20:22
      */
     private List<UserGroup> generateGroupRelationships(String gid, int num) {
         List<String> groupMemberIds = getGroupMemberIds(gid);
@@ -358,7 +358,7 @@ public class FakeDataGenerator {
      * @param uid User id
      * @param num max number of chat msg the User may send to each Group
      * @Author Zirui Qiao
-     * @Date 2022/8/30 19:50
+     * @Date 2022/01/16 19:50
      */
     private List<GroupChat> generateGroupsChats(String uid, int num) {
         List<String> userGroupIds = getUserGroupIds(uid);
@@ -398,7 +398,7 @@ public class FakeDataGenerator {
      *  find all users' id
      * @return List of String
      * @Author Zirui Qiao
-     * @Date 2022/8/30 20:27
+     * @Date 2022/01/16 20:27
      */
     private List<String> getUserIds() {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
@@ -415,7 +415,7 @@ public class FakeDataGenerator {
      *  find all statuses' ids
      * @return List of String
      * @Author Zirui Qiao
-     * @Date 2022/8/30 20:28
+     * @Date 2022/01/16 20:28
      */
     private List<String> getStatusIds() {
         LambdaQueryWrapper<Status> queryWrapper = new LambdaQueryWrapper<>();
@@ -432,7 +432,7 @@ public class FakeDataGenerator {
      *  find all groups' ids
      * @return List of String
      * @Author Zirui Qiao
-     * @Date 2022/8/30 20:28
+     * @Date 2022/01/16 20:28
      */
     private List<String> getGroupIds() {
         LambdaQueryWrapper<Group> queryWrapper = new LambdaQueryWrapper<>();
@@ -450,7 +450,7 @@ public class FakeDataGenerator {
      * @param groupId Group id
      * @return List of String
      * @Author Zirui Qiao
-     * @Date 2022/8/30 20:28
+     * @Date 2022/01/16 20:28
      */
     private List<String> getGroupMemberIds(String groupId) {
 //        List<Group> objList= this.GroupDao.selectAllMember(groupId);
@@ -472,7 +472,7 @@ public class FakeDataGenerator {
      * @param uid User id
      * @return List of String
      * @Author Zirui Qiao
-     * @Date 2022/8/30 20:29
+     * @Date 2022/01/16 20:29
      */
     private List<String> getUserFriendIds(String uid) {
 //        List<User> objList= this.UserDao.selectFriends(uid);
@@ -494,7 +494,7 @@ public class FakeDataGenerator {
      * @param uid User id
      * @return List of String
      * @Author Zirui Qiao
-     * @Date 2022/8/30 20:29
+     * @Date 2022/01/16 20:29
      */
     private List<String> getUserGroupIds(String uid) {
 //        List<Group> objList= this.GroupDao.selectGroups(uid);
@@ -526,7 +526,7 @@ public class FakeDataGenerator {
      *  use this to generate fake data and load to database
      * @param num a base number (1/10 of User number)
      * @Author Zirui Qiao
-     * @Date 2022/8/30 20:30
+     * @Date 2022/01/16 20:30
      */
 
     //

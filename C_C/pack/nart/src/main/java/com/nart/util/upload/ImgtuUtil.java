@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
  *  TODO
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/7/27 15:54
+ * @Date 2023/01/04 15:54
  */
 @Slf4j
 public class ImgtuUtil {

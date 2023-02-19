@@ -141,7 +141,7 @@
                 </div>
               </el-aside>
               <el-main width="90vw" class="mainPart">
-                <router-view @fathre="wSend" v-slot="{Component}">
+                <router-view @wSend="wSend" v-slot="{Component}">
                   <component ref="order" :is="Component"/>
                 </router-view>
               </el-main>
@@ -313,13 +313,13 @@ onMounted(() => {
 
       var res = JSON.parse(dataStr);
       let rType = res.receiverType;
-      let gid = res.receiver;
+      let rid = res.receiver;
       let sid = res.sender;
 
       if (rType == "friend") {
         fnoticeNew.value.noticeNewMsg(true, sid, true);
       } else {
-        gnoticeNew.value.noticeNewMsg(false, gid, true);
+        gnoticeNew.value.noticeNewMsg(false, rid, true);
       }
 
       if (router.currentRoute.value.name == "chatRoom") {
@@ -334,8 +334,8 @@ onMounted(() => {
             order.value.receiveMsg(res);
           }
         } else {
-          if (gid == roomId && rType == "group") {
-            gnoticeNew.value.noticeNewMsg(false, gid, false);
+          if (rid == roomId && rType == "group") {
+            gnoticeNew.value.noticeNewMsg(false, rid, false);
             //store.setNewMsg(res);
             order.value.receiveMsg(res);
           }

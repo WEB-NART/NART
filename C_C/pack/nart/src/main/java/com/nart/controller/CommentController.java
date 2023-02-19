@@ -18,10 +18,10 @@ import java.util.List;
  * Project: pack
  *
  * @className: CommentController
- *  TODO
+ *  comment related request controller
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/8/31 15:10
+ * @Date 2023/01/12 15:10
  */
 @RestController
 @RequestMapping("comment")

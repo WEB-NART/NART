@@ -19,10 +19,10 @@ import java.util.Objects;
  * Project: pack
  *
  * @className: LoginServiceImpl
- *  TODO
+ *  provide service for login, logout, register and token check
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/9/1 12:19
+ * @Date 2023/1/14 12:19
  */
 @Transactional
 @Service

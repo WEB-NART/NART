@@ -10,7 +10,7 @@ import org.apache.http.entity.ContentType;
  *  TODO
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/7/27 17:40
+ * @Date 2023/01/03 17:40
  */
 public class FileType{
     public static String bytesToHexString(byte[] src) {

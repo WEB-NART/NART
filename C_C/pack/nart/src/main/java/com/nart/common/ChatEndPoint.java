@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Project: pack
  *
  * @className: ChatEndPoint
- *  TODO
+ *  Websocket handler
  * @version: v1.8.0
  * @Author ZIRUI QIAO
  * @Date 2022/12/29 11:05
@@ -39,28 +39,28 @@ public class ChatEndPoint {
     private HttpSession httpSession;
 
     private GroupService getGroupService() {
-        GroupService gsi = (GroupService) SpringUtil.getBean("groupServiceImpl");
-        return gsi;
+        return (GroupService) SpringUtil.getBean("groupServiceImpl");
     }
-
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) {
         this.session = session;
-        HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+        HttpSession httpSession =
+                (HttpSession) config.getUserProperties().get(
+                        HttpSession.class.getName()
+                );
         this.httpSession = httpSession;
         String uid = (String) httpSession.getAttribute("uid");
         uid = uid.substring(5);
         onlineUsers.put(uid, this);
-        onlineUsers.forEach((key, value) -> {
-            String temp = key + ": " + value.toString();
-            //log.info(temp);
-        });
+//        onlineUsers.forEach((key, value) -> {
+//            String temp = key + ": " + value.toString();
+//            log.info(temp);
+//        });
     }
 
     private void broadcastAllUsers(WSMsg wsMsg, Set<String> receivers) {
         // find all online userIds
-        Map<String, ChatEndPoint> onlineUsers1 = onlineUsers;
-        Set<String> ids = new HashSet<String>(onlineUsers1.keySet());
+        Set<String> ids = new HashSet<>(onlineUsers.keySet());
 
         // find intersections between online users and target users;
         ids.retainAll(receivers);
@@ -76,12 +76,8 @@ public class ChatEndPoint {
         }
     }
 
-    private Set<String> getIds() {
-        return onlineUsers.keySet();
-    }
-
     @OnMessage
-    public void onMessage(String message, Session session) {
+    public void onMessage(String message) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             WSMsg msg = mapper.readValue(message, WSMsg.class);
@@ -110,7 +106,7 @@ public class ChatEndPoint {
     }
 
     @OnClose
-    public void onClose(Session session){
+    public void onClose(){
         String uid = (String) httpSession.getAttribute("uid");
         onlineUsers.remove(uid);
     }

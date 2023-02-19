@@ -19,10 +19,10 @@ import java.util.UUID;
  * Project: pack
  *
  * @className: UploadController
- *  TODO
+ *  upload related request controller
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/8/31 15:27
+ * @Date 2023/01/12 15:27
  */
 @RestController
 @RequestMapping("upload")

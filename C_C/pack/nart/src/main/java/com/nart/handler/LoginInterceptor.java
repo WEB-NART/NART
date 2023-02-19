@@ -22,10 +22,10 @@ import java.io.IOException;
  * Project: blog-parent
  *
  * @className: LoginInterceptor
- *  TODO
+ *  intercept all request except for login and register
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/7/25 22:22
+ * @Date 2023/1/07 22:22
  */
 @Component
 @Slf4j

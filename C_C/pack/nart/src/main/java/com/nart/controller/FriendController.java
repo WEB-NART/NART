@@ -21,10 +21,10 @@ import java.util.List;
  * Project: pack
  *
  * @className: FriendController
- *  TODO
+ *  friend related request controller
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/8/31 14:40
+ * @Date 2023/01/12 14:40
  */
 @RestController
 @RequestMapping("friend")

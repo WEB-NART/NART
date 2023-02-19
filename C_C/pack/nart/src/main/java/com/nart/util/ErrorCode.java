@@ -10,7 +10,7 @@ import lombok.AllArgsConstructor;
  *  show what error it is
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/8/31 13:29
+ * @Date 2023/01/02 13:29
  */
 @AllArgsConstructor
 public enum ErrorCode {

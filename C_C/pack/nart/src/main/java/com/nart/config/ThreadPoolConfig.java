@@ -12,10 +12,10 @@ import java.util.concurrent.Executor;
  * Project: pack
  *
  * @className: ThreadPoolConfig
- *  TODO
+ *  Thread Pool configuration file
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/12/25 15:12
+ * @Date 2023/1/10 15:12
  */
 @Configuration
 @EnableAsync

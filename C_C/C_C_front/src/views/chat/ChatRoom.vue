@@ -78,7 +78,8 @@ const page = reactive({
   pageSize: 10,
 });
 var title = ref("");
-const emit = defineEmits(["fathre"]);
+//const emit = defineEmits(["fathre"]);
+const emit = defineEmits(["wSend"]);
 
 /**
   * @description:receive WebSocket Message
@@ -221,7 +222,8 @@ function wsSend(input, type) {
     receiver: roomId.value,
     receiverType: roomType,
   };
-  emit("fathre", json);
+  //emit("fathre", json);
+  emit("wSend", json);
 }
 /**
   * @description: overall send message function

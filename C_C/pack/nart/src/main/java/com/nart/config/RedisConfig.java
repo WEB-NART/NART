@@ -17,10 +17,10 @@ import javax.annotation.Resource;
  * Project: pack
  *
  * @className: RedisConfig
- *  TODO
+ *  Redis configuration file
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/12/25 14:22
+ * @Date 2023/1/10 14:22
  */
 @Configuration
 public class RedisConfig {
