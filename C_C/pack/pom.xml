@@ -163,7 +163,7 @@
                         </tag>
                         <tag>
                             <name>param</name>
-                            <placement>m</placement>
+                            <placement>a</placement>
                             <head>Parameters: </head>
                         </tag>
                         <tag>
