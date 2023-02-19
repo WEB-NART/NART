@@ -32,7 +32,8 @@ jobs:
         run: |
           rm -rf docs
           mkdir -vp docs
-          cp -vrf target/site/javadoc/api/* docs/
+          pwd
+          cp -vrf ./target/site/javadoc/api/* docs/
 
       - name: Generate the sitemap # 可选，生成sitemap
         id: sitemap
