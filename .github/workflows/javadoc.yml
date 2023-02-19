@@ -32,7 +32,10 @@ jobs:
         run: |
           rm -rf docs
           mkdir -vp docs
-          pwd
+          ls
+          ls ./pack/nart/target
+          ls ./pack/nart/target/site
+          ls ./pack/target
           cp -vrf ./pack/nart/target/site/javadoc/api/* docs/
 
       - name: Generate the sitemap # 可选，生成sitemap
