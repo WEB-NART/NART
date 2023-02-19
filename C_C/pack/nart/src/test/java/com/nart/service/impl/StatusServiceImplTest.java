@@ -448,5 +448,16 @@ class StatusServiceImplTest {
         final boolean result2 = statusServiceImplUnderTest.likeStatus("id", true);
         // Verify the results
         assertThat(result2).isTrue();
+
+        when(mockStatusDao.updateById(any(Status.class))).thenReturn(0);
+
+        final boolean result3 = statusServiceImplUnderTest.likeStatus("id", false);
+        // Verify the results
+        assertThat(result3).isFalse();
+
+        // Run the test
+        final boolean result4 = statusServiceImplUnderTest.likeStatus("id", true);
+        // Verify the results
+        assertThat(result4).isFalse();
     }
 }

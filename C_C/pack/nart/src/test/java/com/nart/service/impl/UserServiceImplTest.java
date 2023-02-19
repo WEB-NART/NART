@@ -356,6 +356,67 @@ class UserServiceImplTest {
     }
 
     @Test
+    void testChangeUserInfo_InputNull() {
+        // Setup
+        final UserVo userVo = new UserVo();
+        userVo.setId("id");
+        userVo.setAvatar("https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png");
+        userVo.setUname("name");
+        userVo.setPower(0);
+        userVo.setLock(0);
+        userVo.setPwd("");
+
+        // Configure UserDao.selectById(...).
+        final User user = new User();
+        user.setId("userId");
+        user.setPwd("pwd");
+        user.setTpwd("pwd");
+        user.setSalt("salt");
+        user.setAvatar("https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png");
+        user.setName("name");
+        user.setTel("phone");
+        user.setAddress("address");
+        user.setEmail("email");
+        user.setAge("age");
+        user.setUserOnline(0);
+        user.setPower(0);
+        user.setState(0);
+        final Friend friend = new Friend();
+        friend.setId("id");
+        user.setFriendList(Arrays.asList(friend));
+        when(mockUserDao.selectById("id")).thenReturn(user);
+
+        when(mockUserDao.updateById(user)).thenReturn(0);
+
+        // Run the test
+        boolean result = userServiceImplUnderTest.changeUserInfo(userVo, "id");
+        // Verify the results
+        assertThat(result).isFalse();
+
+        userVo.setPwd("pwd2");
+        userVo.setPhone("");
+        userVo.setEmail("");
+        userVo.setAddress("");
+        userVo.setBirthday("");
+
+        // Run the test
+        result = userServiceImplUnderTest.changeUserInfo(userVo, "id");
+        // Verify the results
+        assertThat(result).isFalse();
+
+        userVo.setPwd("pwd");
+        userVo.setPhone("phone");
+        userVo.setEmail("email");
+        userVo.setAddress("address");
+        userVo.setBirthday("age");
+
+        // Run the test
+        result = userServiceImplUnderTest.changeUserInfo(userVo, "id");
+        // Verify the results
+        assertThat(result).isFalse();
+    }
+
+    @Test
     void testChangeUserInfo_UnameEmpty_PwdSpecial() {
         // Setup
         final UserVo userVo = new UserVo();
