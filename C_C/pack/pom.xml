@@ -171,6 +171,11 @@
                             <placement>t</placement>
                             <head>Class Name: </head>
                         </tag>
+                        <tag>
+                            <name>Description</name>
+                            <placement>a</placement>
+                            <head>Description: </head>
+                        </tag>
                     </tags>
                 </configuration>
             </plugin>

@@ -7,8 +7,8 @@ package com.nart.util;
  * @className: ProgressBar
  * @Description: TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2023-01-31 5:20 p.m.
+ * @Author: ZIRUI QIAO
+ * @Date: 2023-01-31 5:20 p.m.
  */
 public class ProgressBar {
 
