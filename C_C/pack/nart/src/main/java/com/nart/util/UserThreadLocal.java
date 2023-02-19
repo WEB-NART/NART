@@ -2,8 +2,6 @@ package com.nart.util;
 
 import com.nart.pojo.User;
 
-import java.util.Date;
-
 /**
  * Copyright (c) 2008-2024: Zirui Qiao
  * Project: blog-parent
@@ -12,7 +10,7 @@ import java.util.Date;
  *  TODO
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/7/25 22:49
+ * @Date 2023/01/03 22:49
  */
 public class UserThreadLocal {
     private UserThreadLocal(){}

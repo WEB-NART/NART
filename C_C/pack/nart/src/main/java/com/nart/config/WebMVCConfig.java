@@ -12,10 +12,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * Project: pack
  *
  * @className: WebMVCConfig
- *  TODO
+ *  Cors and interceptor configuration file
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/12/25 13:05
+ * @Date 2023/1/10 13:05
  */
 @Configuration
 public class WebMVCConfig implements WebMvcConfigurer {

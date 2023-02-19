@@ -18,10 +18,10 @@ import javax.servlet.http.HttpSession;
  * Project: pack
  *
  * @className: UserController
- *  TODO
+ *  user related request controller
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/8/31 13:25
+ * @Date 2023/01/12 13:25
  */
 @RestController
 @RequestMapping("/user")

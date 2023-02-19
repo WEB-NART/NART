@@ -7,10 +7,10 @@ import lombok.Data;
  * Project: pack
  *
  * @className: WSMsg
- *  TODO
+ *  websocket message format
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/9/3 11:47
+ * @Date 2023/01/04 11:47
  */
 @Data
 public class WSMsg {

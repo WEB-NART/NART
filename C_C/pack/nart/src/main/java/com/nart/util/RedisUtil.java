@@ -15,49 +15,33 @@ import java.util.concurrent.TimeUnit;
  * Project: pack
  *
  * @className: RedisUtil
- *  TODO
+ *  redis operations
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/9/2 14:26
+ * @Date 2023/01/04 14:26
  */
 @Component
 public class RedisUtil {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
-
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
     /**
      * Default expiry time is 24 hours in seconds
      */
     public final static long DEFAULT_EXPIRE = 60 * 60 * 24L;
-    /**
-     * Expires in 1 hour, in seconds
-     */
-    public final static long HOUR_ONE_EXPIRE = 60 * 60 * 1L;
-    /**
-     * Expiry time is 6 hours in seconds
-     */
+    public final static long HOUR_ONE_EXPIRE = (long) 60 * 60;
     public final static long HOUR_SIX_EXPIRE = 60 * 60 * 6L;
-    /**
-     * Expires in 1 month, in seconds
-     */
     public final static long MONTH_ONE_EXPIRE = 60 * 60 * 24 * 30L;
-    /**
-     * No expiry time set
-     */
     public final static long NOT_EXPIRE = -1L;
-    /**
-     * json conversion
-     */
     private final static Gson gson = new Gson();
 
     /**
      * Save data
      *
-     * @param key
-     * @param value
-     * @param expire
+     * @param key redis key
+     * @param value redis value
+     * @param expire expire time
      */
     public void set(String key, Object value, long expire) {
         if (!StringUtils.isBlank(key) && value != null) {
@@ -71,8 +55,8 @@ public class RedisUtil {
     /**
      * Save data Expires by default one day
      *
-     * @param key
-     * @param value
+     * @param key redis key
+     * @param value redis value
      */
     public void set(String key, Object value) {
         set(key, value, NOT_EXPIRE);
@@ -81,9 +65,9 @@ public class RedisUtil {
     /**
      * Get the data and change the expiry time
      *
-     * @param key
-     * @param expire
-     * @return
+     * @param key redis key
+     * @param expire expire time
+     * @return redis value
      */
     public Object get(String key, long expire) {
         Object value = redisTemplate.opsForValue().get(key);
@@ -103,12 +87,10 @@ public class RedisUtil {
 
     /**
      * Access to data
-     * @param key
-     * @param clazz
+     * @param key redis key
+     * @param clazz class of return value
      * @param <T> pojo class
      * @return: T
-     * @Author: Zirui Qiao
-     * @Date: 2023-01-08 5:59 p.m.
      */
     public <T> T get(String key, Class<T> clazz) {
         return get(key, clazz, NOT_EXPIRE);
@@ -118,7 +100,7 @@ public class RedisUtil {
     /**
      * Access to data
      *
-     * @param key
+     * @param key redis key
      * @return
      */
     public Object get(String key) {
@@ -128,7 +110,7 @@ public class RedisUtil {
     /**
      * Delete the specified key
      *
-     * @param key
+     * @param key redis key
      */
     public void delete(String key) {
         redisTemplate.delete(key);
@@ -137,7 +119,7 @@ public class RedisUtil {
     /**
      * Bulk delete
      *
-     * @param keys
+     * @param keys a list of redis keys
      */
     public void delete(Collection<String> keys) {
         redisTemplate.delete(keys);
@@ -146,8 +128,8 @@ public class RedisUtil {
     /**
      * Modify expiry time
      *
-     * @param key
-     * @param expire
+     * @param key redis key
+     * @param expire expire time
      */
     public void expire(String key, long expire) {
         redisTemplate.expire(key, expire, TimeUnit.SECONDS);

@@ -10,10 +10,10 @@ import org.springframework.context.annotation.Configuration;
  * Project: pack
  *
  * @className: MybatisPlusConfig
- *  TODO
+ *  Mybatis-plus configuration file
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/12/25 11:02
+ * @Date 2023/1/10 11:02
  */
 @Configuration
 public class MybatisPlusConfig {

@@ -26,7 +26,7 @@ import java.util.Map;
  *  TODO
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/7/27 15:55
+ * @Date 2023/01/04 15:55
  */
 public class HttpUtil {
     private static Header[] parseHeaders(Map<String, String> headers) {

@@ -20,7 +20,7 @@ import java.util.Random;
  *  TODO
  * @version: v1.8.0
  * @Author ZIRUI QIAO
- * @Date 2022/8/30 16:26
+ * @Date 2023/01/02 16:26
  */
 @Slf4j
 public class EncryptUtil {

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
  * Project: pack
  *
  * @className: RequestListener
- *  TODO
+ *  listen for websocket actions
  * @version: v1.8.0
  * @Author ZIRUI QIAO
  * @Date 2023-01-04 4:06 p.m.
@@ -23,7 +23,7 @@ public class WebSocketListener implements ServletRequestListener {
 
     @Override
     public void requestInitialized(ServletRequestEvent sre) {
-        // 将所有request请求都携带上httpSession
+        // set all request with httpSession
         ((HttpServletRequest) sre.getServletRequest()).getSession();
     }
 

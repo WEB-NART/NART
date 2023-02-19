@@ -15,7 +15,7 @@ import javax.websocket.server.ServerEndpointConfig;
  * Project: pack
  *
  * @className: WebSocketConfig
- *  TODO
+ *  WebSocket configuration file
  * @version: v1.8.0
  * @Author ZIRUI QIAO
  * @Date 2023/1/3 11:02
@@ -25,7 +25,9 @@ import javax.websocket.server.ServerEndpointConfig;
 public class WebSocketConfig extends ServerEndpointConfig.Configurator{
 
     @Override
-    public void modifyHandshake(ServerEndpointConfig sec, HandshakeRequest request, HandshakeResponse response) {
+    public void modifyHandshake(ServerEndpointConfig sec,
+                                HandshakeRequest request,
+                                HandshakeResponse response) {
         HttpSession httpSession = (HttpSession) request.getHttpSession();
         if (httpSession != null) {
             sec.getUserProperties().put(HttpSession.class.getName(), httpSession);
