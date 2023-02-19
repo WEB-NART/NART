@@ -26,7 +26,7 @@ jobs:
 
       - name: Generate docs #生成Javadoc
         working-directory: ./C_C/pack
-        run: mvn javadoc:javadoc
+        run: mvn javadoc:javadoc -DadditionalJOption="-Xdoclint:-missing"
 
       - name: Copy to Location # 复制Javadoc到一个新文件夹，便于进行git操作
         run: |
