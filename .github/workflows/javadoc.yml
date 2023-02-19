@@ -26,19 +26,16 @@ jobs:
 
       - name: Generate docs #生成Javadoc
         working-directory: ./C_C/pack
-        run: mvn javadoc:javadoc -DadditionalJOption="-Xdoclint:-missing"
+        run: |
+          mvn javadoc:javadoc -DadditionalJOption="-Xdoclint:-missing"
+          mvn test
 
       - name: Copy to Location # 复制Javadoc到一个新文件夹，便于进行git操作
         run: |
           rm -rf docs
           mkdir -vp docs
-          ls ./C_C/pack
-          pwd
-          ls ./C_C/pack/nart
-          pwd
-          ls ./C_C/pack/nart/target
-          pwd
-          cp -vrf ./C_C/pack/nart/target/site/javadoc/api/* docs/
+          cp -vrf ./C_C/pack/nart/target/site/javadoc/api/* docs/javadoc
+          cp -vrf ./C_C/pack/nart/target/site/jacoco/* docs/jacoco
 
       - name: Generate the sitemap # 可选，生成sitemap
         id: sitemap
@@ -69,7 +66,7 @@ jobs:
           cd docs
           git init
           git remote add origin $GIT_URL
-          git checkout -b gh-pages
+          git checkout -b doc-pages
           git add -A
           git commit -m "API Document generated."
 
