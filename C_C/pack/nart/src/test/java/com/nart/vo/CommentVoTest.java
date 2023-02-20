@@ -18,11 +18,18 @@ class CommentVoTest {
     @Test
     void testTransfer() {
         // Setup
+        final DateVo createDate = new DateVo();
+        createDate.setYear(1969);
+        createDate.setMonth(12);
+        createDate.setDay(31);
+        createDate.setHour(19);
+        createDate.setMin(0);
+
         final Comment comment = new Comment();
         comment.setId("id");
         comment.setMsg("msg");
         comment.setStatusId("statusId");
-        comment.setCreateDate(0L);
+        comment.setCreateDate(createDate.toLong());
         comment.setUserId("userId");
         comment.setUname("uname");
 
@@ -30,12 +37,6 @@ class CommentVoTest {
         expectedResult.setStatusId("statusId");
         expectedResult.setUname("uname");
         expectedResult.setMsg("msg");
-        final DateVo createDate = new DateVo();
-        createDate.setYear(1969);
-        createDate.setMonth(12);
-        createDate.setDay(31);
-        createDate.setHour(19);
-        createDate.setMin(0);
         expectedResult.setCreateDate(createDate);
 
         // Run the test
