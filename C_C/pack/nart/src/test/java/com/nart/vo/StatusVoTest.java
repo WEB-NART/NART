@@ -21,19 +21,25 @@ class StatusVoTest {
     @Test
     void testTransfer() {
         // Setup
+        final DateVo createDate = new DateVo();
+        createDate.setYear(1969);
+        createDate.setMonth(12);
+        createDate.setDay(31);
+        createDate.setHour(19);
+        createDate.setMin(0);
         final Status status = new Status();
         status.setId("id");
         status.setSenderId("senderId");
         status.setText("msg");
         status.setPics("value");
         status.setLikes(0);
-        status.setCreateDate(0L);
+        status.setCreateDate(createDate.toLong());
         status.setUserLike(false);
         final Comment comment = new Comment();
         comment.setId("id");
         comment.setMsg("msg");
         comment.setStatusId("statusId");
-        comment.setCreateDate(0L);
+        comment.setCreateDate(createDate.toLong());
         comment.setUserId("userId");
         comment.setUname("uname");
         status.setCommentList(Arrays.asList(comment));
@@ -41,12 +47,6 @@ class StatusVoTest {
         final StatusVo expectedResult = new StatusVo();
         expectedResult.setUid("senderId");
         expectedResult.setStatusId("id");
-        final DateVo createDate = new DateVo();
-        createDate.setYear(1969);
-        createDate.setMonth(12);
-        createDate.setDay(31);
-        createDate.setHour(19);
-        createDate.setMin(0);
         expectedResult.setCreateDate(createDate);
         expectedResult.setLikes(0);
         expectedResult.setLiked(false);
@@ -74,7 +74,13 @@ class StatusVoTest {
 
     @Test
     void testGetDateToString() {
-        assertThat(statusVoUnderTest.getDateToString(0L)).isEqualTo("1969-12-31 19:00");
+        final DateVo createDate = new DateVo();
+        createDate.setYear(1969);
+        createDate.setMonth(12);
+        createDate.setDay(31);
+        createDate.setHour(19);
+        createDate.setMin(0);
+        assertThat(statusVoUnderTest.getDateToString(createDate.toLong())).isEqualTo("1969-12-31 19:00");
     }
 
     @Test

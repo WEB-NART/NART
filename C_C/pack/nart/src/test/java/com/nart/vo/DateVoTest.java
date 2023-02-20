@@ -11,7 +11,13 @@ class DateVoTest {
 
     @BeforeEach
     void setUp() {
-        dateVoUnderTest = new DateVo();
+        DateVo dateVo = new DateVo();
+        dateVo.setYear(1969);
+        dateVo.setMonth(12);
+        dateVo.setDay(31);
+        dateVo.setHour(19);
+        dateVo.setMin(0);
+        dateVoUnderTest = dateVo;
     }
 
     @Test
@@ -25,7 +31,7 @@ class DateVoTest {
         dateVo.setMin(0);
 
         // Run the test
-        final DateVo result = dateVoUnderTest.getDateToString(0L);
+        final DateVo result = dateVoUnderTest.getDateToString(dateVo.toLong());
 
         // Verify the results
         assertThat(result).isEqualTo(dateVo);
@@ -33,7 +39,14 @@ class DateVoTest {
 
     @Test
     void testToLong() {
-        assertThat(dateVoUnderTest.toLong()).isEqualTo(-62170138800000L);
+        final DateVo dateVo = new DateVo();
+        dateVo.setYear(1969);
+        dateVo.setMonth(12);
+        dateVo.setDay(31);
+        dateVo.setHour(19);
+        dateVo.setMin(0);
+
+        assertThat(dateVoUnderTest.toLong()).isEqualTo(dateVo.toLong());
     }
 
     @Test

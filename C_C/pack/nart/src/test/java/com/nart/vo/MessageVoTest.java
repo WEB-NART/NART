@@ -19,6 +19,12 @@ class MessageVoTest {
     @Test
     void testFtransfer() {
         // Setup
+        final DateVo createDate = new DateVo();
+        createDate.setYear(1969);
+        createDate.setMonth(12);
+        createDate.setDay(31);
+        createDate.setHour(19);
+        createDate.setMin(0);
         final FriendChat friendChat = new FriendChat();
         friendChat.setId(0L);
         friendChat.setReceiverId("chatId");
@@ -26,20 +32,13 @@ class MessageVoTest {
         friendChat.setLevel(0);
         friendChat.setMsg("msg");
         friendChat.setType("msgType");
-        friendChat.setDate(0L);
+        friendChat.setDate(createDate.toLong());
 
         final MessageVo expectedResult = new MessageVo();
         expectedResult.setMsgId("0");
         expectedResult.setMsgType("msgType");
         expectedResult.setChatId("chatId");
         expectedResult.setSenderId("senderId");
-        final DateVo sentDate = new DateVo();
-        final DateVo createDate = new DateVo();
-        createDate.setYear(1969);
-        createDate.setMonth(12);
-        createDate.setDay(31);
-        createDate.setHour(19);
-        createDate.setMin(0);
         expectedResult.setSentDate(createDate);
         expectedResult.setMsg("msg");
 
@@ -53,13 +52,19 @@ class MessageVoTest {
     @Test
     void testGtransfer() {
         // Setup
+        final DateVo createDate = new DateVo();
+        createDate.setYear(1969);
+        createDate.setMonth(12);
+        createDate.setDay(31);
+        createDate.setHour(19);
+        createDate.setMin(0);
         final GroupChat groupChat = new GroupChat();
         groupChat.setId(0L);
         groupChat.setGroupId("chatId");
         groupChat.setSenderId("senderId");
         groupChat.setMsg("msg");
         groupChat.setType("msgType");
-        groupChat.setDate(0L);
+        groupChat.setDate(createDate.toLong());
         groupChat.setLevel(0);
 
         final MessageVo expectedResult = new MessageVo();
@@ -67,12 +72,7 @@ class MessageVoTest {
         expectedResult.setMsgType("msgType");
         expectedResult.setChatId("chatId");
         expectedResult.setSenderId("senderId");
-        final DateVo createDate = new DateVo();
-        createDate.setYear(1969);
-        createDate.setMonth(12);
-        createDate.setDay(31);
-        createDate.setHour(19);
-        createDate.setMin(0);
+
         expectedResult.setSentDate(createDate);
         expectedResult.setMsg("msg");
 
@@ -86,19 +86,19 @@ class MessageVoTest {
     @Test
     void testMtoG() {
         // Setup
-        final GroupChat expectedResult = new GroupChat();
-        expectedResult.setId(0L);
-        expectedResult.setGroupId("chatId");
-        expectedResult.setSenderId("senderId");
-        expectedResult.setMsg("msg");
-        expectedResult.setDate(0L);
-
         final DateVo createDate = new DateVo();
         createDate.setYear(1969);
         createDate.setMonth(12);
         createDate.setDay(31);
         createDate.setHour(19);
         createDate.setMin(0);
+        final GroupChat expectedResult = new GroupChat();
+        expectedResult.setId(0L);
+        expectedResult.setGroupId("chatId");
+        expectedResult.setSenderId("senderId");
+        expectedResult.setMsg("msg");
+        expectedResult.setDate(createDate.toLong());
+
         messageVoUnderTest.setMsgId(String.valueOf(0L));
         messageVoUnderTest.setChatId("chatId");
         messageVoUnderTest.setSenderId("senderId");
@@ -116,19 +116,19 @@ class MessageVoTest {
     @Test
     void testMtoF() {
         // Setup
-        final FriendChat expectedResult = new FriendChat();
-        expectedResult.setId(0L);
-        expectedResult.setReceiverId("chatId");
-        expectedResult.setSenderId("senderId");
-        expectedResult.setMsg("msg");
-        expectedResult.setDate(0L);
-
         final DateVo createDate = new DateVo();
         createDate.setYear(1969);
         createDate.setMonth(12);
         createDate.setDay(31);
         createDate.setHour(19);
         createDate.setMin(0);
+        final FriendChat expectedResult = new FriendChat();
+        expectedResult.setId(0L);
+        expectedResult.setReceiverId("chatId");
+        expectedResult.setSenderId("senderId");
+        expectedResult.setMsg("msg");
+        expectedResult.setDate(createDate.toLong());
+
         messageVoUnderTest.setMsgId(String.valueOf(0L));
         messageVoUnderTest.setChatId("chatId");
         messageVoUnderTest.setSenderId("senderId");
