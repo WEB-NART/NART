@@ -90,6 +90,6 @@ class DateVoTest {
 
     @Test
     void testToString() {
-        assertThat(dateVoUnderTest.toString()).isEqualTo("DateVo(year=0, month=0, day=0, hour=0, min=0)");
+        assertThat(dateVoUnderTest.toString()).isEqualTo("DateVo(year=1969, month=12, day=31, hour=19, min=0)");
     }
 }
