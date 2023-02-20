@@ -1,7 +1,6 @@
 # Default ignored files
 /shelf/
 .idea/
-target/
 /v1/1.0/pack/.idea/
 # Datasource local storage ignored files
 /dataSources/
