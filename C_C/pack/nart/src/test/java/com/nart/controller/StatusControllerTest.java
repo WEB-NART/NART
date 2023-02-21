@@ -56,12 +56,12 @@ class StatusControllerTest {
             "\"data\":" +
                 "[{\"uid\":\"uid\",\"uname\":\"name\",\"avatar\":\"avatar\",\"statusId\":\"id\"," +
                     "\"createDate\":" +
-                        "{\"year\":1969,\"month\":12,\"day\":31,\"hour\":19,\"min\":0}," +
+                        "{\"year\":1970,\"month\":1,\"day\":1,\"hour\":0,\"min\":0}," +
                     "\"likes\":0,\"liked\":false,\"msg\":\"msg\",\"pics\":[\"pics\"]," +
                     "\"comments\":" +
                         "[{\"statusId\":\"statusId\",\"uname\":\"uname\",\"msg\":\"msg\"," +
                         "\"createDate\":" +
-                            "{\"year\":1969,\"month\":12,\"day\":31,\"hour\":19,\"min\":0}" +
+                            "{\"year\":1970,\"month\":1,\"day\":1,\"hour\":0,\"min\":0}" +
                         "}]" +
                     "}]" +
             "}";
@@ -73,10 +73,10 @@ class StatusControllerTest {
         user.setId("id");
         when(mockLoginService.checkToken("token")).thenReturn(user);
         dateVo = new DateVo();
-        dateVo.setYear(1969);
-        dateVo.setMonth(12);
-        dateVo.setDay(31);
-        dateVo.setHour(19);
+        dateVo.setYear(1970);
+        dateVo.setMonth(1);
+        dateVo.setDay(1);
+        dateVo.setHour(0);
         dateVo.setMin(0);
     }
 
@@ -136,7 +136,7 @@ class StatusControllerTest {
         comment1.setId("id");
         comment1.setMsg("msg");
         comment1.setStatusId("statusId");
-        comment1.setCreateDate(0L);
+        comment1.setCreateDate(dateVo.toLong());
         comment1.setUserId("userId");
         comment1.setUname("uname");
         status1.setCommentList(Arrays.asList(comment1));

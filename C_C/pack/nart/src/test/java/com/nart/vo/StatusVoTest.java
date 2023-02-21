@@ -22,10 +22,10 @@ class StatusVoTest {
     void testTransfer() {
         // Setup
         final DateVo createDate = new DateVo();
-        createDate.setYear(1969);
-        createDate.setMonth(12);
-        createDate.setDay(31);
-        createDate.setHour(19);
+        createDate.setYear(1970);
+        createDate.setMonth(1);
+        createDate.setDay(1);
+        createDate.setHour(0);
         createDate.setMin(0);
         final Status status = new Status();
         status.setId("id");
@@ -57,10 +57,10 @@ class StatusVoTest {
         commentVo.setUname("uname");
         commentVo.setMsg("msg");
         final DateVo createDate1 = new DateVo();
-        createDate1.setYear(1969);
-        createDate1.setMonth(12);
-        createDate1.setDay(31);
-        createDate1.setHour(19);
+        createDate1.setYear(1970);
+        createDate1.setMonth(1);
+        createDate1.setDay(1);
+        createDate1.setHour(0);
         createDate1.setMin(0);
         commentVo.setCreateDate(createDate1);
         expectedResult.setComments(Arrays.asList(commentVo));
@@ -75,12 +75,12 @@ class StatusVoTest {
     @Test
     void testGetDateToString() {
         final DateVo createDate = new DateVo();
-        createDate.setYear(1969);
-        createDate.setMonth(12);
-        createDate.setDay(31);
-        createDate.setHour(19);
+        createDate.setYear(1970);
+        createDate.setMonth(1);
+        createDate.setDay(1);
+        createDate.setHour(0);
         createDate.setMin(0);
-        assertThat(statusVoUnderTest.getDateToString(createDate.toLong())).isEqualTo("1969-12-31 19:00");
+        assertThat(statusVoUnderTest.getDateToString(createDate.toLong())).isEqualTo("1970-01-01 00:00");
     }
 
     @Test

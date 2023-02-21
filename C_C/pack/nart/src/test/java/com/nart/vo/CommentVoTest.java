@@ -19,10 +19,10 @@ class CommentVoTest {
     void testTransfer() {
         // Setup
         final DateVo createDate = new DateVo();
-        createDate.setYear(1969);
-        createDate.setMonth(12);
-        createDate.setDay(31);
-        createDate.setHour(19);
+        createDate.setYear(1970);
+        createDate.setMonth(1);
+        createDate.setDay(1);
+        createDate.setHour(0);
         createDate.setMin(0);
 
         final Comment comment = new Comment();

@@ -53,10 +53,10 @@ class CommentControllerTest {
         user.setId("id");
         when(mockLoginService.checkToken("token")).thenReturn(user);
         dateVo = new DateVo();
-        dateVo.setYear(1969);
-        dateVo.setMonth(12);
-        dateVo.setDay(31);
-        dateVo.setHour(19);
+        dateVo.setYear(1970);
+        dateVo.setMonth(1);
+        dateVo.setDay(1);
+        dateVo.setHour(0);
         dateVo.setMin(0);
     }
 
@@ -86,7 +86,7 @@ class CommentControllerTest {
         assertThat(response.getContentAsString())
                 .isEqualTo("{\"success\":true,\"code\":200,\"msg\":\"success\",\"data\":" +
                 "[{\"statusId\":\"statusId\",\"uname\":\"uname\",\"msg\":\"msg\"," +
-                "\"createDate\":{\"year\":1969,\"month\":12,\"day\":31,\"hour\":19,\"min\":0}}]}");
+                "\"createDate\":{\"year\":1970,\"month\":1,\"day\":1,\"hour\":0,\"min\":0}}]}");
     }
 
     @Test
