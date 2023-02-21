@@ -42,11 +42,8 @@ public class UserController {
     @LogA
     @PutMapping("logout")
     public Result logout(@RequestHeader("Authorization") String token) {
-
         userService.upDatetime(UserThreadLocal.get().getId());
         return loginService.logout(token);
-
-        //应该在这个时候更新friend和group里的离开时间
     }
 
     @LogA
@@ -66,7 +63,7 @@ public class UserController {
             user = userService.showUserInfo(id);
         }
         if(user == null) {
-            Result.fail(ErrorCode.USER_NOT_EXIST);
+            return Result.fail(ErrorCode.USER_NOT_EXIST);
         }
         UserVo userVo = new UserVo();
         UserVo transfer = userVo.transfer(user);

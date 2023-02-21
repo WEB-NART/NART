@@ -18,6 +18,7 @@ class GroupChatTest {
     @Test
     void testEquals() {
         assertThat(groupChatUnderTest.equals("o")).isFalse();
+        assertThat(groupChatUnderTest.equals(new GroupChat())).isTrue();
     }
 
     @Test

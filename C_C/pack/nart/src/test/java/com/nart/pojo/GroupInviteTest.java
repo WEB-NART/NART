@@ -17,6 +17,7 @@ class GroupInviteTest {
     @Test
     void testEquals() {
         assertThat(groupInviteUnderTest.equals("o")).isFalse();
+        assertThat(groupInviteUnderTest.equals(new GroupInvite())).isTrue();
     }
 
     @Test

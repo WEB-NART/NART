@@ -81,5 +81,4 @@ public class UploadController {
         return Result.success("yes");
     }
 
-
 }

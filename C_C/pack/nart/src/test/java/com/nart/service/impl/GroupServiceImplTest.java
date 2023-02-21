@@ -231,24 +231,34 @@ class GroupServiceImplTest {
     public void testLeaveGroup() {
         // Setup
         when(mockUserGroupDao.delete(any(LambdaQueryWrapper.class))).thenReturn(1);
-
         // Run the test
         final boolean result = groupServiceImplUnderTest.leaveGroup("gid", "uid");
-
         // Verify the results
         assertThat(result).isTrue();
+
+        // Setup
+        when(mockUserGroupDao.delete(any(LambdaQueryWrapper.class))).thenReturn(0);
+        // Run the test
+        final boolean result2 = groupServiceImplUnderTest.leaveGroup("gid", "uid");
+        // Verify the results
+        assertThat(result2).isFalse();
     }
 
     @Test
     public void testChangeGroupState() {
         // Setup
         when(mockUserGroupDao.update(eq(new UserGroup()), any(LambdaQueryWrapper.class))).thenReturn(1);
-
         // Run the test
         final boolean result = groupServiceImplUnderTest.changeGroupState("gid", "uid", 0);
-
         // Verify the results
         assertThat(result).isTrue();
+
+        // Setup
+        when(mockUserGroupDao.update(eq(new UserGroup()), any(LambdaQueryWrapper.class))).thenReturn(0);
+        // Run the test
+        final boolean result2 = groupServiceImplUnderTest.changeGroupState("gid", "uid", 0);
+        // Verify the results
+        assertThat(result2).isFalse();
     }
 
     @Test
@@ -332,11 +342,16 @@ class GroupServiceImplTest {
         groupInvite.setDate(0L);
 
         when(mockGroupInviteDao.insert(any(GroupInvite.class))).thenReturn(1);
-
         // Run the test
         final boolean result = groupServiceImplUnderTest.sendInvite(groupInvite);
         // Verify the results
         assertThat(result).isTrue();
+
+        when(mockGroupInviteDao.insert(any(GroupInvite.class))).thenReturn(0);
+        // Run the test
+        final boolean result2 = groupServiceImplUnderTest.sendInvite(groupInvite);
+        // Verify the results
+        assertThat(result2).isFalse();
     }
 
     @Test
@@ -400,6 +415,12 @@ class GroupServiceImplTest {
         final boolean result5 = groupServiceImplUnderTest.respGroupInvite("InviteId", true);
         // Verify the results
         assertThat(result5).isTrue();
+
+        when(mockGroupInviteDao.deleteById("InviteId")).thenReturn(0);
+        // Run the test
+        final boolean result6 = groupServiceImplUnderTest.respGroupInvite("InviteId", true);
+        // Verify the results
+        assertThat(result6).isFalse();
     }
 
     @Test

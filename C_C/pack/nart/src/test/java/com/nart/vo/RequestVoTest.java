@@ -59,6 +59,7 @@ class RequestVoTest {
     @Test
     void testEquals() {
         assertThat(requestVoUnderTest.equals("o")).isFalse();
+        assertThat(requestVoUnderTest.equals(new RequestVo())).isTrue();
     }
 
     @Test

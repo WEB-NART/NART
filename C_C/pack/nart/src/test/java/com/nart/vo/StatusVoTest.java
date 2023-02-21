@@ -110,6 +110,7 @@ class StatusVoTest {
     @Test
     void testEquals() {
         assertThat(statusVoUnderTest.equals("o")).isFalse();
+        assertThat(statusVoUnderTest.equals(new StatusVo())).isTrue();
     }
 
     @Test

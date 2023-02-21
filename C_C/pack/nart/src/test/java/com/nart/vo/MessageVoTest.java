@@ -146,6 +146,7 @@ class MessageVoTest {
     @Test
     void testEquals() {
         assertThat(messageVoUnderTest.equals("o")).isFalse();
+        assertThat(messageVoUnderTest.equals(new MessageVo())).isTrue();
     }
 
     @Test

@@ -300,6 +300,39 @@ class FriendServiceImplTest {
     }
 
     @Test
+    public void testSearchFriend_LargePage() {
+        // Setup
+        PageVo p = new PageVo(5, 2);
+        final IPage<User> page = p.toIPage(User.class);
+        when(mockFriendDao.selectList(any(LambdaQueryWrapper.class))).thenReturn(Collections.emptyList());
+
+        // Configure UserDao.selectById(...).
+        final User user = new User();
+        user.setId("id");
+        user.setPwd("pwd");
+        user.setTpwd("tpwd");
+        user.setSalt("salt");
+        user.setAvatar("avatar");
+        user.setName("friendName");
+        user.setTel("tel");
+        user.setAddress("address");
+        user.setEmail("email");
+        user.setAge("age");
+        user.setUserOnline(0);
+        user.setPower(0);
+        user.setState(0);
+        final Friend friend = new Friend();
+        friend.setId("id");
+        user.setFriendList(Arrays.asList(friend));
+        //when(mockUserDao.selectById("rid")).thenReturn(user);
+
+        final List<UserVo> result = friendServiceImplUnderTest.searchFriend("name", page);
+
+        // Verify the results
+        assertThat(result).isEqualTo(Collections.emptyList());
+    }
+
+    @Test
     public void testDelFriend() {
         // Setup
         when(mockFriendDao.delete(any(LambdaQueryWrapper.class))).thenReturn(0, 1);
@@ -406,7 +439,6 @@ class FriendServiceImplTest {
         Friend friend = new Friend();
         friend.setUid("rid");
         friend.setFid("rid");
-        when(mockFriendDao.insert(friend)).thenReturn(0,1);
         when(mockFriendReqDAO.deleteById("reqId")).thenReturn(0, 1);
 
         // Run the test
@@ -419,6 +451,8 @@ class FriendServiceImplTest {
         // Verify the results
         assertThat(result2).isTrue();
 
+        when(mockFriendDao.insert(friend)).thenReturn(0,1);
+
         // Run the test
         final boolean result3 = friendServiceImplUnderTest.respFriendReq("reqId", true);
         // Verify the results
@@ -430,10 +464,11 @@ class FriendServiceImplTest {
         assertThat(result4).isTrue();
 
         when(mockFriendDao.insert(friend)).thenReturn(1);
+        when(mockFriendReqDAO.deleteById("reqId")).thenReturn(0);
         // Run the test
         final boolean result5 = friendServiceImplUnderTest.respFriendReq("reqId", true);
         // Verify the results
-        assertThat(result5).isTrue();
+        assertThat(result5).isFalse();
     }
 
     @Test

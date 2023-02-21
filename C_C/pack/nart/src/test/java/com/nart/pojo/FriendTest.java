@@ -3,6 +3,8 @@ package com.nart.pojo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class FriendTest {
@@ -17,6 +19,7 @@ class FriendTest {
     @Test
     void testEquals() {
         assertThat(friendUnderTest.equals("o")).isFalse();
+        assertThat(friendUnderTest.equals(new Friend())).isTrue();
     }
 
     @Test
@@ -32,5 +35,11 @@ class FriendTest {
     @Test
     void testToString() {
         assertThat(friendUnderTest.toString()).isEqualTo("Friend(id=null, uid=null, fid=null, state=null, leaveTime=null, name=null, email=null, avatar=null, online=null, statusList=null, chatHistory=null, newMessage=null)");
+    }
+
+    @Test
+    void testSet() {
+        friendUnderTest.setChatHistory(Collections.emptyList());
+        assertThat(friendUnderTest.getChatHistory().size()).isEqualTo(0);
     }
 }

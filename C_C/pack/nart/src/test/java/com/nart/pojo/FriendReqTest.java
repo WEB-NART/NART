@@ -17,6 +17,7 @@ class FriendReqTest {
     @Test
     void testEquals() {
         assertThat(friendReqUnderTest.equals("o")).isFalse();
+        assertThat(friendReqUnderTest.equals(new FriendReq())).isTrue();
     }
 
     @Test

@@ -75,7 +75,14 @@ class DateVoTest {
 
     @Test
     void testEquals() {
+        DateVo dateVo = new DateVo();
+        dateVo.setYear(1969);
+        dateVo.setMonth(12);
+        dateVo.setDay(31);
+        dateVo.setHour(19);
+        dateVo.setMin(0);
         assertThat(dateVoUnderTest.equals("o")).isFalse();
+        assertThat(dateVoUnderTest.equals(dateVo)).isTrue();
     }
 
     @Test
@@ -90,6 +97,6 @@ class DateVoTest {
 
     @Test
     void testToString() {
-        assertThat(dateVoUnderTest.toString()).isEqualTo("DateVo(year=0, month=0, day=0, hour=0, min=0)");
+        assertThat(dateVoUnderTest.toString()).isEqualTo("DateVo(year=1969, month=12, day=31, hour=19, min=0)");
     }
 }

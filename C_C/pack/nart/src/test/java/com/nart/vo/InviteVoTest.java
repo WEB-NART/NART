@@ -57,6 +57,7 @@ class InviteVoTest {
     @Test
     void testEquals() {
         assertThat(inviteVoUnderTest.equals("o")).isFalse();
+        assertThat(inviteVoUnderTest.equals(new InviteVo())).isTrue();
     }
 
     @Test
