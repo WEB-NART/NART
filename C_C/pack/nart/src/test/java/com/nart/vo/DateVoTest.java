@@ -12,10 +12,10 @@ class DateVoTest {
     @BeforeEach
     void setUp() {
         DateVo dateVo = new DateVo();
-        dateVo.setYear(1969);
-        dateVo.setMonth(12);
-        dateVo.setDay(31);
-        dateVo.setHour(19);
+        dateVo.setYear(1970);
+        dateVo.setMonth(1);
+        dateVo.setDay(1);
+        dateVo.setHour(0);
         dateVo.setMin(0);
         dateVoUnderTest = dateVo;
     }
@@ -24,10 +24,10 @@ class DateVoTest {
     void testGetDateToString() {
         // Setup
         final DateVo dateVo = new DateVo();
-        dateVo.setYear(1969);
-        dateVo.setMonth(12);
-        dateVo.setDay(31);
-        dateVo.setHour(19);
+        dateVo.setYear(1970);
+        dateVo.setMonth(1);
+        dateVo.setDay(1);
+        dateVo.setHour(0);
         dateVo.setMin(0);
 
         // Run the test
@@ -40,10 +40,10 @@ class DateVoTest {
     @Test
     void testToLong() {
         final DateVo dateVo = new DateVo();
-        dateVo.setYear(1969);
-        dateVo.setMonth(12);
-        dateVo.setDay(31);
-        dateVo.setHour(19);
+        dateVo.setYear(1970);
+        dateVo.setMonth(1);
+        dateVo.setDay(1);
+        dateVo.setHour(0);
         dateVo.setMin(0);
 
         assertThat(dateVoUnderTest.toLong()).isEqualTo(dateVo.toLong());
@@ -53,21 +53,21 @@ class DateVoTest {
     void testCreateDateVo() {
         // Setup
         final DateVo dateVo = new DateVo();
-        dateVo.setYear(1969);
-        dateVo.setMonth(12);
-        dateVo.setDay(31);
-        dateVo.setHour(19);
+        dateVo.setYear(1970);
+        dateVo.setMonth(1);
+        dateVo.setDay(1);
+        dateVo.setHour(0);
         dateVo.setMin(0);
 
         final DateVo createDate = new DateVo();
-        createDate.setYear(1969);
-        createDate.setMonth(12);
-        createDate.setDay(31);
-        createDate.setHour(19);
+        createDate.setYear(1970);
+        createDate.setMonth(1);
+        createDate.setDay(1);
+        createDate.setHour(0);
         createDate.setMin(0);
 
         // Run the test
-        final DateVo result = dateVoUnderTest.createDateVo("1969-12-31 19:00:56Z", dateVo);
+        final DateVo result = dateVoUnderTest.createDateVo("1970-01-01 00:00:56Z", dateVo);
 
         // Verify the results
         assertThat(result).isEqualTo(createDate);
@@ -76,10 +76,10 @@ class DateVoTest {
     @Test
     void testEquals() {
         DateVo dateVo = new DateVo();
-        dateVo.setYear(1969);
-        dateVo.setMonth(12);
-        dateVo.setDay(31);
-        dateVo.setHour(19);
+        dateVo.setYear(1970);
+        dateVo.setMonth(1);
+        dateVo.setDay(1);
+        dateVo.setHour(0);
         dateVo.setMin(0);
         assertThat(dateVoUnderTest.equals("o")).isFalse();
         assertThat(dateVoUnderTest.equals(dateVo)).isTrue();
@@ -97,6 +97,6 @@ class DateVoTest {
 
     @Test
     void testToString() {
-        assertThat(dateVoUnderTest.toString()).isEqualTo("DateVo(year=1969, month=12, day=31, hour=19, min=0)");
+        assertThat(dateVoUnderTest.toString()).isEqualTo("DateVo(year=1970, month=1, day=1, hour=0, min=0)");
     }
 }

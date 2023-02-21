@@ -20,10 +20,10 @@ class MessageVoTest {
     void testFtransfer() {
         // Setup
         final DateVo createDate = new DateVo();
-        createDate.setYear(1969);
-        createDate.setMonth(12);
-        createDate.setDay(31);
-        createDate.setHour(19);
+        createDate.setYear(1970);
+        createDate.setMonth(1);
+        createDate.setDay(1);
+        createDate.setHour(0);
         createDate.setMin(0);
         final FriendChat friendChat = new FriendChat();
         friendChat.setId(0L);
@@ -53,10 +53,10 @@ class MessageVoTest {
     void testGtransfer() {
         // Setup
         final DateVo createDate = new DateVo();
-        createDate.setYear(1969);
-        createDate.setMonth(12);
-        createDate.setDay(31);
-        createDate.setHour(19);
+        createDate.setYear(1970);
+        createDate.setMonth(1);
+        createDate.setDay(1);
+        createDate.setHour(0);
         createDate.setMin(0);
         final GroupChat groupChat = new GroupChat();
         groupChat.setId(0L);
@@ -87,10 +87,10 @@ class MessageVoTest {
     void testMtoG() {
         // Setup
         final DateVo createDate = new DateVo();
-        createDate.setYear(1969);
-        createDate.setMonth(12);
-        createDate.setDay(31);
-        createDate.setHour(19);
+        createDate.setYear(1970);
+        createDate.setMonth(1);
+        createDate.setDay(1);
+        createDate.setHour(0);
         createDate.setMin(0);
         final GroupChat expectedResult = new GroupChat();
         expectedResult.setId(0L);
@@ -117,10 +117,10 @@ class MessageVoTest {
     void testMtoF() {
         // Setup
         final DateVo createDate = new DateVo();
-        createDate.setYear(1969);
-        createDate.setMonth(12);
-        createDate.setDay(31);
-        createDate.setHour(19);
+        createDate.setYear(1970);
+        createDate.setMonth(1);
+        createDate.setDay(1);
+        createDate.setHour(0);
         createDate.setMin(0);
         final FriendChat expectedResult = new FriendChat();
         expectedResult.setId(0L);
