@@ -79,6 +79,7 @@ class FriendVoTest {
     @Test
     void testEquals() {
         assertThat(friendVoUnderTest.equals("o")).isFalse();
+        assertThat(friendVoUnderTest.equals(new FriendVo())).isTrue();
     }
 
     @Test

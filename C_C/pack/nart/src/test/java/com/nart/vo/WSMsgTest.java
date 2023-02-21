@@ -17,6 +17,7 @@ class WSMsgTest {
     @Test
     void testEquals() throws Exception {
         assertThat(wsMsgUnderTest.equals("o")).isFalse();
+        assertThat(wsMsgUnderTest.equals(new WSMsg())).isTrue();
     }
 
     @Test

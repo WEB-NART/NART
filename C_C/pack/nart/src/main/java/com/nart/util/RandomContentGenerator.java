@@ -2,10 +2,6 @@ package com.nart.util;
 
 import com.github.javafaker.Faker;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -142,22 +138,22 @@ public class RandomContentGenerator {
 //        }
 //        return "";
     }
-
-    private static byte[] fileToByte(File img) throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] bytes = new byte[0];
-        try {
-            BufferedImage bi;
-            bi = ImageIO.read(img);
-            ImageIO.write(bi, "jpg", baos);
-            bytes = baos.toByteArray();
-            System.err.println(bytes.length);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            baos.close();
-        }
-        return bytes;
-    }
+//
+//    private static byte[] fileToByte(File img) throws Exception {
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        byte[] bytes = new byte[0];
+//        try {
+//            BufferedImage bi;
+//            bi = ImageIO.read(img);
+//            ImageIO.write(bi, "jpg", baos);
+//            bytes = baos.toByteArray();
+//            System.err.println(bytes.length);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            baos.close();
+//        }
+//        return bytes;
+//    }
 
 }

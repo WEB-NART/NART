@@ -27,6 +27,7 @@ class PageVoTest {
     @Test
     void testEquals() {
         assertThat(pageVoUnderTest.equals("o")).isFalse();
+        assertThat(pageVoUnderTest.equals(new PageVo(0,0))).isTrue();
     }
 
     @Test

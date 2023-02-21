@@ -17,6 +17,7 @@ class UserLikeTest {
     @Test
     void testEquals() throws Exception {
         assertThat(userLikeUnderTest.equals("o")).isFalse();
+        assertThat(userLikeUnderTest.equals(new UserLike())).isTrue();
     }
 
     @Test

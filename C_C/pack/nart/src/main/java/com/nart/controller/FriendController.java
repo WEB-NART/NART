@@ -54,13 +54,13 @@ public class FriendController {
                     UserThreadLocal.get().getId()
             );
             if(userVos == null) {
-                return Result.success(ErrorCode.SEARCH_FRIEND_ERROR);
+                return Result.fail(ErrorCode.SEARCH_FRIEND_ERROR);
             }
             return Result.success(userVos);
         } else {
             List<UserVo> userVos = friendService.searchFriend(input, page.toIPage(Friend.class));
             if(userVos == null) {
-                return Result.success(ErrorCode.SEARCH_FRIEND_ERROR);
+                return Result.fail(ErrorCode.SEARCH_FRIEND_ERROR);
             }
             return Result.success(userVos);
         }
@@ -126,7 +126,7 @@ public class FriendController {
                               @PathVariable("input") String input) {
         List<UserVo> userVos = friendService.searchNew(input, page);
         if(userVos == null) {
-            return Result.success(ErrorCode.SEARCH_NEW_ERROR);
+            return Result.fail(ErrorCode.SEARCH_NEW_ERROR);
         }
         return Result.success(userVos);
     }

@@ -43,9 +43,6 @@ public class CommentController {
             commentVos.add(transfer);
         }
 
-        if(commentVos == null) {
-            return Result.fail(ErrorCode.SHOW_COMMENT_LIST_ERROR);
-        }
         return Result.success(commentVos);
     }
 

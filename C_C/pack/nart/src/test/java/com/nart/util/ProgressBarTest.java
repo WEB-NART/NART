@@ -24,7 +24,7 @@ class ProgressBarTest {
     @Test
     void load() throws InterruptedException {
         pb.printProgress();
-        for (int i = 0; i <= 100; i++) {
+        for (int i = 0; i <= 101; i++) {
             Thread.sleep(10);
             pb.load();
         }

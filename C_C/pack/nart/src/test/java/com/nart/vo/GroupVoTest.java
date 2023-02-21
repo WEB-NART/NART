@@ -47,6 +47,9 @@ class GroupVoTest {
     @Test
     void testEquals() {
         assertThat(groupVoUnderTest.equals("o")).isFalse();
+        GroupVo groupVo = new GroupVo();
+        groupVo.setId("id");
+        assertThat(groupVoUnderTest.equals(groupVo)).isTrue();
     }
 
     @Test

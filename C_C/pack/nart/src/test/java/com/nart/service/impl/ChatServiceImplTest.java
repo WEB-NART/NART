@@ -74,15 +74,19 @@ class ChatServiceImplTest {
         friendChat.setType("type");
         friendChat.setDate(0L);
 
-        when(mockFriendChatDao.insert(any(FriendChat.class))).thenReturn(1);
+        when(mockFriendChatDao.insert(any(FriendChat.class))).thenReturn(1,0);
         when(mockDataCounterService.updateMessageAmount(true)).thenReturn(1);
 
         // Run the test
         final boolean result = chatServiceImplUnderTest.sendFriendMsg(friendChat);
-
         // Verify the results
         assertThat(result).isTrue();
         verify(mockDataCounterService).updateMessageAmount(true);
+
+        // Run the test
+        final boolean result2 = chatServiceImplUnderTest.sendFriendMsg(friendChat);
+        // Verify the results
+        assertThat(result2).isFalse();
     }
 
     @Test
@@ -117,15 +121,18 @@ class ChatServiceImplTest {
         group.setUserList(Arrays.asList(friend));
         when(mockGroupDao.selectById("groupId")).thenReturn(group);
 
-        when(mockGroupChatDao.insert(any(GroupChat.class))).thenReturn(1);
+        when(mockGroupChatDao.insert(any(GroupChat.class))).thenReturn(1,0);
         when(mockDataCounterService.updateMessageAmount(true)).thenReturn(1);
 
         // Run the test
         final boolean result = chatServiceImplUnderTest.sendGroupMsg(groupChat);
-
         // Verify the results
         assertThat(result).isTrue();
         verify(mockDataCounterService).updateMessageAmount(true);
+        // Run the test
+        final boolean result2 = chatServiceImplUnderTest.sendGroupMsg(groupChat);
+        // Verify the results
+        assertThat(result2).isFalse();
     }
 
     @Test

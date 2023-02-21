@@ -50,6 +50,7 @@ class CommentVoTest {
     @Test
     void testEquals() {
         assertThat(commentVoUnderTest.equals("o")).isFalse();
+        assertThat(commentVoUnderTest.equals(new CommentVo())).isTrue();
     }
 
     @Test

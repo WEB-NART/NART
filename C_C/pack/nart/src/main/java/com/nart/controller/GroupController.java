@@ -66,7 +66,7 @@ public class GroupController {
     public Result showGroupList(@RequestBody PageVo page) {
         List<GroupVo> groupVos = groupService.showGroupList(page.toIPage(UserGroup.class));
         if(groupVos == null) {
-            Result.fail(ErrorCode.SHOW_GROUP_LIST_ERROR);
+            return Result.fail(ErrorCode.SHOW_GROUP_LIST_ERROR);
         }
         return Result.success(groupVos);
     }
@@ -97,9 +97,8 @@ public class GroupController {
     public Result showInviteList(@RequestBody PageVo page) {
         List<InviteVo> inviteVos = groupService.showInviteList(page.toIPage(GroupInvite.class));
 
-
         if(inviteVos == null) {
-            Result.fail(ErrorCode.SHOW_GROUP_INVITE_LIST_ERROR);
+            return Result.fail(ErrorCode.SHOW_GROUP_INVITE_LIST_ERROR);
         }
 
         return Result.success(inviteVos);

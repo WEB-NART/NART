@@ -18,6 +18,7 @@ class UserGroupTest {
     @Test
     void testEquals() throws Exception {
         assertThat(userGroupUnderTest.equals("o")).isFalse();
+        assertThat(userGroupUnderTest.equals(new UserGroup())).isTrue();
     }
 
     @Test

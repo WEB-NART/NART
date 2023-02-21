@@ -100,6 +100,7 @@ class UserVoTest {
     @Test
     void testEquals() throws Exception {
         assertThat(userVoUnderTest.equals("o")).isFalse();
+        assertThat(userVoUnderTest.equals(new UserVo())).isTrue();
     }
 
     @Test

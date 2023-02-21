@@ -17,6 +17,7 @@ class FriendChatTest {
     @Test
     void testEquals() {
         assertThat(friendChatUnderTest.equals("o")).isFalse();
+        assertThat(friendChatUnderTest.equals(new FriendChat())).isTrue();
     }
 
     @Test

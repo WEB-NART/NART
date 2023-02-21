@@ -17,6 +17,7 @@ class CommentTest {
     @Test
     void testEquals() {
         assertThat(commentUnderTest.equals("o")).isFalse();
+        assertThat(commentUnderTest.equals(new Comment())).isTrue();
     }
 
     @Test

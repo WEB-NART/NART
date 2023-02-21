@@ -50,17 +50,4 @@ public class ProgressBar {
             index++;
         }
     }
-
-    public static void main(String[] args) {
-        ProgressBar pb = new ProgressBar();
-        pb.printProgress();
-        for (int i = 0; i <= 100; i++) {
-            pb.load();
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
 }
