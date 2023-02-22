@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProgressBar.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.util</a> &gt; <span class="el_source">ProgressBar.java</span></div><h1>ProgressBar.java</h1><pre class="source lang-java linenums">package com.nart.util;
+
+/**
+ * Copyright (c) 2008-2024: Zirui Qiao
+ * Project: pack
+ *
+ * @className: ProgressBar
+ * @Description: TODO
+ * @version: v1.8.0
+ * @Author: ZIRUI QIAO
+ * @Date: 2023-01-31 5:20 p.m.
+ */
+<span class="fc" id="L13">public class ProgressBar {</span>
+
+<span class="fc" id="L15">    private int index = 0;</span>
+    private String finish;
+    private String unFinish;
+    private String target;
+
+
+    // 进度条粒度
+<span class="fc" id="L22">    private final int PROGRESS_SIZE = 50;</span>
+<span class="fc" id="L23">    private int BITE = 2;</span>
+
+    private String getNChar(int num, char ch){
+<span class="fc" id="L26">        StringBuilder builder = new StringBuilder();</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        for(int i = 0; i &lt; num; i++){</span>
+<span class="fc" id="L28">            builder.append(ch);</span>
+        }
+<span class="fc" id="L30">        return builder.toString();</span>
+    }
+
+    public void printProgress(){
+<span class="fc" id="L34">        System.out.print(&quot;Progress:&quot;);</span>
+
+<span class="fc" id="L36">        finish = getNChar(index / BITE, '█');</span>
+<span class="fc" id="L37">        unFinish = getNChar(PROGRESS_SIZE - index / BITE, '─');</span>
+<span class="fc" id="L38">        target = String.format(&quot;%3d%%[%s%s]&quot;, index, finish, unFinish);</span>
+<span class="fc" id="L39">        System.out.print(target);</span>
+<span class="fc" id="L40">    }</span>
+
+    public void load() {
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (index &lt;= 100){</span>
+<span class="fc" id="L44">            finish = getNChar(index / BITE, '█');</span>
+<span class="fc" id="L45">            unFinish = getNChar(PROGRESS_SIZE - index / BITE, '─');</span>
+
+<span class="fc" id="L47">            target = String.format(&quot;%3d%%├%s%s┤&quot;, index, finish, unFinish);</span>
+<span class="fc" id="L48">            System.out.print(getNChar(PROGRESS_SIZE + 6, '\b'));</span>
+<span class="fc" id="L49">            System.out.print(target);</span>
+<span class="fc" id="L50">            index++;</span>
+        }
+<span class="fc" id="L52">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

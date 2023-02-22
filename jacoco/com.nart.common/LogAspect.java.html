@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LogAspect.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.common</a> &gt; <span class="el_source">LogAspect.java</span></div><h1>LogAspect.java</h1><pre class="source lang-java linenums">package com.nart.common;
+
+import com.nart.util.GsonFormatter;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+/**
+ * Copyright (c) 2008-2024: Zirui Qiao
+ * Project: blog-parent
+ *
+ * @className: LogAspect
+ *  Log request and response detail
+ * @version: v1.8.0
+ * @Author ZIRUI QIAO
+ * @Date 2023/1/10 13:30
+ */
+@Component
+@Aspect
+<span class="fc" id="L25">public class LogAspect {</span>
+
+<span class="fc" id="L27">    private final Logger log = LoggerFactory.getLogger(LogAspect.class);</span>
+
+
+    @Pointcut(&quot;@annotation(com.nart.common.LogA)&quot;)
+    public void pt() {
+
+<span class="fc" id="L33">    }</span>
+
+<span class="fc" id="L35">    private static final String[] types = { &quot;java.lang.Integer&quot;, &quot;java.lang.Double&quot;,</span>
+            &quot;java.lang.Float&quot;, &quot;java.lang.Long&quot;, &quot;java.lang.Short&quot;,
+            &quot;java.lang.Byte&quot;, &quot;java.lang.Boolean&quot;, &quot;java.lang.Char&quot;,
+            &quot;java.lang.String&quot;, &quot;int&quot;, &quot;double&quot;, &quot;long&quot;, &quot;short&quot;, &quot;byte&quot;,
+            &quot;boolean&quot;, &quot;char&quot;, &quot;float&quot; };
+
+    @Around(&quot;pt()&quot;)
+    public Object log(ProceedingJoinPoint point) throws Throwable {
+
+<span class="fc" id="L44">        long beginTime = System.currentTimeMillis();</span>
+        // execute method
+<span class="fc" id="L46">        Object result = point.proceed();</span>
+        // how long does it take(milli seconds)
+<span class="fc" id="L48">        long time = System.currentTimeMillis() - beginTime;</span>
+        // save log
+<span class="fc" id="L50">        recordLog(point, time, result);</span>
+<span class="fc" id="L51">        return result;</span>
+    }
+
+    private void recordLog(ProceedingJoinPoint joinPoint, long time, Object result) {
+<span class="fc" id="L55">        log.info(&quot;=====================log start================================&quot;);</span>
+<span class="fc" id="L56">        MethodSignature signature = (MethodSignature) joinPoint.getSignature();</span>
+//        Method method = signature.getMethod();
+//        LogA logA = method.getAnnotation(LogA.class);
+//        log.info(&quot;module:{}&quot;, logA.module());
+//        log.info(&quot;operation:{}&quot;, logA.operator());
+
+        // request method
+<span class="fc" id="L63">        Object target = joinPoint.getTarget();</span>
+<span class="fc" id="L64">        String className = target.getClass().getName();</span>
+<span class="fc" id="L65">        String methodName = signature.getName();</span>
+<span class="fc" id="L66">        log.info(&quot;request method:{}&quot;, className + &quot;.&quot; + methodName + &quot;()&quot;);</span>
+
+        // request parameters
+<span class="fc" id="L69">        Object[] args = joinPoint.getArgs();</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (args.length &gt; 0) {</span>
+<span class="fc" id="L71">            String params = GsonFormatter.toJsonString(args[0]);</span>
+<span class="fc" id="L72">            log.info(&quot;params:{}&quot;, params);</span>
+        }
+
+        // get request IP address
+        //log.info(&quot;ip:{}&quot;, IpUtils.getIpAddr());
+<span class="fc" id="L77">        log.info(&quot;{}&quot;, result);</span>
+
+        // print request header和body
+        //printRequest(HttpContextUtils.getHttpServletRequest(), joinPoint);
+
+<span class="fc" id="L82">        log.info(&quot;execute time : {} ms&quot;, time);</span>
+<span class="fc" id="L83">        log.info(&quot;=====================log end================================&quot;);</span>
+<span class="fc" id="L84">    }</span>
+
+//    private void printRequest(HttpServletRequest request, ProceedingJoinPoint joinPoint) {
+//        Enumeration&lt;String&gt; headerNames = request.getHeaderNames();
+//        log.info(&quot;  header: {&quot;);
+//        while (headerNames.hasMoreElements()) {
+//            String key = (String) headerNames.nextElement();
+//            // exclude Cookie variable
+//            if (key.equalsIgnoreCase(&quot;Cookie&quot;)) {
+//                continue;
+//            }
+//            String value = request.getHeader(key);
+//            log.info(&quot;      key: {} value: {}&quot;, key, value);
+//        }
+//        log.info(&quot;} body: {&quot;);
+//        readBody(joinPoint);
+//        log.info(&quot;}&quot;);
+//    }
+//
+//    private void readBody(JoinPoint joinPoint) {
+//        try {
+//            // catch request, record request content
+//            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
+//                    .getRequestAttributes();
+//            String logStr = &quot;&quot;;
+//            HttpServletRequest request = attributes.getRequest();
+//            HttpServletResponse response = attributes.getResponse();
+//            // record request content
+//            logStr += &quot;URL:&quot; + request.getRequestURI().toString() + &quot; | &quot;;
+//            logStr += &quot;CLASS_METHOD:&quot; + joinPoint.getSignature().getDeclaringType().getSimpleName() + &quot;.&quot;
+//                    + joinPoint.getSignature().getName() + &quot; | &quot;;
+//            logStr += &quot;ARGS:&quot;;
+//            // joinPoint get parameter name
+//            String[] params = ((CodeSignature) joinPoint.getStaticPart().getSignature()).getParameterNames();
+//            // joinPoint get parameter value
+//            Object[] args = joinPoint.getArgs();
+//            Signature signature = joinPoint.getSignature();
+//            MethodSignature methodSignature = (MethodSignature) signature;
+//            Method method = methodSignature.getMethod();
+//            if (true) {
+//                // print parameter value
+//                int i = 0;
+//                for (Object arg : args) {
+//                    if (arg == request || arg == response) {
+//                        i += 1;
+//                        continue;
+//                    }
+//                    String typeName = &quot;&quot;;
+//                    try {
+//                        typeName = arg.getClass().getTypeName();
+//                    } catch (Exception e) {
+//                    }
+//                    if (!Arrays.asList(types).contains(typeName)) {
+//                        // reformat parameter to JSON
+//                        logStr += &quot;&amp;&quot; + params[i] + &quot;=&quot; + GsonFormatter.toJsonString(arg);
+//                    } else {
+//                        logStr += &quot;&amp;&quot; + params[i] + &quot;=&quot; + arg;
+//                    }
+//                    i += 1;
+//                }
+//            }
+//            logStr += &quot; | &quot;;
+//            log.info(&quot;print request: &quot;);
+//            log.info(logStr);
+//        } catch (Throwable e) {
+//            log.error(&quot;HaLogParamAspect error.&quot;, e);
+//        }
+//    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

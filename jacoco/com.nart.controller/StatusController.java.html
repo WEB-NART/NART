@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StatusController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.controller</a> &gt; <span class="el_source">StatusController.java</span></div><h1>StatusController.java</h1><pre class="source lang-java linenums">package com.nart.controller;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.nart.common.LogA;
+
+import com.nart.dao.UserDao;
+import com.nart.pojo.Status;
+import com.nart.pojo.User;
+import com.nart.service.StatusService;
+import com.nart.util.ErrorCode;
+import com.nart.util.UserThreadLocal;
+import com.nart.util.Result;
+import com.nart.vo.PageVo;
+import com.nart.vo.StatusVo;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * Copyright (c) 2008-2024: Zirui Qiao
+ * Project: pack
+ *
+ * @className: StatusController
+ *  group related request controller
+ * @version: v1.8.0
+ * @Author ZIRUI QIAO
+ * @Date 2023/01/12 14:56
+ */
+@RestController
+@RequestMapping(&quot;status&quot;)
+@LogA
+<span class="fc" id="L37">public class StatusController {</span>
+
+    @Autowired
+    private StatusService statusService;
+
+    @Autowired
+    private UserDao userDao;
+
+    @LogA
+    @PostMapping(&quot;list/{type}/{uid}&quot;)
+    public Result showStatusList(@PathVariable(&quot;type&quot;) String type,
+                                 @PathVariable(&quot;uid&quot;) String uid,
+                                 @RequestBody PageVo pageVo) {
+<span class="fc" id="L50">        IPage&lt;User&gt; page = new Page&lt;&gt;(pageVo.getPageNum(), pageVo.getPageSize());</span>
+
+<span class="fc" id="L52">        StatusVo statusVo = new StatusVo();</span>
+
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        if (type.equals(&quot;my&quot;)){</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">            if(uid.equals(&quot;-1&quot;)) {</span>
+//                show current User's Status
+<span class="fc" id="L57">                uid = UserThreadLocal.get().getId();</span>
+<span class="fc" id="L58">                List&lt;Status&gt; statuses = statusService.showStatusList(uid, page);</span>
+//                System.out.println(statuses);
+<span class="fc" id="L60">                List&lt;StatusVo&gt; statusVos = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">                for (Status status : statuses) {</span>
+<span class="fc" id="L62">                    StatusVo transfer = statusVo.transfer(status);</span>
+
+<span class="fc" id="L64">                    User user = userDao.selectById(status.getSenderId());</span>
+//                    System.out.println(user);
+<span class="fc" id="L66">                    transfer.setAvatar(user.getAvatar());</span>
+<span class="fc" id="L67">                    transfer.setUname(user.getName());</span>
+
+<span class="fc" id="L69">                    statusVos.add(transfer);</span>
+<span class="fc" id="L70">                }</span>
+<span class="fc" id="L71">                return Result.success(statusVos);</span>
+            } else {
+//                show uid User's Status
+<span class="fc" id="L74">                List&lt;Status&gt; statuses = statusService.showStatusList(uid, page);</span>
+//                System.out.println(statuses);
+<span class="fc" id="L76">                List&lt;StatusVo&gt; statusVos = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">                for (Status status : statuses) {</span>
+<span class="fc" id="L78">                    StatusVo transfer = statusVo.transfer(status);</span>
+
+<span class="fc" id="L80">                    User user = userDao.selectById(status.getSenderId());</span>
+                    //System.out.println(user);
+<span class="fc" id="L82">                    transfer.setAvatar(user.getAvatar());</span>
+<span class="fc" id="L83">                    transfer.setUname(user.getName());</span>
+<span class="fc" id="L84">                    statusVos.add(transfer);</span>
+<span class="fc" id="L85">                }</span>
+<span class="fc" id="L86">                return Result.success(statusVos);</span>
+            }
+        } else {
+<span class="fc" id="L89">            uid = UserThreadLocal.get().getId();</span>
+            List&lt;Status&gt; statuses;
+<span class="fc" id="L91">            statuses = statusService.showAllStatusList(uid, page);</span>
+            //List&lt;Status&gt; statuses = statusService.showAllStatusList(uid);
+//            List&lt;Status&gt; statuses = statusService.showStatusList(uid, page);
+//            return Result.success(statuses);
+<span class="fc" id="L95">            List&lt;StatusVo&gt; statusVos = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">            for (Status status : statuses) {</span>
+<span class="fc" id="L97">                StatusVo transfer = statusVo.transfer(status);</span>
+
+<span class="fc" id="L99">                User user = userDao.selectById(status.getSenderId());</span>
+                //System.out.println(user);
+<span class="fc" id="L101">                transfer.setAvatar(user.getAvatar());</span>
+<span class="fc" id="L102">                transfer.setUname(user.getName());</span>
+<span class="fc" id="L103">                statusVos.add(transfer);</span>
+<span class="fc" id="L104">            }</span>
+<span class="fc" id="L105">            return Result.success(statusVos);</span>
+        }
+        //return Result.fail(ErrorCode.UNDEFINED);
+    }
+
+    @LogA
+    @PutMapping(&quot;like/{statusId}/{like}&quot;)
+    public Result likeStatus(@PathVariable(&quot;statusId&quot;) String statusId,
+                             @PathVariable(&quot;like&quot;) Boolean like) {
+<span class="fc" id="L114">        boolean b = statusService.likeStatus(statusId, like);</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        if(b) {</span>
+<span class="fc" id="L116">            return Result.success(null);</span>
+        } else {
+<span class="fc" id="L118">            return Result.fail(ErrorCode.LIKE_STATUS_ERROR);</span>
+        }
+    }
+
+    @LogA
+    @PostMapping(&quot;post&quot;)
+    public Result postStatus(@RequestBody StatusVo statusInfo) {
+        //System.out.println(statusInfo);
+<span class="fc" id="L126">        Status status = new Status();</span>
+<span class="fc" id="L127">        status.setSenderId(UserThreadLocal.get().getId());</span>
+<span class="fc" id="L128">        status.setText(statusInfo.getMsg());</span>
+
+
+<span class="fc" id="L131">        List&lt;String&gt; pics = statusInfo.getPics();</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        if(pics != null) {</span>
+<span class="fc" id="L133">            String join = StringUtils.join(pics.toArray(), &quot;;&quot;);</span>
+            //System.out.println(join);
+<span class="fc" id="L135">            status.setPics(join);</span>
+//       status.setPics(GsonFormatter.toJsonString(statusInfo.getPics()));
+        }
+<span class="fc" id="L138">        status.setLikes(0);</span>
+<span class="fc" id="L139">        status.setCreateDate(new Date().getTime());</span>
+<span class="fc" id="L140">        boolean b = statusService.postStatus(status);</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        if(b) {</span>
+<span class="fc" id="L142">            return Result.success(null);</span>
+        } else {
+<span class="fc" id="L144">            return Result.fail(ErrorCode.POST_STATUS_ERROR);</span>
+        }
+    }
+
+    @LogA
+    @DeleteMapping(&quot;del/{statusId}&quot;)
+    public Result delStatus(@PathVariable(&quot;statusId&quot;) String statusId) {
+<span class="fc" id="L151">        boolean b = statusService.delStatus(statusId);</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        if(b) {</span>
+<span class="fc" id="L153">            return Result.success(null);</span>
+        } else {
+<span class="fc" id="L155">            return Result.fail(ErrorCode.DEL_STATUS_ERROR);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

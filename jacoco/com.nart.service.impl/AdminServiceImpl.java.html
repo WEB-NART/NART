@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdminServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.service.impl</a> &gt; <span class="el_source">AdminServiceImpl.java</span></div><h1>AdminServiceImpl.java</h1><pre class="source lang-java linenums">package com.nart.service.impl;
+
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.nart.dao.*;
+import com.nart.pojo.Comment;
+import com.nart.pojo.Status;
+import com.nart.pojo.User;
+import com.nart.service.AdminService;
+import com.nart.service.CommentService;
+import com.nart.service.DataCounterService;
+import com.nart.service.StatusService;
+import com.nart.util.RedisUtil;
+import com.nart.util.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Transactional
+@Service
+public class AdminServiceImpl implements AdminService {
+    private final FriendChatDao friendChatDao;
+    private final GroupChatDao groupChatDao;
+    private final UserDao userDao;
+    private final CommentDao commentDao;
+    private final GroupDao groupDao;
+    private final StatusDao statusDao;
+    private final CommentService commentService;
+    private final DataCounterService dataCounterService;
+    private final RedisUtil redisUtil;
+    private final FriendDao friendDao;
+    private final UserGroupDao userGroupDao;
+    private final StatusService statusService;
+
+    @Autowired
+    public AdminServiceImpl(UserDao userDao,
+                            FriendChatDao friendChatDao,
+                            GroupChatDao groupChatDao,
+                            CommentDao commentDao,
+                            GroupDao groupDao,
+                            StatusDao statusDao,
+                            CommentService commentService,
+                            DataCounterService dataCounterService,
+                            RedisUtil redisUtil,
+                            FriendDao friendDao,
+                            StatusService statusService,
+<span class="fc" id="L49">                            UserGroupDao userGroupDao) {</span>
+<span class="fc" id="L50">        this.userDao = userDao;</span>
+<span class="fc" id="L51">        this.friendChatDao = friendChatDao;</span>
+<span class="fc" id="L52">        this.groupChatDao = groupChatDao;</span>
+<span class="fc" id="L53">        this.commentDao = commentDao;</span>
+<span class="fc" id="L54">        this.groupDao = groupDao;</span>
+<span class="fc" id="L55">        this.statusDao = statusDao;</span>
+<span class="fc" id="L56">        this.commentService = commentService;</span>
+<span class="fc" id="L57">        this.dataCounterService = dataCounterService;</span>
+<span class="fc" id="L58">        this.redisUtil = redisUtil;</span>
+<span class="fc" id="L59">        this.friendDao = friendDao;</span>
+<span class="fc" id="L60">        this.statusService = statusService;</span>
+<span class="fc" id="L61">        this.userGroupDao = userGroupDao;</span>
+<span class="fc" id="L62">    }</span>
+
+    @Override
+    public List&lt;User&gt; showAllUserInfo() {
+<span class="fc" id="L66">        return userDao.selectList(null);</span>
+    }
+
+    @Override
+    public int showAllUserNum() {
+<span class="fc" id="L71">        List&lt;User&gt; users = userDao.selectList(null);</span>
+<span class="fc" id="L72">        return users.size();</span>
+    }
+
+    @Override
+    public List&lt;User&gt; showOnlineUserInfo() {
+<span class="fc" id="L77">        LambdaQueryWrapper&lt;User&gt; lqw = new LambdaQueryWrapper&lt;User&gt;();</span>
+<span class="fc" id="L78">        lqw.eq(User::getUserOnline, 1);</span>
+
+<span class="fc" id="L80">        return userDao.selectList(lqw);</span>
+    }
+
+    @Override
+    public int showOnlineUserNum() {
+<span class="fc" id="L85">        LambdaQueryWrapper&lt;User&gt; lqw = new LambdaQueryWrapper&lt;User&gt;();</span>
+<span class="fc" id="L86">        lqw.eq(User::getUserOnline, 1);</span>
+<span class="fc" id="L87">        List&lt;User&gt; users = userDao.selectList(lqw);</span>
+<span class="fc" id="L88">        return users.size();</span>
+    }
+
+    @Override
+    public List&lt;Status&gt; showAllStatusInfo() {
+<span class="fc" id="L93">        LambdaQueryWrapper&lt;Status&gt; lqw1 = new LambdaQueryWrapper&lt;Status&gt;();</span>
+<span class="fc" id="L94">        lqw1.orderBy(true,false, Status::getCreateDate);</span>
+<span class="fc" id="L95">        List&lt;Status&gt; statuses = statusDao.selectList(lqw1);</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        for (Status status : statuses) {</span>
+<span class="fc" id="L97">            String id = status.getId();</span>
+<span class="fc" id="L98">            List&lt;Comment&gt; comments = commentService.showCommentList(id);</span>
+<span class="fc" id="L99">            status.setCommentList(comments);</span>
+<span class="fc" id="L100">        }</span>
+<span class="fc" id="L101">        return statuses;</span>
+    }
+
+    @Override
+    public int showAllStatusNum() {
+<span class="fc" id="L106">        List&lt;Status&gt; statuses = statusDao.selectList(null);</span>
+<span class="fc" id="L107">        return statuses.size();</span>
+    }
+
+    @Override
+    public List&lt;Comment&gt; showAllCommentInfo() {
+<span class="fc" id="L112">        return commentDao.selectList(null);</span>
+    }
+
+    @Override
+    public int showAllCommentNum() {
+<span class="fc" id="L117">        List&lt;Comment&gt; comments = commentDao.selectList(null);</span>
+<span class="fc" id="L118">        return comments.size();</span>
+    }
+
+    @Override
+    public User searchUser(String id) {
+<span class="fc" id="L123">        return userDao.selectById(id);</span>
+    }
+
+
+    @Override
+    public boolean blockUser(String id) {
+<span class="fc" id="L129">        User user = userDao.selectById(id);</span>
+<span class="fc" id="L130">        user.setState(1);</span>
+<span class="fc" id="L131">        int i = userDao.updateById(user);</span>
+<span class="fc" id="L132">        boolean a = false;</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        if (i == 1){</span>
+<span class="fc" id="L134">            a = true;</span>
+        }
+<span class="fc" id="L136">        return a;</span>
+    }
+
+
+//    @Override
+//    public boolean setonline(String id) {
+//        User user = userDao.selectById(id);
+//        user.setUserOnline(1);
+//        int i = userDao.updateById(user);
+////        int a = 1/0;
+//        return i&gt;0;
+//    }
+
+
+    @Override
+    public boolean deleteStatus(String id) {
+<span class="fc" id="L152">        Status status = statusDao.selectById(id);</span>
+<span class="fc" id="L153">        String id1 = status.getId();</span>
+<span class="fc" id="L154">        LambdaQueryWrapper&lt;Comment&gt; lqw = new LambdaQueryWrapper&lt;Comment&gt;();</span>
+<span class="fc" id="L155">        lqw.eq(Comment::getStatusId, id1);</span>
+<span class="fc" id="L156">        List&lt;Comment&gt; comments = commentDao.selectList(lqw);</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">        for (Comment comment : comments) {</span>
+<span class="fc" id="L158">            commentDao.deleteById(comment.getId());</span>
+<span class="fc" id="L159">        }</span>
+<span class="fc" id="L160">        int i = statusDao.deleteById(id1);</span>
+<span class="fc" id="L161">        boolean a = false;</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        if (i == 1){</span>
+<span class="fc" id="L163">            a = true;</span>
+        }
+<span class="fc" id="L165">        return a;</span>
+    }
+
+    @Override
+    public boolean deleteComment(String id) {
+
+<span class="fc" id="L171">        int i = commentDao.deleteById(id);</span>
+<span class="fc" id="L172">        boolean a = false;</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">        if (i == 1){</span>
+<span class="fc" id="L174">            a = true;</span>
+        }
+<span class="fc" id="L176">        return a;</span>
+    }
+
+//    @Override
+//    public Result logOut() {
+//        return null;
+//    }
+//
+//    @Override
+//    public Result logIn() {
+//        return null;
+//    }
+//
+//    @Override
+//    public boolean checkAdmin() {
+//        return false;
+//    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

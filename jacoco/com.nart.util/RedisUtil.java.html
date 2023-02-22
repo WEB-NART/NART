@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RedisUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.util</a> &gt; <span class="el_source">RedisUtil.java</span></div><h1>RedisUtil.java</h1><pre class="source lang-java linenums">package com.nart.util;
+
+import com.google.gson.Gson;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * Copyright (c) 2008-2024: Zirui Qiao
+ * Project: pack
+ *
+ * @className: RedisUtil
+ *  redis operations
+ * @version: v1.8.0
+ * @Author ZIRUI QIAO
+ * @Date 2023/01/04 14:26
+ */
+@Component
+<span class="fc" id="L24">public class RedisUtil {</span>
+    @Autowired
+    private RedisTemplate&lt;String, Object&gt; redisTemplate;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+    /**
+     * Default expiry time is 24 hours in seconds
+     */
+    public final static long DEFAULT_EXPIRE = 60 * 60 * 24L;
+    public final static long HOUR_ONE_EXPIRE = (long) 60 * 60;
+    public final static long HOUR_SIX_EXPIRE = 60 * 60 * 6L;
+    public final static long MONTH_ONE_EXPIRE = 60 * 60 * 24 * 30L;
+    public final static long NOT_EXPIRE = -1L;
+<span class="fc" id="L37">    private final static Gson gson = new Gson();</span>
+
+    /**
+     * Save data
+     *
+     * @param key redis key
+     * @param value redis value
+     * @param expire expire time
+     */
+    public void set(String key, Object value, long expire) {
+<span class="fc bfc" id="L47" title="All 4 branches covered.">        if (!StringUtils.isBlank(key) &amp;&amp; value != null) {</span>
+<span class="fc" id="L48">            redisTemplate.opsForValue().set(key, value);</span>
+        }
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (expire != NOT_EXPIRE) {</span>
+<span class="fc" id="L51">            expire(key, expire);</span>
+        }
+<span class="fc" id="L53">    }</span>
+
+    /**
+     * Save data Expires by default one day
+     *
+     * @param key redis key
+     * @param value redis value
+     */
+    public void set(String key, Object value) {
+<span class="fc" id="L62">        set(key, value, NOT_EXPIRE);</span>
+<span class="fc" id="L63">    }</span>
+
+    /**
+     * Get the data and change the expiry time
+     *
+     * @param key redis key
+     * @param expire expire time
+     * @return redis value
+     */
+    public Object get(String key, long expire) {
+<span class="fc" id="L73">        Object value = redisTemplate.opsForValue().get(key);</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (expire != NOT_EXPIRE) {</span>
+<span class="fc" id="L75">            expire(key, expire);</span>
+        }
+<span class="fc" id="L77">        return value;</span>
+    }
+
+    public &lt;T&gt; T get(String key, Class&lt;T&gt; clazz, long expire) {
+<span class="fc" id="L81">        String value = stringRedisTemplate.opsForValue().get(key);</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (expire != NOT_EXPIRE) {</span>
+<span class="fc" id="L83">            redisTemplate.expire(key, expire, TimeUnit.SECONDS);</span>
+        }
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        return value == null ? null : fromJson(value, clazz);</span>
+    }
+
+    /**
+     * Access to data
+     * @param key redis key
+     * @param clazz class of return value
+     * @param &lt;T&gt; pojo class
+     * @return: T
+     */
+    public &lt;T&gt; T get(String key, Class&lt;T&gt; clazz) {
+<span class="fc" id="L96">        return get(key, clazz, NOT_EXPIRE);</span>
+    }
+
+
+    /**
+     * Access to data
+     *
+     * @param key redis key
+     * @return
+     */
+    public Object get(String key) {
+<span class="fc" id="L107">        return get(key, NOT_EXPIRE);</span>
+    }
+
+    /**
+     * Delete the specified key
+     *
+     * @param key redis key
+     */
+    public void delete(String key) {
+<span class="fc" id="L116">        redisTemplate.delete(key);</span>
+<span class="fc" id="L117">    }</span>
+
+    /**
+     * Bulk delete
+     *
+     * @param keys a list of redis keys
+     */
+    public void delete(Collection&lt;String&gt; keys) {
+<span class="fc" id="L125">        redisTemplate.delete(keys);</span>
+<span class="fc" id="L126">    }</span>
+
+    /**
+     * Modify expiry time
+     *
+     * @param key redis key
+     * @param expire expire time
+     */
+    public void expire(String key, long expire) {
+<span class="fc" id="L135">        redisTemplate.expire(key, expire, TimeUnit.SECONDS);</span>
+<span class="fc" id="L136">    }</span>
+
+    /**
+     * JSON data, converted to Object
+     */
+    private &lt;T&gt; T fromJson(String json, Class&lt;T&gt; clazz){
+<span class="fc" id="L142">        return gson.fromJson(json, clazz);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

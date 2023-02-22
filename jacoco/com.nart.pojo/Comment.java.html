@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Comment.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.pojo</a> &gt; <span class="el_source">Comment.java</span></div><h1>Comment.java</h1><pre class="source lang-java linenums">package com.nart.pojo;
+
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
+<span class="pc bpc" id="L8" title="20 of 54 branches missed.">@Data</span>
+@TableName(&quot;tb_comment&quot;)
+public class Comment {
+<span class="fc" id="L11">    private String id;</span>
+<span class="fc" id="L12">    private String msg;</span>
+    @TableField(value = &quot;status_id&quot;)
+<span class="fc" id="L14">    private String statusId;</span>
+    @TableField(value = &quot;date&quot;)
+<span class="fc" id="L16">    private Long createDate;</span>
+    @TableField(value = &quot;sid&quot;)
+<span class="fc" id="L18">    private String userId;</span>
+
+    @TableField(exist = false)
+<span class="fc" id="L21">    private String uname;</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
