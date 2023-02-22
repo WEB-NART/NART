@@ -47,9 +47,9 @@ public class RandomContentGenerator {
 //        System.out.println("fushu"+ids.size());
         String result;
         if(diff.containsAll(ids)) return null;
-        if (ids.size()==0){
-            return null;
-        }
+//        if (ids.size()==0){
+//            return null;
+//        }
         do {
             int randomInt = r.nextInt(ids.size());
             result = ids.get(randomInt);
@@ -91,17 +91,17 @@ public class RandomContentGenerator {
             max = r.nextInt(picMaxAmount);
             for (int i = 0; i < max + 1; i++) {
                 String picUrl = getRandomPic(albumNumber);
-                while (picUrl.equals("") || picUrl.equals("repeat")) {
-                    picUrl = getRandomPic(albumNumber);
-                }
+//                while (picUrl.equals("") || picUrl.equals("repeat")) {
+//                    picUrl = getRandomPic(albumNumber);
+//                }
                 result.append(picUrl);
                 result.append(";");
             }
         } else {
             String picUrl = getRandomPic(albumNumber);
-            while (picUrl.equals("") || picUrl.equals("repeat")) {
-                picUrl = getRandomPic(albumNumber);
-            }
+//            while (picUrl.equals("") || picUrl.equals("repeat")) {
+//                picUrl = getRandomPic(albumNumber);
+//            }
             result.append(picUrl);
         }
 

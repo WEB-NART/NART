@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -75,8 +76,13 @@ class LoadDataInDataBaseImplTest {
         final Friend friend = new Friend();
         friend.setId("id");
         user.setFriendList(Arrays.asList(friend));
-        final List<User> userList = Arrays.asList(user);
+        final List<User> userList = new ArrayList<>();
+
         when(mockUserDao.insert(any(User.class))).thenReturn(0, 1);
+
+        for (int i = 0; i < 201; i++) {
+            userList.add(user);
+        }
 
         // Run the test
         final boolean result = loadDataInDataBaseImplUnderTest.LoadListUser(userList);
@@ -98,8 +104,12 @@ class LoadDataInDataBaseImplTest {
         friendReq.setReceiverId("receiverId");
         friendReq.setMsg("msg");
         friendReq.setDate(0L);
-        final List<FriendReq> friendReqList = Arrays.asList(friendReq);
+        final List<FriendReq> friendReqList  = new ArrayList<>();
         when(mockFriendReqDao.insert(any(FriendReq.class))).thenReturn(0, 1);
+
+        for (int i = 0; i < 201; i++) {
+            friendReqList.add(friendReq);
+        }
 
         // Run the test
         final boolean result = loadDataInDataBaseImplUnderTest.LoadListFriendReq(friendReqList);
@@ -131,8 +141,12 @@ class LoadDataInDataBaseImplTest {
         comment.setUserId("userId");
         comment.setUname("uname");
         status.setCommentList(Arrays.asList(comment));
-        final List<Status> statusList = Arrays.asList(status);
+        final List<Status> statusList  = new ArrayList<>();
         when(mockStatusDao.insert(any(Status.class))).thenReturn(0, 1);
+
+        for (int i = 0; i < 201; i++) {
+            statusList.add(status);
+        }
 
         // Run the test
         final boolean result = loadDataInDataBaseImplUnderTest.LoadListStatus(statusList);
@@ -148,8 +162,13 @@ class LoadDataInDataBaseImplTest {
     @Test
     public void testLoadListGroup() {
         // Setup
-        final List<Group> groupList = Arrays.asList(new Group("id"));
+        Group id = new Group("id");
+        final List<Group> groupList  = new ArrayList<>();
         when(mockGroupDao.insert(new Group("id"))).thenReturn(0, 1);
+
+        for (int i = 0; i < 201; i++) {
+            groupList.add(id);
+        }
 
         // Run the test
         final boolean result = loadDataInDataBaseImplUnderTest.LoadListGroup(groupList);
@@ -196,8 +215,12 @@ class LoadDataInDataBaseImplTest {
         groupInvite.setReceiverId("receiverId");
         groupInvite.setMsg("msg");
         groupInvite.setDate(0L);
-        final List<GroupInvite> groupInviteList = Arrays.asList(groupInvite);
+        final List<GroupInvite> groupInviteList  = new ArrayList<>();
         when(mockGroupInviteDao.insert(any(GroupInvite.class))).thenReturn(0, 1);
+
+        for (int i = 0; i < 201; i++) {
+            groupInviteList.add(groupInvite);
+        }
 
         // Run the test
         final boolean result = loadDataInDataBaseImplUnderTest.LoadListGroupInvite(groupInviteList);
@@ -231,8 +254,8 @@ class LoadDataInDataBaseImplTest {
         status.setLikes(0);
         friend.setStatusList(Arrays.asList(status));
         final List<Friend> friendList = Arrays.asList(friend);
-        when(mockFriendDao.insert(any(Friend.class))).thenReturn(0, 1);
-        when(mockFriendReqDao.delete(any(LambdaQueryWrapper.class))).thenReturn(0);
+        when(mockFriendDao.insert(any(Friend.class))).thenReturn(0, 0, 1, 0, 0, 1, 1, 1);
+        when(mockFriendReqDao.delete(any(LambdaQueryWrapper.class))).thenReturn(0, 0, 1);
 
         // Run the test
         final boolean result = loadDataInDataBaseImplUnderTest.LoadListFriendShips(friendList);
@@ -241,6 +264,15 @@ class LoadDataInDataBaseImplTest {
 
         // Run the test
         boolean r = loadDataInDataBaseImplUnderTest.LoadListFriendShips(friendList);
+        // Verify the results
+        assertThat(r).isFalse();
+
+        // Run the test
+        r = loadDataInDataBaseImplUnderTest.LoadListFriendShips(friendList);
+        // Verify the results
+        assertThat(r).isFalse();
+
+        r = loadDataInDataBaseImplUnderTest.LoadListFriendShips(friendList);
         // Verify the results
         assertThat(r).isTrue();
     }
@@ -256,8 +288,12 @@ class LoadDataInDataBaseImplTest {
         friendChat.setMsg("msg");
         friendChat.setType("type");
         friendChat.setDate(0L);
-        final List<FriendChat> friendChatList = Arrays.asList(friendChat);
+        final List<FriendChat> friendChatList  = new ArrayList<>();
         when(mockFriendChatDao.insert(any(FriendChat.class))).thenReturn(0, 1);
+
+        for (int i = 0; i < 201; i++) {
+            friendChatList.add(friendChat);
+        }
 
         // Run the test
         final boolean result = loadDataInDataBaseImplUnderTest.LoadListFriendChats(friendChatList);
@@ -301,8 +337,12 @@ class LoadDataInDataBaseImplTest {
         userGroup.setState(0);
         userGroup.setJoinLevel(0);
         userGroup.setUserLevelTime(0L);
-        final List<UserGroup> userGroups = Arrays.asList(userGroup);
+        final List<UserGroup> userGroups  = new ArrayList<>();
         when(mockUserGroupDao.insert(any(UserGroup.class))).thenReturn(0, 1);
+
+        for (int i = 0; i < 201; i++) {
+            userGroups.add(userGroup);
+        }
 
         // Run the test
         final boolean result = loadDataInDataBaseImplUnderTest.LoadListGroupShips(userGroups);
@@ -326,8 +366,12 @@ class LoadDataInDataBaseImplTest {
         groupChat.setType("type");
         groupChat.setDate(0L);
         groupChat.setLevel(0);
-        final List<GroupChat> groupChatList = Arrays.asList(groupChat);
+        final List<GroupChat> groupChatList  = new ArrayList<>();
         when(mockGroupChatDao.insert(any(GroupChat.class))).thenReturn(0, 1);
+
+        for (int i = 0; i < 201; i++) {
+            groupChatList.add(groupChat);
+        }
 
         // Run the test
         final boolean result = loadDataInDataBaseImplUnderTest.LoadListGroupChats(groupChatList);

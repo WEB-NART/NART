@@ -5,19 +5,17 @@ import com.nart.pojo.Comment;
 import com.nart.pojo.Status;
 import com.nart.pojo.User;
 import com.nart.service.AdminService;
-import com.nart.service.LoginService;
-import com.nart.service.UserService;
 import com.nart.util.ErrorCode;
 import com.nart.util.Result;
-import com.nart.util.UserThreadLocal;
 import com.nart.vo.CommentVo;
 import com.nart.vo.StatusVo;
 import com.nart.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,9 +38,6 @@ public class AdminController {
             UserVo transfer = userVo.transfer(user);
             userVos.add(transfer);
         }
-        if (userVos == null) {
-            Result.fail(ErrorCode.USER_NOT_EXIST);
-        }
 
         return Result.success(userVos);
     }
@@ -52,7 +47,7 @@ public class AdminController {
     public Result showAllUserNum() {
         int i = adminService.showAllUserNum();
         if (i < 0) {
-            Result.fail(ErrorCode.UNDEFINED);
+            return Result.fail(ErrorCode.UNDEFINED);
         }
 
         return Result.success(i);
@@ -69,9 +64,6 @@ public class AdminController {
             UserVo transfer = userVo.transfer(user);
             userVos.add(transfer);
         }
-        if (userVos == null) {
-            Result.fail(ErrorCode.USER_NOT_EXIST);
-        }
         return Result.success(userVos);
     }
 
@@ -81,7 +73,7 @@ public class AdminController {
         int i = adminService.showOnlineUserNum();
 
         if (i < 0) {
-            Result.fail(ErrorCode.UNDEFINED);
+            return Result.fail(ErrorCode.UNDEFINED);
         }
 
         return Result.success(i);
@@ -98,9 +90,6 @@ public class AdminController {
             StatusVo transfer = statusVo.transfer(status);
             statusVos.add(transfer);
         }
-        if (statusVos == null) {
-            Result.fail(ErrorCode.UNDEFINED);
-        }
         return Result.success(statusVos);
     }
 
@@ -109,7 +98,7 @@ public class AdminController {
     public Result showAllStatusNum() {
         int i = adminService.showAllStatusNum();
         if (i < 0) {
-            Result.fail(ErrorCode.UNDEFINED);
+            return Result.fail(ErrorCode.UNDEFINED);
         }
         return Result.success(i);
     }
@@ -126,9 +115,6 @@ public class AdminController {
             CommentVo transfer = commentVo.transfer(comment);
             commentVos.add(transfer);
         }
-        if (commentVos == null) {
-            Result.fail(ErrorCode.UNDEFINED);
-        }
         return Result.success(commentVos);
     }
 
@@ -137,7 +123,7 @@ public class AdminController {
     public Result showAllCommentNum() {
         int i = adminService.showAllCommentNum();
         if (i < 0) {
-            Result.fail(ErrorCode.UNDEFINED);
+            return Result.fail(ErrorCode.UNDEFINED);
         }
         return Result.success(i);
     }
@@ -148,7 +134,7 @@ public class AdminController {
         User user = adminService.searchUser(id);
 
         if (user == null) {
-            Result.fail(ErrorCode.UNDEFINED);
+            return Result.fail(ErrorCode.UNDEFINED);
         }
         return Result.success(user);
     }
@@ -157,10 +143,10 @@ public class AdminController {
     @GetMapping("blockUser/{id}")
     public Result blockUser(@PathVariable("id") String id) {
         boolean b = adminService.blockUser(id);
-        if (b == false) {
-            Result.fail(ErrorCode.UNDEFINED);
+        if (!b) {
+            return Result.fail(ErrorCode.UNDEFINED);
         }
-        return Result.success(b);
+        return Result.success(true);
     }
 
     @LogA
@@ -168,10 +154,10 @@ public class AdminController {
     public Result deleteStatus(@PathVariable("id") String id) {
 
         boolean b = adminService.deleteStatus(id);
-        if (b == false) {
-            Result.fail(ErrorCode.UNDEFINED);
+        if (!b) {
+            return Result.fail(ErrorCode.UNDEFINED);
         }
-        return Result.success(b);
+        return Result.success(true);
     }
 
     @LogA
@@ -179,10 +165,10 @@ public class AdminController {
     public Result deleteComment(@PathVariable("id") String id) {
         boolean b = adminService.deleteComment(id);
 
-        if (b == false) {
-            Result.fail(ErrorCode.UNDEFINED);
+        if (!b) {
+            return Result.fail(ErrorCode.UNDEFINED);
         }
-        return Result.success(b);
+        return Result.success(true);
     }
 
 

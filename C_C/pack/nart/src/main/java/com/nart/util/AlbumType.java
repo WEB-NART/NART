@@ -11,5 +11,5 @@ package com.nart.util;
  * @Date: 2023-01-31 2:43 p.m.
  */
 public enum AlbumType {
-    USER_AVATAR, GROUP_AVATAR, STATUS_PICS, CHAT_PICS
+    USER_AVATAR, GROUP_AVATAR, STATUS_PICS, CHAT_PICS, OTHER
 }
