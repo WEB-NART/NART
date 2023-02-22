@@ -34,4 +34,16 @@ class WSMsgTest {
     void testToString() throws Exception {
         assertThat(wsMsgUnderTest.toString()).isEqualTo("WSMsg(msg=null, sender=null, senderName=null, senderAvatar=null, msgType=null, receiver=null, receiverType=null)");
     }
+
+    @Test
+    void testSet() {
+        wsMsgUnderTest.setMsg("msg");
+        wsMsgUnderTest.setSender("sender");
+        wsMsgUnderTest.setSenderName("senderName");
+        wsMsgUnderTest.setSenderAvatar("senderAvatar");
+        wsMsgUnderTest.setMsgType("msgType");
+        wsMsgUnderTest.setReceiver("receiver");
+        wsMsgUnderTest.setReceiverType("receiverType");
+        assertThat(wsMsgUnderTest.toString()).isEqualTo("WSMsg(msg=msg, sender=sender, senderName=senderName, senderAvatar=senderAvatar, msgType=msgType, receiver=receiver, receiverType=receiverType)");
+    }
 }

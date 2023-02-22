@@ -16,7 +16,10 @@ class ResultTest {
 
     @Test
     void testEquals() {
-        assertThat(resultUnderTest.equals("o")).isFalse();
+        Result result = new Result(true, 10, "smg", "String");
+        Result result2 = new Result(true, 10, "smg", "String");
+        assertThat(result.equals(result2)).isTrue();
+        assertThat(resultUnderTest.equals(result2)).isFalse();
     }
 
     @Test
@@ -71,5 +74,16 @@ class ResultTest {
         assertThat(result.equals("o")).isFalse();
         assertThat(result.hashCode()).isNotZero();
         assertThat(result.toString()).isEqualTo("Result(success=false, code=99999, msg=undefined error, data=null)");
+    }
+
+    @Test
+    void testSet() {
+        Result result = Result.success(null);
+        result.setCode(1);
+        result.setData("data");
+        result.setMsg("msg");
+        result.setSuccess(false);
+
+        assertThat(result.toString()).isEqualTo("Result(success=false, code=1, msg=msg, data=data)");
     }
 }

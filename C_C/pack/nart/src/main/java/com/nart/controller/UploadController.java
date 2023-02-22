@@ -1,11 +1,10 @@
 package com.nart.controller;
 
 import com.nart.common.LogA;
-import com.nart.util.ErrorCode;
-import com.nart.util.FakeDataGenerator;
-import com.nart.util.upload.ImgtuUtil;
-import com.nart.util.Result;
 import com.nart.service.LoadDataInDataBase;
+import com.nart.util.ErrorCode;
+import com.nart.util.Result;
+import com.nart.util.upload.ImgtuUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -74,11 +73,11 @@ public class UploadController {
         return Result.fail(ErrorCode.UPLOAD_DELETE_ERROR);
     }
 
-    @GetMapping("test")
-    public Result test() {
-        FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();
-        fakeDataGenerator.generateTestData(1);
-        return Result.success("yes");
-    }
+//    @GetMapping("test")
+//    public Result test() {
+//        FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();
+//        fakeDataGenerator.generateTestData(1);
+//        return Result.success("yes");
+//    }
 
 }

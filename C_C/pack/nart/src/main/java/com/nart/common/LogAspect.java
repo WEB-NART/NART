@@ -10,8 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Method;
-
 /**
  * Copyright (c) 2008-2024: Zirui Qiao
  * Project: blog-parent
@@ -49,20 +47,21 @@ public class LogAspect {
         // how long does it take(milli seconds)
         long time = System.currentTimeMillis() - beginTime;
         // save log
-        //recordLog(point, time, result);
+        recordLog(point, time, result);
         return result;
     }
 
     private void recordLog(ProceedingJoinPoint joinPoint, long time, Object result) {
         log.info("=====================log start================================");
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        Method method = signature.getMethod();
+//        Method method = signature.getMethod();
 //        LogA logA = method.getAnnotation(LogA.class);
 //        log.info("module:{}", logA.module());
 //        log.info("operation:{}", logA.operator());
 
         // request method
-        String className = joinPoint.getTarget().getClass().getName();
+        Object target = joinPoint.getTarget();
+        String className = target.getClass().getName();
         String methodName = signature.getName();
         log.info("request method:{}", className + "." + methodName + "()");
 

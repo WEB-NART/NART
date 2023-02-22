@@ -14,10 +14,6 @@ import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.util.EntityUtils;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -252,22 +248,6 @@ public class ImgtuUtil {
 
     static boolean isLoginExpired() {
         return loginTimestamp + LOGIN_VALID_DURATION < System.currentTimeMillis();
-    }
-
-    public static String uploadPic(File file, String fileName, Integer album) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] bytes = new byte[0];
-        try {
-            BufferedImage bi;
-            bi = ImageIO.read(file);
-            ImageIO.write(bi, "jpg", baos);
-            bytes = baos.toByteArray();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            baos.close();
-        }
-        return uploadPic(bytes, fileName, album);
     }
 
     public static String uploadPic(byte[] bytes, String fileName, Integer album) throws IOException {

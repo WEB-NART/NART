@@ -13,29 +13,6 @@ import org.apache.http.entity.ContentType;
  * @Date 2023/01/03 17:40
  */
 public class FileType{
-    public static String bytesToHexString(byte[] src) {
-        StringBuilder stringBuilder = new StringBuilder();
-        if (src == null || src.length <= 0) {
-            return null;
-        }
-        for (int i = 0; i < src.length; i++) {
-            int v = src[i] & 0xFF;
-            String hv = Integer.toHexString(v);
-            if (hv.length() < 2) {
-                stringBuilder.append(0);
-            }
-            stringBuilder.append(hv);
-        }
-        return stringBuilder.toString();
-    }
-
-    public static ContentType checkType(byte[] b) {
-        String photo = bytesToHexString(b);
-        photo = photo.toUpperCase();
-        ContentType ct = TypeDict.checkType(photo);
-        return ct;
-    }
-
     public static ContentType checkType(String name) {
         String suffix = StringUtils.substringAfterLast(name, ".");
         switch (suffix) {

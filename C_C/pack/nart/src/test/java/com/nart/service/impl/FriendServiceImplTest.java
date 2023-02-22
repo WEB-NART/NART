@@ -451,12 +451,12 @@ class FriendServiceImplTest {
         // Verify the results
         assertThat(result2).isTrue();
 
-        when(mockFriendDao.insert(friend)).thenReturn(0,1);
+        when(mockFriendDao.insert(friend)).thenReturn(0,0, 1, 1);
 
         // Run the test
         final boolean result3 = friendServiceImplUnderTest.respFriendReq("reqId", true);
         // Verify the results
-        assertThat(result3).isTrue();
+        assertThat(result3).isFalse();
 
         // Run the test
         final boolean result4 = friendServiceImplUnderTest.respFriendReq("reqId", true);
