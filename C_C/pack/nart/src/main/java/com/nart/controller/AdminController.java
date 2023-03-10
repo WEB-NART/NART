@@ -29,7 +29,6 @@ public class AdminController {
 
     @LogA
     @GetMapping("allUser")
-
     public Result showAllUserInfo() {
         List<User> users = adminService.showAllUserInfo();
         List<UserVo> userVos = new ArrayList<>();

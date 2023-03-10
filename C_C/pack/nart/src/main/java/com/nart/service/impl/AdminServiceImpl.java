@@ -115,6 +115,15 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public int showAllCommentNum() {
         List<Comment> comments = commentDao.selectList(null);
+        for (int i = 0; i < comments.size(); i++){
+            for (int j = comments.size()-1; j > i; j--){
+                if (comments.get(j).equals(comments.get(i))){
+                    comments.remove(j);
+                }
+            }
+
+        }
+
         return comments.size();
     }
 
