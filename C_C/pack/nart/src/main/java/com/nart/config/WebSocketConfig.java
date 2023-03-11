@@ -22,7 +22,7 @@ import javax.websocket.server.ServerEndpointConfig;
  */
 @Configuration
 @Slf4j
-public class WebSocketConfig extends ServerEndpointConfig.Configurator{
+public class WebSocketConfig extends ServerEndpointConfig.Configurator {
 
     @Override
     public void modifyHandshake(ServerEndpointConfig sec,
@@ -34,9 +34,12 @@ public class WebSocketConfig extends ServerEndpointConfig.Configurator{
         }
         super.modifyHandshake(sec, request, response);
     }
+
     @Bean
     public ServerEndpointExporter serverEndpointExporter() {
         //log.info("initial Websocket config!!!!!!!!!!!!!!!!");
         return new ServerEndpointExporter();
     }
+
 }
+

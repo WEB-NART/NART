@@ -82,6 +82,7 @@ import { signin } from "@/api/user";
 import { ElMessage } from 'element-plus'
 import  useUserStore  from "@/stores/userStore";
 import  useChatStore  from "../../stores/chatStore";
+import imgUrl from "@/assets/img/bg1.png"
 
 export default {
   data() {
@@ -169,10 +170,9 @@ export default {
     * @description: set style and background image on body before create
   */
   beforeCreate() {
-    const urlPath = "../../src/assets/img/bg1.png";
     document
       .querySelector("body")
-      .setAttribute("style", "background-image:url('" + urlPath + "');");
+      .setAttribute("style", "background-image:url('" + imgUrl + "');");
     //.setAttribute('style','background-color: cyan');
     document
       .querySelector("body")
@@ -189,10 +189,6 @@ export default {
 };
 </script>
 <style>
-@font-face {
-  font-family: "GMC";
-  src: url("../../GenkaiMinCho.ttf");
-}
 #shadow:hover {
   box-shadow: -5px 15px 50px 10px white;
   /* transform: translateY(-11px); */

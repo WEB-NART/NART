@@ -8,7 +8,7 @@
 -->
 <template>
   <el-dialog
-    v-model="dialogVisible"
+    v-model="dialogVisible_local"
     :title="t('popWin.AddFriend')"
     width="60%"
     @open="openWin"
@@ -60,7 +60,7 @@
   </el-dialog>
 </template>
 <script setup>
-import { computed, reactive, ref } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import useUserStore from "@/stores/userStore";
 import { useFriendStore } from "@/stores/friendStore.js";
 import { storeToRefs } from "pinia";
@@ -90,8 +90,12 @@ const page = reactive({
 var input = ref("");
 const props = defineProps({
   dialogVisible: Boolean,
-  list: Array,
+  lst: Array,
 });
+var dialogVisible_local = ref(props.dialogVisible);
+watch(dialogVisible, (newInput) => {
+  dialogVisible_local = newInput;
+})
 const emit = defineEmits(["closeWin", "addFun"]);
 const close = ((id) => {let obj = Fstore.delGItem(id)});
 const pop = (() => {dialogVisible.value = true});
@@ -118,7 +122,7 @@ function searchFr() {
   searchFriend(token.value, temp, page)
     .then((res) => {
       if (res.data.success) {
-        Fstore.gList = getDiff(friendList, props.list);
+        Fstore.gList = getDiff(friendList, props.lst);
       } else {
         ElMessage({
           type: "error",

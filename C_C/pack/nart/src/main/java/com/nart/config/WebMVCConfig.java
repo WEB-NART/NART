@@ -24,29 +24,48 @@ public class WebMVCConfig implements WebMvcConfigurer {
     private LoginInterceptor loginInterceptor;
 
     public static String IPADDR = "localhost";
+    public static String IPADDR2 = "192.168.0.18";
+    public static String IPADDR3 = "72.141.3.152";
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins(
-                        "http://" + IPADDR + ":8888",
-                        "http://" + IPADDR + ":5173",
+                        "**",
                         "https://imgse.com",
                         "https://s1.ax1x.com",
-                        "ws://" + IPADDR + ":8888/chat")
-                .allowedMethods("PUT", "DELETE", "POST", "GET")
+                        "http://" + IPADDR + ":5173",
+                        "http://" + IPADDR2 + ":5173",
+                        "http://" + IPADDR3 + ":5173",
+                        "http://" + IPADDR + ":8888",
+                        "ws://" + IPADDR + ":8888/chat",
+                        "http://" + IPADDR2 + ":8888",
+                        "ws://" + IPADDR2 + ":8888/chat",
+                        "http://" + IPADDR3 + ":8888",
+                        "ws://" + IPADDR3 + ":8888/chat"
+                )
+                .allowedHeaders("*")
+                .allowedMethods("PUT", "GET", "POST", "DELETE")
                 .allowCredentials(true)
                 .maxAge(3600);
+
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // set intercept ports
+         //set intercept ports
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/**/**")
-                .excludePathPatterns("/user/login")
-                .excludePathPatterns("/user/register")
-                .excludePathPatterns("/upload")
-                .excludePathPatterns("/upload/*")
-                .excludePathPatterns("/upload/delete/*");
+                .excludePathPatterns("/user/login", "/user/register")
+                .excludePathPatterns("/upload", "/upload/**")
+                .excludePathPatterns("/static/**", "assets/**")
+                .excludePathPatterns(
+                    "/v2/api-docs",
+                    "/swagger-resources/**",
+                    "/swagger-ui.html",
+                    "/webjars/**"
+                );
     }
+
+
 }

@@ -43,6 +43,7 @@ public class ChatEndPoint {
     }
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) {
+        //log.info("websocket onopen");
         this.session = session;
         HttpSession httpSession =
                 (HttpSession) config.getUserProperties().get(
@@ -77,37 +78,58 @@ public class ChatEndPoint {
     }
 
     @OnMessage
-    public void onMessage(String message) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            WSMsg msg = mapper.readValue(message, WSMsg.class);
-            String sid = msg.getSender();
-            Map<String, Object> stringObjectMap = EncryptUtil.checkToken(sid);
-            if (stringObjectMap != null) {
-                sid = ((Long) stringObjectMap.get("userId")).toString();
-            }
-            msg.setSender(sid);
+    public void onMessage(String message) throws IOException {
+        //log.info("websocket onmessage");
+        if(message.equals("ping")){
+            String uid = (String) httpSession.getAttribute("uid");
+            uid = uid.substring(5);
+            ChatEndPoint chatEndPoint = onlineUsers.get(uid);
+            chatEndPoint.session.getBasicRemote().sendText("ping");
+        }else{
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                WSMsg msg = mapper.readValue(message, WSMsg.class);
+                String sid = msg.getSender();
+                Map<String, Object> stringObjectMap = EncryptUtil.checkToken(sid);
+                if (stringObjectMap != null) {
+                    sid = ((Long) stringObjectMap.get("userId")).toString();
+                }
+                msg.setSender(sid);
 
-            Set<String> receivers = new HashSet<>();
-            String receiverType = msg.getReceiverType();
-            String receiver = msg.getReceiver();
-            // set receivers
-            if(receiverType.equals("friend")) {
-                receivers.add(receiver);
-            } else {
-                GroupService gs = getGroupService();
-                receivers.addAll(gs.findAllMembers(receiver));
-            }
+                Set<String> receivers = new HashSet<>();
+                String receiverType = msg.getReceiverType();
+                String receiver = msg.getReceiver();
+                // set receivers
+                if(receiverType.equals("friend")) {
+                    receivers.add(receiver);
+                } else {
+                    GroupService gs = getGroupService();
+                    receivers.addAll(gs.findAllMembers(receiver));
+                }
 
-            broadcastAllUsers(msg, receivers);
-        } catch (Exception e) {
-            e.printStackTrace();
+                broadcastAllUsers(msg, receivers);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @OnClose
     public void onClose(){
-        String uid = (String) httpSession.getAttribute("uid");
-        onlineUsers.remove(uid);
+        //log.info("websocket onclose");
+        if (httpSession != null) {
+            String uid = (String) httpSession.getAttribute("uid");
+            onlineUsers.remove(uid);
+        }
+    }
+
+    @OnError
+    public void onError(Throwable t) throws Throwable {
+        //log.info("websocket onerror");
+        if (httpSession != null) {
+            String uid = (String) httpSession.getAttribute("uid");
+            onlineUsers.remove(uid);
+        }
+        t.printStackTrace();
     }
 }

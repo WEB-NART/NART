@@ -20,4 +20,4 @@ export function removeToken() {
   return localStorage.removeItem("token");
 }
 
-export const url = 'localhost:8888';
+export const url = '192.168.0.18:8888';

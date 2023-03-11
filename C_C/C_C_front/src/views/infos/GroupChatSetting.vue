@@ -168,7 +168,7 @@ var imgParent = ref("circle");
 const dialogFormVisible = ref(false); 
 
 const uploadRef = ref<UploadInstance>();
-const file = reactive([]);
+let file = reactive([]);
 
 function toPopWin() {
   dialogFormVisible.value = true;

@@ -76,7 +76,7 @@ const { token } = storeToRefs(store);
 const { t } = useI18n();
 const counter = ref(0);
 
-const file = reactive([]);
+let file = reactive([]);
 const upload = ref<UploadInstance>();
 var pics : string[] = []
 var msg = ref("");

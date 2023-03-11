@@ -30,7 +30,7 @@ public interface FriendService {
      * @Author Yunzhou Liu
      * @Date 2023-1-14
      */
-    List<FriendVo> showFriendList(IPage page, String userId);
+    List<FriendVo> showFriendList(IPage<Friend> page, String userId);
 
     /**
      * This method is to find new friends

@@ -141,8 +141,8 @@
                 </div>
               </el-aside>
               <el-main width="90vw" class="mainPart">
-                <router-view @wSend="wSend" v-slot="{Component}">
-                  <component ref="order" :is="Component"/>
+                <router-view @wSend="wSend" v-slot="{ Component }">
+                  <component ref="order" :is="Component" />
                 </router-view>
               </el-main>
             </el-container>
@@ -172,7 +172,7 @@ import InfoItem from "@/components/InfoItem.vue";
 import ChatRoom from "@/views/chat/ChatRoom.vue";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
-import { url } from '@/request/token'
+import { url } from "@/request/token";
 
 const pics = reactive([
   "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
@@ -236,7 +236,7 @@ function showAllGroups() {
  */
 function logout() {
   store.logout();
-  ws = "";
+  ws.close();
   router.push({ name: "login" });
 }
 /**
@@ -269,7 +269,7 @@ function menuClick(index) {
 }
 /**
  * @description: FriendList or GroupList Page + 1
- * @param {Boolean} isFriend 
+ * @param {Boolean} isFriend
  */
 function PagePlus(isFriend) {
   if (isFriend) {
@@ -293,21 +293,75 @@ function wSend(input) {
   //console.log(input);
   ws.send(JSON.stringify(input));
 }
-/**
- * @description: actions when pages mounted
- *    1. setup websocket object
- *    2. mount logout function on window closing action
- */
-onMounted(() => {
-  if (ws == "") {
-    ws = new WebSocket("ws://" + url + "/chat");
-    ws.onopen = function () {
-      console.log("ws open");
-    };
-    ws.onclose = function () {
-      console.log("ws close");
-    };
-    ws.onmessage = function (evt) {
+
+var lockReconnect = false; //避免ws重复连接
+var wsUrl = "ws://" + url + "/chat";
+
+function createWebSocket(url) {
+  try {
+    if ("WebSocket" in window) {
+      ws = new WebSocket(url);
+    }
+    initEventHandle();
+  } catch (e) {
+    reconnect(url);
+    console.log(e);
+  }
+}
+
+function reconnect(url) {
+  if (lockReconnect) return;
+  lockReconnect = true;
+  setTimeout(function () {
+    //没连接上会一直重连，设置延迟避免请求过多
+    createWebSocket(url);
+    lockReconnect = false;
+  }, 2000);
+}
+
+//心跳检测
+var heartCheck = {
+  timeout: 1000*60, //1分钟发一次心跳
+  timeoutObj: null,
+  serverTimeoutObj: null,
+  reset: function () {
+    clearTimeout(this.timeoutObj);
+    clearTimeout(this.serverTimeoutObj);
+    return this;
+  },
+  start: function () {
+    var self = this;
+    this.timeoutObj = setTimeout(function () {
+      //这里发送一个心跳，后端收到后，返回一个心跳消息，
+      //onmessage拿到返回的心跳就说明连接正常
+      ws.send("ping");
+      console.log("ping!");
+      self.serverTimeoutObj = setTimeout(function () {
+        //如果超过一定时间还没重置，说明后端主动断开了
+        ws.close(); //如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
+      }, self.timeout);
+    }, this.timeout);
+  },
+};
+
+function initEventHandle() {
+  ws.onclose = function () {
+    reconnect(wsUrl);
+    console.log("llws close!" + new Date().toLocaleString());
+  };
+  ws.onerror = function (e) {
+    reconnect(wsUrl);
+    console.log("llws error! " + e.code);
+  };
+  ws.onopen = function () {
+    heartCheck.reset().start(); //心跳检测重置
+    console.log("llws success!" + new Date().toLocaleString());
+  };
+  ws.onmessage = function (evt) {
+    //如果获取到消息，心跳检测重置
+    heartCheck.reset().start(); //拿到任何消息都说明当前连接是正常的
+    console.log("llws get message:" + evt.data);
+    if (evt.data != "pong") {
       //alert("onMessage");
       var dataStr = evt.data;
 
@@ -341,20 +395,26 @@ onMounted(() => {
           }
         }
       }
-    };
-    console.log("ws set up!!");
-    console.log(ws);
-  }
-  window.onbeforeunload= (e) => {
+    }
+  };
+}
+
+/**
+ * @description: actions when pages mounted
+ *    1. setup websocket object
+ *    2. mount logout function on window closing action
+ */
+onMounted(() => {
+  createWebSocket(wsUrl); //连接ws
+  window.onbeforeunload = (e) => {
     e = e || window.event;
     // if(e) {
     //   e.returnValue = 'Close Notice';
     // }
-    ws = "";
-    store.logout().then(() => {
-      return 'Close Notice';
-    })
-  }
+    logout().then(() => {
+      return "Close Notice";
+    });
+  };
 });
 </script>
 <style scoped>

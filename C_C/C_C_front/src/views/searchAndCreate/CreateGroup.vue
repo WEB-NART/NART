@@ -125,7 +125,7 @@ const pholder = computed<String>({
   set(val) {return},
 });
 const uploadRef = ref<UploadInstance>();
-const file = reactive([]);
+let file = reactive([]);
 var flag = false;
 
 /**
