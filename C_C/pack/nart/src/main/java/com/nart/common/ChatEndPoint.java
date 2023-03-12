@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.*;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.HashSet;
@@ -29,7 +30,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Author ZIRUI QIAO
  * @Date 2022/12/29 11:05
  */
-@ServerEndpoint(value="/chat",configurator = WebSocketConfig.class)
+@ServerEndpoint(value="/chat/{token}",configurator = WebSocketConfig.class)
 @Component
 @Slf4j
 public class ChatEndPoint {
@@ -41,8 +42,9 @@ public class ChatEndPoint {
     private GroupService getGroupService() {
         return (GroupService) SpringUtil.getBean("groupServiceImpl");
     }
+
     @OnOpen
-    public void onOpen(Session session, EndpointConfig config) {
+    public void onOpen(@PathParam("token") String token, Session session, EndpointConfig config) {
         //log.info("websocket onopen");
         this.session = session;
         HttpSession httpSession =
@@ -50,8 +52,15 @@ public class ChatEndPoint {
                         HttpSession.class.getName()
                 );
         this.httpSession = httpSession;
-        String uid = (String) httpSession.getAttribute("uid");
-        uid = uid.substring(5);
+        //String uid = (String) httpSession.getAttribute("uid");
+        //uid = uid.substring(5);
+
+        String uid = "";
+        Map<String, Object> stringObjectMap = EncryptUtil.checkToken(token);
+        if (stringObjectMap != null) {
+            uid = ((Long) stringObjectMap.get("userId")).toString();
+        }
+
         onlineUsers.put(uid, this);
 //        onlineUsers.forEach((key, value) -> {
 //            String temp = key + ": " + value.toString();
@@ -78,13 +87,16 @@ public class ChatEndPoint {
     }
 
     @OnMessage
-    public void onMessage(String message) throws IOException {
+    public void onMessage(@PathParam("token") String token, String message) throws IOException {
         //log.info("websocket onmessage");
         if(message.equals("ping")){
-            String uid = (String) httpSession.getAttribute("uid");
-            uid = uid.substring(5);
+            String uid = "";
+            Map<String, Object> stringObjectMap = EncryptUtil.checkToken(token);
+            if (stringObjectMap != null) {
+                uid = ((Long) stringObjectMap.get("userId")).toString();
+            }
             ChatEndPoint chatEndPoint = onlineUsers.get(uid);
-            chatEndPoint.session.getBasicRemote().sendText("ping");
+            chatEndPoint.session.getBasicRemote().sendText("pong");
         }else{
             try {
                 ObjectMapper mapper = new ObjectMapper();
@@ -115,19 +127,27 @@ public class ChatEndPoint {
     }
 
     @OnClose
-    public void onClose(){
+    public void onClose(@PathParam("token") String token){
         //log.info("websocket onclose");
         if (httpSession != null) {
-            String uid = (String) httpSession.getAttribute("uid");
+            String uid = "";
+            Map<String, Object> stringObjectMap = EncryptUtil.checkToken(token);
+            if (stringObjectMap != null) {
+                uid = ((Long) stringObjectMap.get("userId")).toString();
+            }
             onlineUsers.remove(uid);
         }
     }
 
     @OnError
-    public void onError(Throwable t) throws Throwable {
+    public void onError(@PathParam("token") String token, Throwable t) throws Throwable {
         //log.info("websocket onerror");
         if (httpSession != null) {
-            String uid = (String) httpSession.getAttribute("uid");
+            String uid = "";
+            Map<String, Object> stringObjectMap = EncryptUtil.checkToken(token);
+            if (stringObjectMap != null) {
+                uid = ((Long) stringObjectMap.get("userId")).toString();
+            }
             onlineUsers.remove(uid);
         }
         t.printStackTrace();

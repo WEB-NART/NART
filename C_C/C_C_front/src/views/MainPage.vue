@@ -12,9 +12,9 @@
         <div class="header-row">
           <div class="col1">
             <el-image
-              src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
+              src="https://s1.ax1x.com/2023/03/12/ppKvjns.png"
               fit="fill"
-              style="width: 220px; height: 50px; margin-left: -6%"
+              style="width: 100px; height: 50px; margin-left: -6%; margin-right: 30px; border-radius: 10px;"
             />
           </div>
           <div class="col2">
@@ -211,6 +211,13 @@ const fnoticeNew = ref();
 const gnoticeNew = ref();
 const order = ref();
 
+let screenWidth = ref(document.body.clientWidth);
+let screenHeight = ref(document.body.clientHeight);
+let ellipsisBool = screenWidth.value < 850;
+// watch(document.body.clientWidth, () => {
+//   console.log(document.body.clientWidth);
+// })
+
 /**
  * @description: change Website Language
  */
@@ -293,10 +300,8 @@ function wSend(input) {
   //console.log(input);
   ws.send(JSON.stringify(input));
 }
-
-var lockReconnect = false; //避免ws重复连接
-var wsUrl = "ws://" + url + "/chat";
-
+var lockReconnect = false;
+var wsUrl = "ws://" + url + "/chat/" + token.value;
 function createWebSocket(url) {
   try {
     if ("WebSocket" in window) {
@@ -308,7 +313,6 @@ function createWebSocket(url) {
     console.log(e);
   }
 }
-
 function reconnect(url) {
   if (lockReconnect) return;
   lockReconnect = true;
@@ -318,8 +322,6 @@ function reconnect(url) {
     lockReconnect = false;
   }, 2000);
 }
-
-//心跳检测
 var heartCheck = {
   timeout: 1000*60, //1分钟发一次心跳
   timeoutObj: null,
@@ -343,7 +345,6 @@ var heartCheck = {
     }, this.timeout);
   },
 };
-
 function initEventHandle() {
   ws.onclose = function () {
     reconnect(wsUrl);
@@ -398,7 +399,6 @@ function initEventHandle() {
     }
   };
 }
-
 /**
  * @description: actions when pages mounted
  *    1. setup websocket object
@@ -415,6 +415,8 @@ onMounted(() => {
       return "Close Notice";
     });
   };
+  console.log("ellipsisBool: ", ellipsisBool);
+  console.log("screenWidth:", screenWidth.value);
 });
 </script>
 <style scoped>
@@ -485,10 +487,12 @@ onMounted(() => {
   margin-bottom: -1vh;
   min-width: 810px;
 }
+.el-menu-demo {
+  height: 7vh;
+  min-height: 40px;
+}
 @media screen and (min-width: 660px) {
   .el-menu-demo {
-    height: 7vh;
-    min-height: 40px;
     max-height: 70px;
     width: 100%;
   }

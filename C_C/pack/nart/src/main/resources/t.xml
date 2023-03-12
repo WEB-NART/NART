@@ -4,25 +4,25 @@
                https://raw.githubusercontent.com/enricopulatzo/logback-XSD/master/src/main/xsd/logback.xsd">
 
 
-<!--&lt;!&ndash;    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">&ndash;&gt;-->
-<!--&lt;!&ndash;        <encoder>&ndash;&gt;-->
-<!--&lt;!&ndash;            <pattern> %red(%d{HH:mm:ss}) %purple([%thread]) %-5level %green(%logger{36})  %msg%n</pattern>&ndash;&gt;-->
-<!--&lt;!&ndash;        </encoder>&ndash;&gt;-->
-<!--&lt;!&ndash;    </appender>&ndash;&gt;-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern> %red(%d{HH:mm:ss}) %purple([%thread]) %-5level %green(%logger{36})  %msg%n</pattern>
+        </encoder>
+    </appender>
 
-<!--&lt;!&ndash;    <appender name="FILE" class="ch.qos.logback.core.FileAppender">&ndash;&gt;-->
-<!--&lt;!&ndash;        <file>myApp.log</file>&ndash;&gt;-->
-<!--&lt;!&ndash;        <encoder>&ndash;&gt;-->
-<!--&lt;!&ndash;            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>&ndash;&gt;-->
-<!--&lt;!&ndash;        </encoder>&ndash;&gt;-->
-<!--&lt;!&ndash;    </appender>&ndash;&gt;-->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>myApp.log</file>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
 
-<!--&lt;!&ndash;    <logger name = "logtset" level = "DEBUG" >&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;        <appender-ref ref="FILE" />&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;        <appender-ref ref="STDOUT" />&ndash;&gt;-->
-<!--&lt;!&ndash;    </logger>&ndash;&gt;-->
-<!--&lt;!&ndash;    <root level="INFO">&ndash;&gt;-->
-<!--&lt;!&ndash;        <appender-ref ref="STDOUT" />&ndash;&gt;-->
-<!--&lt;!&ndash;    </root>&ndash;&gt;-->
+    <logger name = "logtset" level = "DEBUG" >
+<!--        <appender-ref ref="FILE" />-->
+        <appender-ref ref="FILE" />
+    </logger>
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
 
 </configuration>

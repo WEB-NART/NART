@@ -123,7 +123,7 @@
     </div>
     <PopWinFriendList
       :dialog-visible="dialogFormVisible"
-      :list="inviteList"
+      :lst="inviteList"
       @closeWin="closePop"
       @addFun="addToList"
     ></PopWinFriendList>
@@ -420,6 +420,7 @@ function getMember() {
         showClose: true,
         grouping: true,
       });
+      console.log(err);
     });
 }
 /**

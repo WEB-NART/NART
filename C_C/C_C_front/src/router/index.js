@@ -27,7 +27,7 @@ const Login = () => import('@/views/loginAndRegister/Login.vue')
 const Register = () => import('@/views/loginAndRegister/Register.vue')
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory('nart'),
   routes: [
     {
       path: '/login',
