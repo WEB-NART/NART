@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nart.dao.FriendDao;
 import com.nart.dao.StatusDao;
 import com.nart.dao.UserDao;
+import com.nart.dao.UserLikeDao;
 import com.nart.pojo.*;
 import com.nart.service.CommentService;
 import com.nart.service.DataCounterService;
@@ -42,12 +43,17 @@ class StatusServiceImplTest {
     @Mock
     private StatusDao mockStatusDao;
 
+    @Mock
+    private UserLikeDao mockUserLikeDao;
+
     private StatusServiceImpl statusServiceImplUnderTest;
+
+
 
     @BeforeEach
     void setUp() {
         statusServiceImplUnderTest = new StatusServiceImpl(mockCommentService, mockDataCounterService, mockUserDao,
-                mockFriendDao, mockStatusDao);
+                mockFriendDao, mockStatusDao,mockUserLikeDao);
         User user = new User();
         user.setId("id");
         user.setPwd("pwd");

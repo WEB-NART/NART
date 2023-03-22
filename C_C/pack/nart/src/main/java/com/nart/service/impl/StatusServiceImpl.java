@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nart.dao.FriendDao;
 import com.nart.dao.StatusDao;
 import com.nart.dao.UserDao;
+import com.nart.dao.UserLikeDao;
 import com.nart.pojo.Comment;
 import com.nart.pojo.Friend;
 import com.nart.pojo.Status;
+import com.nart.pojo.UserLike;
 import com.nart.service.CommentService;
 import com.nart.service.DataCounterService;
 import com.nart.service.StatusService;
@@ -33,13 +35,16 @@ public class StatusServiceImpl implements StatusService {
 
     private final StatusDao statusDao;
 
+    private final UserLikeDao userLikeDao;
+
     @Autowired
-    public StatusServiceImpl(CommentService commentService, DataCounterService dataCounterService, UserDao userDao, FriendDao friendDao, StatusDao statusDao) {
+    public StatusServiceImpl(CommentService commentService, DataCounterService dataCounterService, UserDao userDao, FriendDao friendDao, StatusDao statusDao,UserLikeDao userLikeDao) {
         this.commentService = commentService;
         this.dataCounterService = dataCounterService;
         this.userDao = userDao;
         this.friendDao = friendDao;
         this.statusDao = statusDao;
+        this.userLikeDao = userLikeDao;
     }
 
     @Override
@@ -105,7 +110,12 @@ public class StatusServiceImpl implements StatusService {
 
     @Override
     public boolean delStatus(String id) {
-        commentService.delComment(id);
+        LambdaQueryWrapper<UserLike> lqw = new LambdaQueryWrapper<UserLike>();
+        lqw.eq(UserLike::getStatusId, id);
+        userLikeDao.delete(lqw);
+
+        boolean b = commentService.delComment(id);
+        System.out.println(b);
         int id1 = statusDao.deleteById(id);
         dataCounterService.updateStatusAmount(false);
         boolean a = false;
