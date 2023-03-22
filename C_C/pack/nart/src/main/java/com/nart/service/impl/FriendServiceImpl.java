@@ -49,14 +49,13 @@ public class FriendServiceImpl implements FriendService {
 
 
     @Override
-    public List<FriendVo> showFriendList(IPage page, String userId) {
+    public List<FriendVo> showFriendList(IPage<Friend> page, String userId) {
 
-        LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
-        lqw.eq(Friend::getUid, userId);
-        lqw.orderBy(true,false, Friend::getLeaveTime);
+        LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(Friend::getUid, userId).orderBy(true,false, Friend::getLeaveTime);
 
-        IPage iPage = friendDao.selectPage(page, lqw);
-        List<Friend> records = iPage.getRecords();
+        IPage<Friend> friendIPage = friendDao.selectPage(page, lqw);
+        List<Friend> records = friendIPage.getRecords();
         for (Friend record : records) {
             String fid = record.getFid();
             User user = userDao.selectById(fid);
@@ -100,17 +99,12 @@ public class FriendServiceImpl implements FriendService {
 //        List<User> records = userIPage.getRecords();
 
         String id = UserThreadLocal.get().getId();
-//        String id = "1574989638660136961";
-//        System.out.println(id);
-        LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
+
+        LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<>();
         lqw.eq(Friend::getUid, id);
         List<Friend> friends = friendDao.selectList(lqw);
         List<User> friendName = new ArrayList<>();
 
-//        System.out.println(friends);
-//        for (Friend friend : friends) {
-//
-//        }
         for (Friend friend : friends) {
             String fid = friend.getFid();
             User user = userDao.selectById(fid);

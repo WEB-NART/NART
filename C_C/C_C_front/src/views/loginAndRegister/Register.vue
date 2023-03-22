@@ -88,6 +88,7 @@ import axios from "axios";
 import tool from "@/utils/tool.js";
 import  useUserStore  from "@/stores/userStore";
 import { ElMessage } from 'element-plus'
+import imgUrl from "@/assets/img/bg1.png"
 
 export default {
   data() {
@@ -125,9 +126,10 @@ export default {
       let em = this.em;
       let pwd2 = this.pwd2;
       let pwd = this.pwd;
-      if (!tool.isNotNull(em)) {
-        this.$refs.email.focus();
-      } else if (!tool.isNotNull(uname)) {
+      // if (!tool.isNotNull(em)) {
+      //   this.$refs.email.focus();
+      // } else if 
+      if (!tool.isNotNull(uname)) {
         this.$refs.username.focus();
       } else if (!tool.isNotNull(pwd)) {
         this.$refs.password.focus();
@@ -145,13 +147,14 @@ export default {
         }
         let reg = new RegExp(this.emReg);
         if(!reg.test(em)) {
-          ElMessage({
-            type: "warning",
-            message: this.$t('welcome.emailError'),
-            showClose: true,
-            grouping: true,
-          });
-          return false;
+          // ElMessage({
+          //   type: "warning",
+          //   message: this.$t('welcome.emailError'),
+          //   showClose: true,
+          //   grouping: true,
+          // });
+          // return false;
+          em = "example@gmail.com";
         }
         reg = new RegExp(this.unameReg);
         if(!reg.test(uname)) {
@@ -221,10 +224,9 @@ export default {
     * @description: set style and background image on body before create
   */ 
   beforeCreate() {
-    const urlPath = "../../src/assets/img/bg1.png";
     document
       .querySelector("body")
-      .setAttribute("style", "background-image:url('" + urlPath + "');");
+      .setAttribute("style", "background-image:url('" + imgUrl + "');");
     //.setAttribute('style','background-color: cyan');
     document
       .querySelector("body")
@@ -239,10 +241,6 @@ export default {
 };
 </script>
 <style>
-@font-face {
-  font-family: "GMC";
-  src: url("../../GenkaiMinCho.ttf");
-}
 #shadow:hover {
   box-shadow: -5px 15px 50px 10px white;
   /* transform: translateY(-11px); */

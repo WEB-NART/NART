@@ -146,7 +146,7 @@ const userInfo = reactive({
   pwd: "",
 });
 const uploadRef = ref<UploadInstance>();
-const file = reactive([]);
+let file = reactive([]);
 const tt = {
   reg1: /^[a-z0-9_-]{3,16}$/,
   reg2: /^\d{4}-\d{2}-\d{2}$/,

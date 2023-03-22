@@ -59,7 +59,10 @@ class ChatEndPointTest {
     private EndpointConfig config2;
 
     private final String senderId = "1234123412341234";
-    private final String receiverId = "5678";
+    private final String receiverId = "5678567856785678";
+
+    private String token1 = "";
+    private String token2 = "";
 
     private RemoteEndpoint.Basic mockRemoteEndpoint;
 
@@ -98,41 +101,42 @@ class ChatEndPointTest {
             return null;
         }).when(mockRemoteEndpoint).sendText(any(String.class));
 
+        token1 = EncryptUtil.createToken(Long.valueOf(senderId));
+        token2 = EncryptUtil.createToken(Long.valueOf(receiverId));
     }
 
     @Test
     void testOnOpen() {
-        chatEndPointUnderTest.onOpen(session, config);
-        chatEndPointUnderTest.onOpen(session, config2);
+        chatEndPointUnderTest.onOpen(token1, session, config);
+        chatEndPointUnderTest.onOpen(token2, session, config2);
 
         // Verify the results
-        chatEndPointUnderTest.onClose();
+        chatEndPointUnderTest.onClose(token1);
     }
 
     @Test
     void testOnClose() {
-        chatEndPointUnderTest.onOpen(session, config);
-        chatEndPointUnderTest.onClose();
+        chatEndPointUnderTest.onOpen(token1, session, config);
+        chatEndPointUnderTest.onClose(token1);
 
         // Verify the results
     }
 
     @Test
     void testOnMessage_EncryptFriendText() throws IOException {
-        String token = EncryptUtil.createToken(Long.parseLong(senderId));
         String friendEncryptText = "{" +
                 "\"msg\": \"test\"," +
                 "\"msgType\": \"text\"," +
-                "\"sender\": \""+ token +"\"," +
+                "\"sender\": \""+ token1 +"\"," +
                 "\"senderName\": \"senderName\"," +
                 "\"senderAvatar\": \"senderAvatar\"," +
                 "\"receiver\": \""+receiverId+"\"," +
                 "\"receiverType\": \"friend\"" +
                 "}";
 
-        chatEndPointUnderTest.onOpen(session, config);
-        chatEndPointUnderTest.onOpen(session, config2);
-        chatEndPointUnderTest.onMessage(friendEncryptText);
+        chatEndPointUnderTest.onOpen(token1, session, config);
+        chatEndPointUnderTest.onOpen(token2, session, config2);
+        chatEndPointUnderTest.onMessage(token1, friendEncryptText);
 
         verify(mockRemoteEndpoint).sendText("{" +
                 "\"msg\":\"test\"," +
@@ -143,7 +147,7 @@ class ChatEndPointTest {
                 "\"receiver\":\""+receiverId+"\"," +
                 "\"receiverType\":\"friend\"" +
                 "}");
-        chatEndPointUnderTest.onClose();
+        chatEndPointUnderTest.onClose(token1);
     }
 
     @Test
@@ -158,9 +162,9 @@ class ChatEndPointTest {
                 "\"receiverType\": \"friend\"" +
                 "}";
 
-        chatEndPointUnderTest.onOpen(session, config);
-        chatEndPointUnderTest.onOpen(session, config2);
-        chatEndPointUnderTest.onMessage(friendUnEncryptText);
+        chatEndPointUnderTest.onOpen(token1, session, config);
+        chatEndPointUnderTest.onOpen(token2, session, config2);
+        chatEndPointUnderTest.onMessage(token1, friendUnEncryptText);
 
         verify(mockRemoteEndpoint).sendText("{" +
                 "\"msg\":\"test\"," +
@@ -171,16 +175,15 @@ class ChatEndPointTest {
                 "\"receiver\":\""+receiverId+"\"," +
                 "\"receiverType\":\"friend\"" +
                 "}");
-        chatEndPointUnderTest.onClose();
+        chatEndPointUnderTest.onClose(token1);
     }
 
     @Test
     void testOnMessage_EncryptGroupText() throws IOException {
-        String token = EncryptUtil.createToken(Long.parseLong(senderId));
         String friendEncryptText = "{" +
                 "\"msg\": \"test\"," +
                 "\"msgType\": \"text\"," +
-                "\"sender\": \""+ token +"\"," +
+                "\"sender\": \""+ token1 +"\"," +
                 "\"senderName\": \"senderName\"," +
                 "\"senderAvatar\": \"senderAvatar\"," +
                 "\"receiver\": \""+receiverId+"\"," +
@@ -190,12 +193,12 @@ class ChatEndPointTest {
         List<UserGroup> objects = new ArrayList<>();
         lenient().when(mock.selectList(any(LambdaQueryWrapper.class))).thenReturn(objects);
 
-        chatEndPointUnderTest.onOpen(session, config);
-        chatEndPointUnderTest.onOpen(session, config2);
-        chatEndPointUnderTest.onMessage(friendEncryptText);
+        chatEndPointUnderTest.onOpen(token1, session, config);
+        chatEndPointUnderTest.onOpen(token2, session, config2);
+        chatEndPointUnderTest.onMessage(token1, friendEncryptText);
 
         verifyNoInteractions(mockRemoteEndpoint);
-        chatEndPointUnderTest.onClose();
+        chatEndPointUnderTest.onClose(token1);
     }
 
     @Test
@@ -217,10 +220,10 @@ class ChatEndPointTest {
         lenient().when(mock.selectList(any(LambdaQueryWrapper.class))).thenReturn(objects);
         doThrow(new IOException()).when(mockRemoteEndpoint).sendText(any(String.class));
 
-        chatEndPointUnderTest.onOpen(session, config);
-        chatEndPointUnderTest.onOpen(session, config2);
-        chatEndPointUnderTest.onMessage(friendUnEncryptText);
+        chatEndPointUnderTest.onOpen(token1, session, config);
+        chatEndPointUnderTest.onOpen(token2, session, config2);
+        chatEndPointUnderTest.onMessage(token1, friendUnEncryptText);
 
-        chatEndPointUnderTest.onClose();
+        chatEndPointUnderTest.onClose(token1);
     }
 }

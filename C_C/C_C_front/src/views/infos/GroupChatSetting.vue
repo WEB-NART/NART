@@ -123,7 +123,7 @@
     </div>
     <PopWinFriendList
       :dialog-visible="dialogFormVisible"
-      :list="inviteList"
+      :lst="inviteList"
       @closeWin="closePop"
       @addFun="addToList"
     ></PopWinFriendList>
@@ -168,7 +168,7 @@ var imgParent = ref("circle");
 const dialogFormVisible = ref(false); 
 
 const uploadRef = ref<UploadInstance>();
-const file = reactive([]);
+let file = reactive([]);
 
 function toPopWin() {
   dialogFormVisible.value = true;
@@ -420,6 +420,7 @@ function getMember() {
         showClose: true,
         grouping: true,
       });
+      console.log(err);
     });
 }
 /**

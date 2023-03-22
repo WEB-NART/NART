@@ -13,7 +13,7 @@ export function uploadPic(pic, album) {
       "Content-Type":
         "multipart/form-data;boundary=<calculated when request is sent",
     },
-    contentType: "application/json",
+    contentType: "multipart/form-data;application/json",
     url: `/upload/${album}`,
     method: "post",
     data: pic,

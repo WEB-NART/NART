@@ -7,10 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Copyright (c) 2008-2024: Zirui Qiao
@@ -69,6 +66,23 @@ public class EncryptUtil {
             e.printStackTrace();
         }
         return null;
+
+    }
+
+    public static void main(String[] args) {
+        String salt = "7V*HW";
+        String pwd = "123456";
+        String expectedHash = "cee3d9fe163bdc583bd5ddb77a86eae7";
+
+        String actualHash = encryptPwd(pwd, salt);
+
+        System.out.println("expectedHash == actualHash: " + Objects.equals(expectedHash, actualHash));
+        System.out.println("expectedHash = " + expectedHash);
+        System.out.println("  actualHash = " + actualHash);
+        System.out.println("expectedHash.length = " + expectedHash.length());
+        System.out.println("  actualHash.length = " + actualHash.length());
+        System.out.println("expectedHash.type = " + expectedHash.getClass());
+        System.out.println("  actualHash.type = " + actualHash.getClass());
 
     }
 }

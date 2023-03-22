@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  * @Date 2023-01-04 4:06 p.m.
  */
 @Component
+//@Slf4j
 public class WebSocketListener implements ServletRequestListener {
 
     public WebSocketListener() {}
@@ -24,10 +25,12 @@ public class WebSocketListener implements ServletRequestListener {
     @Override
     public void requestInitialized(ServletRequestEvent sre) {
         // set all request with httpSession
+        //log.info("WebSocketListener request Initialized");
         ((HttpServletRequest) sre.getServletRequest()).getSession();
     }
 
     @Override
     public void requestDestroyed(ServletRequestEvent sre) {
+        //log.info("WebSocketListener request Destroyed");
     }
 }

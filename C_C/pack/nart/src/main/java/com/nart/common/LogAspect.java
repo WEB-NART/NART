@@ -63,6 +63,7 @@ public class LogAspect {
         Object target = joinPoint.getTarget();
         String className = target.getClass().getName();
         String methodName = signature.getName();
+        //log.info("ip:{}", IpUtils.getIpAddr());
         log.info("request method:{}", className + "." + methodName + "()");
 
         // request parameters
@@ -73,7 +74,6 @@ public class LogAspect {
         }
 
         // get request IP address
-        //log.info("ip:{}", IpUtils.getIpAddr());
         log.info("{}", result);
 
         // print request header和body

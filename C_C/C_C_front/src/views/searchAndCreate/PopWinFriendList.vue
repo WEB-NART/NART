@@ -8,7 +8,7 @@
 -->
 <template>
   <el-dialog
-    v-model="dialogVisible"
+    v-model="props.dialogVisible"
     :title="t('popWin.AddFriend')"
     width="60%"
     @open="openWin"
@@ -60,7 +60,7 @@
   </el-dialog>
 </template>
 <script setup>
-import { computed, reactive, ref } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import useUserStore from "@/stores/userStore";
 import { useFriendStore } from "@/stores/friendStore.js";
 import { storeToRefs } from "pinia";
@@ -90,8 +90,12 @@ const page = reactive({
 var input = ref("");
 const props = defineProps({
   dialogVisible: Boolean,
-  list: Array,
+  lst: Array,
 });
+// var dialogVisible_local = ref(false);
+// watch(props.dialogVisible, (newInput) => {
+//   dialogVisible_local.value = newInput;
+// })
 const emit = defineEmits(["closeWin", "addFun"]);
 const close = ((id) => {let obj = Fstore.delGItem(id)});
 const pop = (() => {dialogVisible.value = true});
@@ -118,7 +122,8 @@ function searchFr() {
   searchFriend(token.value, temp, page)
     .then((res) => {
       if (res.data.success) {
-        Fstore.gList = getDiff(friendList, props.list);
+        let friendList = res.data.data;
+        Fstore.gList = Fstore.getDiff(friendList, props.lst);
       } else {
         ElMessage({
           type: "error",
@@ -129,6 +134,7 @@ function searchFr() {
       }
     })
     .catch((err) => {
+      console.log(err);
       ElMessage({
         type: "error",
         message: t("friendIHave.searchError"),
@@ -143,7 +149,7 @@ function searchFr() {
  */
 function tLoad() {
   //console.log("tLoad");
-  return Fstore.loadNewGFriends();
+  return Fstore.loadNewGFriends(props.lst);
 }
 /**
  * @description: Close the popWindow
@@ -155,8 +161,8 @@ function closeWin() {
  * @description: Open the popWindow action
  */
 function openWin() {
-  //console.log(props.list);
-  Fstore.loadFirstGList(props.list);
+  //console.log(props.lst);
+  Fstore.loadFirstGList(props.lst);
 }
 </script>
 <style scoped>
