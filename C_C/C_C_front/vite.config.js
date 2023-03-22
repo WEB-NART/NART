@@ -8,7 +8,6 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/nart',
   plugins: [
     vue()
   ],
@@ -18,11 +17,12 @@ export default defineConfig({
     }
   },
   server: {
-    port: 9999,
-    host: '0.0.0.0',
+    open: true,
+    port: 5173,
+    cors: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:8888/',
+        target: 'http://localhost:8888',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       }

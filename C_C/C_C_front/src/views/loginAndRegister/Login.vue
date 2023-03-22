@@ -62,6 +62,7 @@
       <div class="flex flex-col flex-nowrap">
         <button
           @click="login"
+          type="submit"
           class="flex2 bg-rose-800 hover:bg-yellow-300 text-white font-bold 
           py-2 px-16 rounded-2xl my-8 text-2xl"
         >

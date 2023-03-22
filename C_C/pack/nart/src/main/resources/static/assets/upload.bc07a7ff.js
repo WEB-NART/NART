@@ -1,1 +1,0 @@
-import{r as e}from"./userStore.df57d0cc.js";function n(t,a){return e({headers:{"Content-Type":"multipart/form-data;boundary=<calculated when request is sent"},contentType:"application/json",url:`/upload/${a}`,method:"post",data:t})}function r(t){return e({url:`/upload/delete/${t}`,method:"put",data:null})}export{r as d,n as u};

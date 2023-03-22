@@ -126,9 +126,10 @@ export default {
       let em = this.em;
       let pwd2 = this.pwd2;
       let pwd = this.pwd;
-      if (!tool.isNotNull(em)) {
-        this.$refs.email.focus();
-      } else if (!tool.isNotNull(uname)) {
+      // if (!tool.isNotNull(em)) {
+      //   this.$refs.email.focus();
+      // } else if 
+      if (!tool.isNotNull(uname)) {
         this.$refs.username.focus();
       } else if (!tool.isNotNull(pwd)) {
         this.$refs.password.focus();
@@ -146,13 +147,14 @@ export default {
         }
         let reg = new RegExp(this.emReg);
         if(!reg.test(em)) {
-          ElMessage({
-            type: "warning",
-            message: this.$t('welcome.emailError'),
-            showClose: true,
-            grouping: true,
-          });
-          return false;
+          // ElMessage({
+          //   type: "warning",
+          //   message: this.$t('welcome.emailError'),
+          //   showClose: true,
+          //   grouping: true,
+          // });
+          // return false;
+          em = "example@gmail.com";
         }
         reg = new RegExp(this.unameReg);
         if(!reg.test(uname)) {

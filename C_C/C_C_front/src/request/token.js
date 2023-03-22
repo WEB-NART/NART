@@ -20,4 +20,4 @@ export function removeToken() {
   return localStorage.removeItem("token");
 }
 
-export const url = 'zirui-site.com:8888';
+export const url = 'localhost:8888';

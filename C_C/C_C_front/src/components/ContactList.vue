@@ -90,6 +90,7 @@
                         round
                         type="primary"
                         :size="btnSize"
+                        :id="member.id"
                         @click="unset(member)"
                         >&nbsp;{{ $t("contactList.unset") }}&nbsp;</el-button
                       >
@@ -99,6 +100,7 @@
                         round
                         type="success"
                         :size="btnSize"
+                        :id="member.id"
                         @click="hide(member)"
                         >&nbsp;{{ $t("contactList.hide") }}&nbsp;</el-button
                       >
@@ -108,6 +110,7 @@
                         round
                         type="primary"
                         :size="btnSize"
+                        :id="member.id+'mute'"
                         @click="unset(member)"
                         >&nbsp;{{ $t("contactList.unset") }}&nbsp;</el-button
                       >
@@ -117,6 +120,7 @@
                         round
                         type="info"
                         :size="btnSize"
+                        :id="member.id+'mute'"
                         @click="mute(member)"
                         >&nbsp;{{ $t("contactList.mute") }}&nbsp;</el-button
                       >

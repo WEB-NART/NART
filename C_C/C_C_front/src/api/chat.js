@@ -64,7 +64,7 @@ export function sendGroupMsg(token, msgInfo) {
 export function leaveRoom(token, roomId, isFriend) {
   return req({
     headers: { 'Authorization': token },
-    url: `/chat/leaveRoom/${roomId}/${isFriend}`,
+    url: `api/chat/leaveRoom/${roomId}/${isFriend}`,
     method: "put"
   })
 }

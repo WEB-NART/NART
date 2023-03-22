@@ -6,11 +6,13 @@
  * @LastEditTime: 2023/01/01 21:56
  */
 import axios from "axios";
+import {url} from"./token";
 
 //axios.defaults.withCredentials = true;
 const req = axios.create({
+  // cors:true,
   timeout: 10000,
-  BASE_URL: "/api",
+  baseURL: "/api",
   withCredentials: true
 });
 export default req;

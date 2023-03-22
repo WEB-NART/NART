@@ -17,7 +17,7 @@
         <span class="text">{{ props.username }}</span>
       </div>
       <div id="mid">
-        <el-button round type="primary" size="large" @click="pressBtn">{{
+        <el-button round type="primary" size="large" @click="pressBtn" :id="props.id">{{
           props.buttonLabel
         }}</el-button>
       </div>

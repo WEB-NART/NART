@@ -19,6 +19,7 @@
           </div>
           <div class="col2">
             <el-input
+              id="searchMyFriend"
               v-model="searchInput"
               size="large"
               class="col2-input"
@@ -28,6 +29,7 @@
             ></el-input>
             <el-button
               :icon="Search"
+              id="searchmf"
               class="col2-btn"
               @click="toSearch"
               circle

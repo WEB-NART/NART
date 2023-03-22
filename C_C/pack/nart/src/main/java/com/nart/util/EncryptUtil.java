@@ -70,9 +70,9 @@ public class EncryptUtil {
     }
 
     public static void main(String[] args) {
-        String salt = "M32s(1v7e";
+        String salt = "7V*HW";
         String pwd = "123456";
-        String expectedHash = "ddefbea62c8fde8118eb4af17e694230";
+        String expectedHash = "cee3d9fe163bdc583bd5ddb77a86eae7";
 
         String actualHash = encryptPwd(pwd, salt);
 

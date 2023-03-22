@@ -25,7 +25,8 @@ public class WebMVCConfig implements WebMvcConfigurer {
 
     public static String IPADDR = "localhost";
     public static String IPADDR2 = "192.168.0.18";
-    public static String IPADDR3 = "72.141.3.152";
+    public static String IPADDR3 = "zirui-site.com";
+    public static String IPADDR4 = "132.145.110.184";
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -35,14 +36,15 @@ public class WebMVCConfig implements WebMvcConfigurer {
                         "https://imgse.com",
                         "https://s1.ax1x.com",
                         "http://" + IPADDR + ":5173",
-                        "http://" + IPADDR2 + ":5173",
-                        "http://" + IPADDR3 + ":5173",
-                        "http://" + IPADDR + ":8888",
-                        "ws://" + IPADDR + ":8888/chat",
+                        "ws://" + IPADDR + ":5173/chat",
+                        "http://" + IPADDR + ":4173",
+                        "ws://" + IPADDR + ":4173/chat",
                         "http://" + IPADDR2 + ":8888",
                         "ws://" + IPADDR2 + ":8888/chat",
                         "http://" + IPADDR3 + ":8888",
-                        "ws://" + IPADDR3 + ":8888/chat"
+                        "ws://" + IPADDR3 + ":8888/chat",
+                        "http://" + IPADDR4 + ":8888",
+                        "ws://" + IPADDR4 + ":8888/chat"
                 )
                 .allowedHeaders("*")
                 .allowedMethods("PUT", "GET", "POST", "DELETE")
