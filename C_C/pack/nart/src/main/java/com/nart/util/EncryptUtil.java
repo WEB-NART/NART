@@ -69,20 +69,20 @@ public class EncryptUtil {
 
     }
 
-    public static void main(String[] args) {
-        String salt = "7V*HW";
-        String pwd = "123456";
-        String expectedHash = "cee3d9fe163bdc583bd5ddb77a86eae7";
-
-        String actualHash = encryptPwd(pwd, salt);
-
-        System.out.println("expectedHash == actualHash: " + Objects.equals(expectedHash, actualHash));
-        System.out.println("expectedHash = " + expectedHash);
-        System.out.println("  actualHash = " + actualHash);
-        System.out.println("expectedHash.length = " + expectedHash.length());
-        System.out.println("  actualHash.length = " + actualHash.length());
-        System.out.println("expectedHash.type = " + expectedHash.getClass());
-        System.out.println("  actualHash.type = " + actualHash.getClass());
-
-    }
+//    public static void main(String[] args) {
+//        String salt = "7V*HW";
+//        String pwd = "123456";
+//        String expectedHash = "cee3d9fe163bdc583bd5ddb77a86eae7";
+//
+//        String actualHash = encryptPwd(pwd, salt);
+//
+//        System.out.println("expectedHash == actualHash: " + Objects.equals(expectedHash, actualHash));
+//        System.out.println("expectedHash = " + expectedHash);
+//        System.out.println("  actualHash = " + actualHash);
+//        System.out.println("expectedHash.length = " + expectedHash.length());
+//        System.out.println("  actualHash.length = " + actualHash.length());
+//        System.out.println("expectedHash.type = " + expectedHash.getClass());
+//        System.out.println("  actualHash.type = " + actualHash.getClass());
+//
+//    }
 }

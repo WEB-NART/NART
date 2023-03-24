@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -115,16 +117,9 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public int showAllCommentNum() {
         List<Comment> comments = commentDao.selectList(null);
-        for (int i = 0; i < comments.size(); i++){
-            for (int j = comments.size()-1; j > i; j--){
-                if (comments.get(j).equals(comments.get(i))){
-                    comments.remove(j);
-                }
-            }
+        List<Comment> collect = comments.stream().distinct().collect(Collectors.toList());
 
-        }
-
-        return comments.size();
+        return collect.size();
     }
 
     @Override

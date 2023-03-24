@@ -119,6 +119,8 @@ class ChatEndPointTest {
         chatEndPointUnderTest.onOpen(token1, session, config);
         chatEndPointUnderTest.onClose(token1);
 
+        chatEndPointUnderTest.onClose(token1);
+
         // Verify the results
     }
 
@@ -223,6 +225,32 @@ class ChatEndPointTest {
         chatEndPointUnderTest.onOpen(token1, session, config);
         chatEndPointUnderTest.onOpen(token2, session, config2);
         chatEndPointUnderTest.onMessage(token1, friendUnEncryptText);
+
+        chatEndPointUnderTest.onClose(token1);
+    }
+
+    @Test
+    void testOnMessage_Ping() throws IOException {
+        String text = "ping";
+
+        List<UserGroup> objects = new ArrayList<>();
+        UserGroup userGroup = new UserGroup();
+        userGroup.setUid(receiverId);
+        objects.add(userGroup);
+        lenient().when(mock.selectList(any(LambdaQueryWrapper.class))).thenReturn(objects);
+        doThrow(new IOException()).when(mockRemoteEndpoint).sendText(any(String.class));
+
+        AtomicReference<String> tex = new AtomicReference<>("");
+        mockRemoteEndpoint = mock(RemoteEndpoint.Basic.class);
+        when(session.getBasicRemote()).thenReturn(mockRemoteEndpoint);
+        doAnswer(invocation -> {
+            String t = "pong";
+            tex.set(t);
+            return null;
+        }).when(mockRemoteEndpoint).sendText(any(String.class));
+
+        chatEndPointUnderTest.onOpen(token1, session, config);
+        chatEndPointUnderTest.onMessage(token1, text);
 
         chatEndPointUnderTest.onClose(token1);
     }
