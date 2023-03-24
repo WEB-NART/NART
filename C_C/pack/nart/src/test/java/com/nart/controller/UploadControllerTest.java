@@ -2,7 +2,9 @@ package com.nart.controller;
 
 import com.nart.service.LoadDataInDataBase;
 import com.nart.service.LoginService;
+import com.nart.util.upload.FileType;
 import com.nart.util.upload.HttpUtil;
+import com.nart.util.upload.ImgtuUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -375,9 +377,9 @@ class UploadControllerTest {
 
     @Test
     void testInit() throws IOException {
-//        FileType fileType = new FileType();
-//        HttpUtil httpUtil = new HttpUtil();
-//        ImgtuUtil imgtuUtil = new ImgtuUtil();
+        FileType fileType = new FileType();
+        HttpUtil httpUtil = new HttpUtil();
+        ImgtuUtil imgtuUtil = new ImgtuUtil();
         HashMap<String, String> map = new HashMap<>();
         map.put("name", "mike");
         map.put("pwd", "pwd");
@@ -386,5 +388,7 @@ class UploadControllerTest {
         headers.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36");
         headers.put("Connection", "keep-alive");
         HttpUtil.post("https://example.com", map, headers, "");
+        HttpUtil.get("https://example.com", map, headers);
+        HttpUtil.get("https://example.com", null, headers);
     }
 }

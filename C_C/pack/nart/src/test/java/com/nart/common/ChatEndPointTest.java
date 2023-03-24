@@ -119,6 +119,8 @@ class ChatEndPointTest {
         chatEndPointUnderTest.onOpen(token1, session, config);
         chatEndPointUnderTest.onClose(token1);
 
+        chatEndPointUnderTest.onClose(token1);
+
         // Verify the results
     }
 

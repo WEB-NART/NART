@@ -513,6 +513,27 @@ class AdminServiceImplTest {
     }
 
     @Test
+    void testShowAllCommentNum2() {
+        // Setup
+        // Configure CommentDao.selectList(...).
+        final Comment comment = new Comment();
+        comment.setId("id");
+        comment.setMsg("msg");
+        comment.setStatusId("statusId");
+        comment.setCreateDate(0L);
+        comment.setUserId("userId");
+        comment.setUname("uname");
+        final List<Comment> comments = Arrays.asList(comment, comment, comment);
+        when(mockCommentDao.selectList(null)).thenReturn(comments);
+
+        // Run the test
+        final int result = adminServiceImplUnderTest.showAllCommentNum();
+
+        // Verify the results
+        assertThat(result).isEqualTo(1);
+    }
+
+    @Test
     void testShowAllCommentNum_CommentDaoReturnsNoItems() {
         // Setup
         when(mockCommentDao.selectList(null)).thenReturn(Collections.emptyList());
