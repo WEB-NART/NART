@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ImgtuUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.util.upload</a> &gt; <span class="el_source">ImgtuUtil.java</span></div><h1>ImgtuUtil.java</h1><pre class="source lang-java linenums">package com.nart.util.upload;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ImgtuUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart-war</a> &gt; <a href="index.source.html" class="el_package">com.nart.util.upload</a> &gt; <span class="el_source">ImgtuUtil.java</span></div><h1>ImgtuUtil.java</h1><pre class="source lang-java linenums">package com.nart.util.upload;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -30,8 +29,8 @@ import java.util.regex.Pattern;
  * @Author ZIRUI QIAO
  * @Date 2023/01/04 15:54
  */
-<span class="pc bpc" id="L33" title="1 of 2 branches missed.">@Slf4j</span>
-<span class="nc" id="L34">public class ImgtuUtil {</span>
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">@Slf4j</span>
+<span class="nc" id="L33">public class ImgtuUtil {</span>
     static final String IMGTU_USER_NAME = &quot;nart&quot;;
     static final String IMGTU_PASSWORD = &quot;123456&quot;;
     static final String CHAT_ALBUMID = &quot;4Yrex&quot;;
@@ -41,246 +40,246 @@ import java.util.regex.Pattern;
     static final private String IMGTU_INIT_URL = &quot;https://imgse.com/init&quot;;
     static final private String IMGTU_LOGIN_URL = &quot;https://imgse.com/login&quot;;
     static final private String IMGTU_OPERATE_URL = &quot;https://imgse.com/json&quot;;
-<span class="fc" id="L44">    static final private Pattern SESSION_ID_PATTERN = Pattern.compile(&quot;PHPSESSID=([^;]*); path=/; HttpOnly&quot;);</span>
-<span class="fc" id="L45">    static final private Pattern AUTH_TOKEN_PATTERN = Pattern.compile(&quot;PF\\.obj\\.config\\.auth_token = \&quot;([0-9a-f]{40})\&quot;;&quot;);</span>
-<span class="fc" id="L46">    static final private Pattern KEEP_LOGIN_PATTERN = Pattern.compile(&quot;KEEP_LOGIN=([^;]*);&quot;);</span>
+<span class="fc" id="L43">    static final private Pattern SESSION_ID_PATTERN = Pattern.compile(&quot;PHPSESSID=([^;]*); path=/; HttpOnly&quot;);</span>
+<span class="fc" id="L44">    static final private Pattern AUTH_TOKEN_PATTERN = Pattern.compile(&quot;PF\\.obj\\.config\\.auth_token = \&quot;([0-9a-f]{40})\&quot;;&quot;);</span>
+<span class="fc" id="L45">    static final private Pattern KEEP_LOGIN_PATTERN = Pattern.compile(&quot;KEEP_LOGIN=([^;]*);&quot;);</span>
     static final private long INIT_VALID_DURATION = 15L * 60 * 1000;
     static final private long LOGIN_VALID_DURATION = 30L * 24 * 60 * 60 * 1000;
 
-<span class="nc" id="L50">    @Getter</span>
+
     static private String sessionId;
-<span class="nc" id="L52">    @Getter</span>
+
     static private String authToken;
-<span class="nc" id="L54">    @Getter</span>
+
     static private String keepLogin;
-<span class="nc" id="L56">    @Getter</span>
-<span class="fc" id="L57">    static private long initTimestamp = 0;</span>
-<span class="nc" id="L58">    @Getter</span>
-<span class="fc" id="L59">    static private long loginTimestamp = 0;</span>
+
+<span class="fc" id="L56">    static private long initTimestamp = 0;</span>
+
+<span class="fc" id="L58">    static private long loginTimestamp = 0;</span>
 
     public static Boolean initSession() {
-<span class="fc" id="L62">        return initSession(false);</span>
+<span class="fc" id="L61">        return initSession(false);</span>
     }
 
     public static Boolean initSession(boolean forceAction) {
-<span class="pc bpc" id="L66" title="2 of 4 branches missed.">        if (!forceAction &amp;&amp; !isSessionIdExpired()) {</span>
-<span class="nc" id="L67">            log.info(&quot;Imgtu [INITIALIZATION] Success：No re-initialisation required for the duration of the session&quot;);</span>
-<span class="nc" id="L68">            return null;</span>
+<span class="pc bpc" id="L65" title="1 of 4 branches missed.">        if (!forceAction &amp;&amp; !isSessionIdExpired()) {</span>
+<span class="fc" id="L66">            log.info(&quot;Imgtu [INITIALIZATION] Success：No re-initialisation required for the duration of the session&quot;);</span>
+<span class="fc" id="L67">            return null;</span>
         }
-<span class="fc" id="L70">        synchronized (ImgtuUtil.class) {</span>
+<span class="fc" id="L69">        synchronized (ImgtuUtil.class) {</span>
             // Initialisation
-<span class="fc" id="L72">            sessionId = null;</span>
-<span class="fc" id="L73">            authToken = null;</span>
+<span class="fc" id="L71">            sessionId = null;</span>
+<span class="fc" id="L72">            authToken = null;</span>
 
             // Request a login page
             String httpRawString;
             CloseableHttpResponse httpResponse;
             try {
-<span class="fc" id="L79">                httpResponse = HttpUtil.get(IMGTU_INIT_URL, new HashMap&lt;&gt;(0), new HashMap&lt;&gt;(0));</span>
-<span class="fc" id="L80">                HttpEntity httpEntity = httpResponse.getEntity();</span>
-<span class="fc" id="L81">                httpRawString = EntityUtils.toString(httpEntity);</span>
-<span class="nc" id="L82">            } catch (IOException e) {</span>
-<span class="nc" id="L83">                log.error(&quot;Imgtu [INITIALIZATION] Failed: Failing request page ({})&quot; + e.getLocalizedMessage());</span>
-<span class="nc" id="L84">                e.printStackTrace();</span>
-<span class="nc" id="L85">                return false;</span>
-<span class="fc" id="L86">            }</span>
+<span class="fc" id="L78">                httpResponse = HttpUtil.get(IMGTU_INIT_URL, new HashMap&lt;&gt;(0), new HashMap&lt;&gt;(0));</span>
+<span class="fc" id="L79">                HttpEntity httpEntity = httpResponse.getEntity();</span>
+<span class="fc" id="L80">                httpRawString = EntityUtils.toString(httpEntity);</span>
+<span class="nc" id="L81">            } catch (IOException e) {</span>
+<span class="nc" id="L82">                log.error(&quot;Imgtu [INITIALIZATION] Failed: Failing request page ({})&quot; + e.getLocalizedMessage());</span>
+<span class="nc" id="L83">                e.printStackTrace();</span>
+<span class="nc" id="L84">                return false;</span>
+<span class="fc" id="L85">            }</span>
 
             // Get SessionId
-<span class="fc" id="L89">            Header[] responseHeaders = httpResponse.getAllHeaders();</span>
-<span class="fc bfc" id="L90" title="All 2 branches covered.">            for (Header header : responseHeaders) {</span>
-<span class="fc bfc" id="L91" title="All 2 branches covered.">                if (&quot;Set-Cookie&quot;.equalsIgnoreCase(header.getName())) {</span>
-<span class="fc" id="L92">                    String cookies = header.getValue();</span>
-<span class="fc" id="L93">                    Matcher matcher = SESSION_ID_PATTERN.matcher(cookies);</span>
-<span class="pc bpc" id="L94" title="1 of 2 branches missed.">                    if (matcher.find(0)) {</span>
-<span class="fc" id="L95">                        sessionId = matcher.group(1);</span>
+<span class="fc" id="L88">            Header[] responseHeaders = httpResponse.getAllHeaders();</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">            for (Header header : responseHeaders) {</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">                if (&quot;Set-Cookie&quot;.equalsIgnoreCase(header.getName())) {</span>
+<span class="fc" id="L91">                    String cookies = header.getValue();</span>
+<span class="fc" id="L92">                    Matcher matcher = SESSION_ID_PATTERN.matcher(cookies);</span>
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">                    if (matcher.find(0)) {</span>
+<span class="fc" id="L94">                        sessionId = matcher.group(1);</span>
                     }
                 }
             }
 
-<span class="pc bpc" id="L100" title="1 of 2 branches missed.">            if (sessionId == null) {</span>
-<span class="nc" id="L101">                log.error(&quot;Imgtu [INITIALIZATION] Failed: Failing get sessionId&quot;);</span>
-<span class="nc" id="L102">                return false;</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">            if (sessionId == null) {</span>
+<span class="nc" id="L100">                log.error(&quot;Imgtu [INITIALIZATION] Failed: Failing get sessionId&quot;);</span>
+<span class="nc" id="L101">                return false;</span>
             }
 
             // Get AuthToken
-<span class="fc" id="L106">            Matcher matcher = AUTH_TOKEN_PATTERN.matcher(httpRawString);</span>
-<span class="pc bpc" id="L107" title="1 of 2 branches missed.">            if (matcher.find(0)) {</span>
-<span class="fc" id="L108">                authToken = matcher.group(1);</span>
+<span class="fc" id="L105">            Matcher matcher = AUTH_TOKEN_PATTERN.matcher(httpRawString);</span>
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">            if (matcher.find(0)) {</span>
+<span class="fc" id="L107">                authToken = matcher.group(1);</span>
             } else {
-<span class="nc" id="L110">                log.error(&quot;Imgtu [INITIALIZATION] Failed: Failing get AuthToken&quot;);</span>
-<span class="nc" id="L111">                return false;</span>
+<span class="nc" id="L109">                log.error(&quot;Imgtu [INITIALIZATION] Failed: Failing get AuthToken&quot;);</span>
+<span class="nc" id="L110">                return false;</span>
             }
 
-<span class="fc" id="L114">            log.info(&quot;Imgtu [INITIALIZATION]V SessionId:&quot; + sessionId);</span>
-<span class="fc" id="L115">            log.info(&quot;Imgtu [INITIALIZATION]V AuthToken:&quot; + authToken);</span>
+<span class="fc" id="L113">            log.info(&quot;Imgtu [INITIALIZATION]V SessionId:&quot; + sessionId);</span>
+<span class="fc" id="L114">            log.info(&quot;Imgtu [INITIALIZATION]V AuthToken:&quot; + authToken);</span>
 
-<span class="fc" id="L117">            initTimestamp = System.currentTimeMillis();</span>
-<span class="fc" id="L118">            return true;</span>
+<span class="fc" id="L116">            initTimestamp = System.currentTimeMillis();</span>
+<span class="fc" id="L117">            return true;</span>
         }
     }
 
     public static Boolean login() throws IOException {
-<span class="fc" id="L123">        return login(false);</span>
+<span class="fc" id="L122">        return login(false);</span>
     }
 
     public static Boolean login(boolean forceAction) throws IOException {
-<span class="pc bpc" id="L127" title="2 of 4 branches missed.">        if (!forceAction &amp;&amp; !isLoginExpired()) {</span>
-<span class="nc" id="L128">            log.info(&quot;Imgtu [LOGIN] success：No re-login required for the duration of the session&quot;);</span>
-<span class="nc" id="L129">            return null;</span>
+<span class="pc bpc" id="L126" title="1 of 4 branches missed.">        if (!forceAction &amp;&amp; !isLoginExpired()) {</span>
+<span class="fc" id="L127">            log.info(&quot;Imgtu [LOGIN] success：No re-login required for the duration of the session&quot;);</span>
+<span class="fc" id="L128">            return null;</span>
         }
-<span class="fc" id="L131">        synchronized (ImgtuUtil.class) {</span>
+<span class="fc" id="L130">        synchronized (ImgtuUtil.class) {</span>
             // Initializing a session
-<span class="fc bfc" id="L133" title="All 2 branches covered.">            if (isSessionIdExpired()) {</span>
-<span class="fc" id="L134">                Boolean b = initSession();</span>
-<span class="pc bpc" id="L135" title="2 of 4 branches missed.">                if (!(b == null || b)) {</span>
-<span class="nc" id="L136">                    log.error(&quot;Imgtu [LOGIN] fail：Initialization session blocked&quot;);</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">            if (isSessionIdExpired()) {</span>
+<span class="fc" id="L133">                Boolean b = initSession();</span>
+<span class="pc bpc" id="L134" title="2 of 4 branches missed.">                if (!(b == null || b)) {</span>
+<span class="nc" id="L135">                    log.error(&quot;Imgtu [LOGIN] fail：Initialization session blocked&quot;);</span>
                 }
             }
 
             // Setting the request header
-<span class="fc" id="L141">            Map&lt;String, String&gt; headers = new HashMap&lt;&gt;(3);</span>
-<span class="fc" id="L142">            headers.put(&quot;cookie&quot;, &quot;PHPSESSID=&quot; + sessionId + &quot;;&quot;);</span>
-<span class="fc" id="L143">            headers.put(&quot;content-type&quot;, &quot;application/x-www-form-urlencoded&quot;);</span>
-<span class="fc" id="L144">            headers.put(&quot;connection&quot;, &quot;keep-alive&quot;);</span>
+<span class="fc" id="L140">            Map&lt;String, String&gt; headers = new HashMap&lt;&gt;(3);</span>
+<span class="fc" id="L141">            headers.put(&quot;cookie&quot;, &quot;PHPSESSID=&quot; + sessionId + &quot;;&quot;);</span>
+<span class="fc" id="L142">            headers.put(&quot;content-type&quot;, &quot;application/x-www-form-urlencoded&quot;);</span>
+<span class="fc" id="L143">            headers.put(&quot;connection&quot;, &quot;keep-alive&quot;);</span>
 
-<span class="fc" id="L146">            CloseableHttpResponse httpResponse = HttpUtil.post(IMGTU_LOGIN_URL, new HashMap&lt;&gt;(0), headers,</span>
+<span class="fc" id="L145">            CloseableHttpResponse httpResponse = HttpUtil.post(IMGTU_LOGIN_URL, new HashMap&lt;&gt;(0), headers,</span>
                     &quot;login-subject=&quot; + IMGTU_USER_NAME + &quot;&amp;password=&quot; + IMGTU_PASSWORD + &quot;&amp;auth_token=&quot; + authToken);
 
-<span class="fc" id="L149">            Header[] responseHeaders = httpResponse.getAllHeaders();</span>
-<span class="fc bfc" id="L150" title="All 2 branches covered.">            for (Header header : responseHeaders) {</span>
-<span class="pc bpc" id="L151" title="1 of 2 branches missed.">                if (&quot;Set-Cookie&quot;.equalsIgnoreCase(header.getName())) {</span>
-<span class="nc" id="L152">                    String cookies = header.getValue();</span>
-<span class="nc" id="L153">                    Matcher matcher = KEEP_LOGIN_PATTERN.matcher(cookies);</span>
-<span class="nc bnc" id="L154" title="All 2 branches missed.">                    if (matcher.find(0)) {</span>
-<span class="nc" id="L155">                        keepLogin = matcher.group(1);</span>
+<span class="fc" id="L148">            Header[] responseHeaders = httpResponse.getAllHeaders();</span>
+<span class="fc bfc" id="L149" title="All 2 branches covered.">            for (Header header : responseHeaders) {</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">                if (&quot;Set-Cookie&quot;.equalsIgnoreCase(header.getName())) {</span>
+<span class="fc" id="L151">                    String cookies = header.getValue();</span>
+<span class="fc" id="L152">                    Matcher matcher = KEEP_LOGIN_PATTERN.matcher(cookies);</span>
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">                    if (matcher.find(0)) {</span>
+<span class="fc" id="L154">                        keepLogin = matcher.group(1);</span>
                     }
                 }
             }
 
-<span class="pc bpc" id="L160" title="1 of 2 branches missed.">            if (keepLogin != null) {</span>
-<span class="nc" id="L161">                loginTimestamp = System.currentTimeMillis();</span>
-<span class="nc" id="L162">                log.info(&quot;Imgtu [LOGIN]：V KeepLogin:&quot; + keepLogin);</span>
-<span class="nc" id="L163">                return true;</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">            if (keepLogin != null) {</span>
+<span class="fc" id="L160">                loginTimestamp = System.currentTimeMillis();</span>
+<span class="fc" id="L161">                log.info(&quot;Imgtu [LOGIN]：V KeepLogin:&quot; + keepLogin);</span>
+<span class="fc" id="L162">                return true;</span>
             } else {
-<span class="fc" id="L165">                log.error(&quot;Imgtu [LOGIN]：X StatusCode:&quot; + httpResponse.getStatusLine().getStatusCode());</span>
-<span class="fc" id="L166">                log.error(&quot;Imgtu [LOGIN]：X response:&quot; + httpResponse);</span>
-<span class="fc" id="L167">                return false;</span>
+<span class="nc" id="L164">                log.error(&quot;Imgtu [LOGIN]：X StatusCode:&quot; + httpResponse.getStatusLine().getStatusCode());</span>
+<span class="nc" id="L165">                log.error(&quot;Imgtu [LOGIN]：X response:&quot; + httpResponse);</span>
+<span class="nc" id="L166">                return false;</span>
             }
         }
     }
 
     public static boolean ensureLogin() throws IOException {
-<span class="fc" id="L173">        Boolean loginRes = login();</span>
-<span class="pc bpc" id="L174" title="1 of 2 branches missed.">        if (loginRes == null) {</span>
-<span class="nc" id="L175">            Boolean initRes = initSession();</span>
-<span class="nc bnc" id="L176" title="All 4 branches missed.">            return initRes == null || initRes;</span>
+<span class="fc" id="L172">        Boolean loginRes = login();</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">        if (loginRes == null) {</span>
+<span class="fc" id="L174">            Boolean initRes = initSession();</span>
+<span class="pc bpc" id="L175" title="3 of 4 branches missed.">            return initRes == null || initRes;</span>
         } else {
-<span class="fc" id="L178">            return loginRes;</span>
+<span class="fc" id="L177">            return loginRes;</span>
         }
     }
 
     public static JsonObject upload(byte[] bytes, String fileName, ContentType fileType, String album) throws IOException {
-<span class="fc" id="L183">        log.info(&quot;--------&gt;&gt;&gt;&gt; PicBeds - Upload &lt;&lt;&lt;&lt;--------&quot;);</span>
-<span class="pc bpc" id="L184" title="1 of 2 branches missed.">        if (!ensureLogin()) {</span>
-<span class="fc" id="L185">            log.error(&quot;Imgtu [UPLOAD]：fail：Service unavailable&quot;);</span>
-<span class="fc" id="L186">            return null;</span>
+<span class="fc" id="L182">        log.info(&quot;--------&gt;&gt;&gt;&gt; PicBeds - Upload &lt;&lt;&lt;&lt;--------&quot;);</span>
+<span class="pc bpc" id="L183" title="1 of 2 branches missed.">        if (!ensureLogin()) {</span>
+<span class="nc" id="L184">            log.error(&quot;Imgtu [UPLOAD]：fail：Service unavailable&quot;);</span>
+<span class="nc" id="L185">            return null;</span>
         }
 
-<span class="nc" id="L189">        Map&lt;String, String&gt; headers = new HashMap&lt;&gt;(3);</span>
-<span class="nc" id="L190">        headers.put(&quot;Cookie&quot;, &quot;PHPSESSID=&quot; + sessionId + &quot;; KEEP_LOGIN=&quot; + keepLogin);</span>
-<span class="nc" id="L191">        headers.put(&quot;User-Agent&quot;, &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36&quot;);</span>
-<span class="nc" id="L192">        headers.put(&quot;Connection&quot;, &quot;keep-alive&quot;);</span>
+<span class="fc" id="L188">        Map&lt;String, String&gt; headers = new HashMap&lt;&gt;(3);</span>
+<span class="fc" id="L189">        headers.put(&quot;Cookie&quot;, &quot;PHPSESSID=&quot; + sessionId + &quot;; KEEP_LOGIN=&quot; + keepLogin);</span>
+<span class="fc" id="L190">        headers.put(&quot;User-Agent&quot;, &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36&quot;);</span>
+<span class="fc" id="L191">        headers.put(&quot;Connection&quot;, &quot;keep-alive&quot;);</span>
 
         try {
-<span class="nc" id="L195">            Map&lt;String, ContentBody&gt; params = new HashMap&lt;&gt;(6);</span>
-<span class="nc" id="L196">            params.put(&quot;source&quot;, new ByteArrayBody(bytes, fileType, fileName));</span>
-<span class="nc" id="L197">            params.put(&quot;type&quot;, new StringBody(&quot;file&quot;, ContentType.MULTIPART_FORM_DATA));</span>
-<span class="nc" id="L198">            params.put(&quot;action&quot;, new StringBody(&quot;upload&quot;, ContentType.MULTIPART_FORM_DATA));</span>
-<span class="nc" id="L199">            params.put(&quot;timestamp&quot;, new StringBody(Long.toString(System.currentTimeMillis()), ContentType.MULTIPART_FORM_DATA));</span>
-<span class="nc" id="L200">            params.put(&quot;auth_token&quot;, new StringBody(authToken, ContentType.MULTIPART_FORM_DATA));</span>
-<span class="nc" id="L201">            params.put(&quot;nsfw&quot;, new StringBody(&quot;0&quot;, ContentType.MULTIPART_FORM_DATA));</span>
-<span class="nc" id="L202">            params.put(&quot;album_id&quot;, new StringBody(album, ContentType.MULTIPART_FORM_DATA));</span>
+<span class="fc" id="L194">            Map&lt;String, ContentBody&gt; params = new HashMap&lt;&gt;(6);</span>
+<span class="fc" id="L195">            params.put(&quot;source&quot;, new ByteArrayBody(bytes, fileType, fileName));</span>
+<span class="fc" id="L196">            params.put(&quot;type&quot;, new StringBody(&quot;file&quot;, ContentType.MULTIPART_FORM_DATA));</span>
+<span class="fc" id="L197">            params.put(&quot;action&quot;, new StringBody(&quot;upload&quot;, ContentType.MULTIPART_FORM_DATA));</span>
+<span class="fc" id="L198">            params.put(&quot;timestamp&quot;, new StringBody(Long.toString(System.currentTimeMillis()), ContentType.MULTIPART_FORM_DATA));</span>
+<span class="fc" id="L199">            params.put(&quot;auth_token&quot;, new StringBody(authToken, ContentType.MULTIPART_FORM_DATA));</span>
+<span class="fc" id="L200">            params.put(&quot;nsfw&quot;, new StringBody(&quot;0&quot;, ContentType.MULTIPART_FORM_DATA));</span>
+<span class="fc" id="L201">            params.put(&quot;album_id&quot;, new StringBody(album, ContentType.MULTIPART_FORM_DATA));</span>
 
-<span class="nc" id="L204">            CloseableHttpResponse httpResponse = HttpUtil.multipart(IMGTU_OPERATE_URL, new HashMap&lt;&gt;(0), headers, params);</span>
-<span class="nc" id="L205">            String httpRawString = EntityUtils.toString(httpResponse.getEntity());</span>
-<span class="nc" id="L206">            log.info(&quot;Imgtu [UPLOAD] Success：Upload Successfully!&quot;);</span>
-<span class="nc" id="L207">            return new Gson().fromJson(httpRawString, JsonObject.class);</span>
-<span class="nc" id="L208">        } catch (IOException e) {</span>
-<span class="nc" id="L209">            log.error(&quot;\&quot;Imgtu [UPLOAD] Fail：{}&quot; + e.getLocalizedMessage());</span>
-<span class="nc" id="L210">            e.printStackTrace();</span>
-<span class="nc" id="L211">            return null;</span>
+<span class="fc" id="L203">            CloseableHttpResponse httpResponse = HttpUtil.multipart(IMGTU_OPERATE_URL, new HashMap&lt;&gt;(0), headers, params);</span>
+<span class="fc" id="L204">            String httpRawString = EntityUtils.toString(httpResponse.getEntity());</span>
+<span class="fc" id="L205">            log.info(&quot;Imgtu [UPLOAD] Success：Upload Successfully!&quot;);</span>
+<span class="fc" id="L206">            return new Gson().fromJson(httpRawString, JsonObject.class);</span>
+<span class="nc" id="L207">        } catch (IOException e) {</span>
+<span class="nc" id="L208">            log.error(&quot;\&quot;Imgtu [UPLOAD] Fail：{}&quot; + e.getLocalizedMessage());</span>
+<span class="nc" id="L209">            e.printStackTrace();</span>
+<span class="nc" id="L210">            return null;</span>
         }
     }
 
     public static JsonObject delete(String deleteId) throws IOException {
-<span class="fc" id="L216">        log.info(&quot;--------&gt;&gt;&gt;&gt; PicBeds - Delete &lt;&lt;&lt;&lt;--------&quot;);</span>
-<span class="pc bpc" id="L217" title="1 of 2 branches missed.">        if (!ensureLogin()) {</span>
-<span class="fc" id="L218">            log.error(&quot;Imgtu [DELETE] Fail：Service unavailable&quot;);</span>
-<span class="fc" id="L219">            return null;</span>
+<span class="fc" id="L215">        log.info(&quot;--------&gt;&gt;&gt;&gt; PicBeds - Delete &lt;&lt;&lt;&lt;--------&quot;);</span>
+<span class="pc bpc" id="L216" title="1 of 2 branches missed.">        if (!ensureLogin()) {</span>
+<span class="nc" id="L217">            log.error(&quot;Imgtu [DELETE] Fail：Service unavailable&quot;);</span>
+<span class="nc" id="L218">            return null;</span>
         }
-<span class="nc" id="L221">        Map&lt;String, String&gt; headers = new HashMap&lt;&gt;(3);</span>
-<span class="nc" id="L222">        headers.put(&quot;Cookie&quot;, &quot;PHPSESSID=&quot; + sessionId + &quot;; KEEP_LOGIN=&quot; + keepLogin);</span>
-<span class="nc" id="L223">        headers.put(&quot;User-Agent&quot;, &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36&quot;);</span>
-<span class="nc" id="L224">        headers.put(&quot;Connection&quot;, &quot;keep-alive&quot;);</span>
+<span class="fc" id="L220">        Map&lt;String, String&gt; headers = new HashMap&lt;&gt;(3);</span>
+<span class="fc" id="L221">        headers.put(&quot;Cookie&quot;, &quot;PHPSESSID=&quot; + sessionId + &quot;; KEEP_LOGIN=&quot; + keepLogin);</span>
+<span class="fc" id="L222">        headers.put(&quot;User-Agent&quot;, &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36&quot;);</span>
+<span class="fc" id="L223">        headers.put(&quot;Connection&quot;, &quot;keep-alive&quot;);</span>
 
         try {
-<span class="nc" id="L227">            Map&lt;String, ContentBody&gt; params = new HashMap&lt;&gt;(5);</span>
-<span class="nc" id="L228">            params.put(&quot;auth_token&quot;, new StringBody(authToken, ContentType.MULTIPART_FORM_DATA));</span>
-<span class="nc" id="L229">            params.put(&quot;action&quot;, new StringBody(&quot;delete&quot;, ContentType.MULTIPART_FORM_DATA));</span>
-<span class="nc" id="L230">            params.put(&quot;single&quot;, new StringBody(&quot;true&quot;, ContentType.MULTIPART_FORM_DATA));</span>
-<span class="nc" id="L231">            params.put(&quot;delete&quot;, new StringBody(&quot;image&quot;, ContentType.MULTIPART_FORM_DATA));</span>
-<span class="nc" id="L232">            params.put(&quot;deleting[id]&quot;, new StringBody(deleteId, ContentType.MULTIPART_FORM_DATA));</span>
+<span class="fc" id="L226">            Map&lt;String, ContentBody&gt; params = new HashMap&lt;&gt;(5);</span>
+<span class="fc" id="L227">            params.put(&quot;auth_token&quot;, new StringBody(authToken, ContentType.MULTIPART_FORM_DATA));</span>
+<span class="fc" id="L228">            params.put(&quot;action&quot;, new StringBody(&quot;delete&quot;, ContentType.MULTIPART_FORM_DATA));</span>
+<span class="fc" id="L229">            params.put(&quot;single&quot;, new StringBody(&quot;true&quot;, ContentType.MULTIPART_FORM_DATA));</span>
+<span class="fc" id="L230">            params.put(&quot;delete&quot;, new StringBody(&quot;image&quot;, ContentType.MULTIPART_FORM_DATA));</span>
+<span class="fc" id="L231">            params.put(&quot;deleting[id]&quot;, new StringBody(deleteId, ContentType.MULTIPART_FORM_DATA));</span>
 
-<span class="nc" id="L234">            CloseableHttpResponse httpResponse = HttpUtil.multipart(IMGTU_OPERATE_URL, new HashMap&lt;&gt;(0), headers, params);</span>
-<span class="nc" id="L235">            String httpRawString = EntityUtils.toString(httpResponse.getEntity());</span>
-<span class="nc" id="L236">            log.info(&quot;Imgtu [DELETE] Success：Delete Successfully!&quot;);</span>
-<span class="nc" id="L237">            return new Gson().fromJson(httpRawString, JsonObject.class);</span>
-<span class="nc" id="L238">        } catch (IOException e) {</span>
-<span class="nc" id="L239">            log.error(&quot;Imgtu [DELETE] Fail：{}&quot; + e.getLocalizedMessage());</span>
-<span class="nc" id="L240">            e.printStackTrace();</span>
-<span class="nc" id="L241">            return null;</span>
+<span class="fc" id="L233">            CloseableHttpResponse httpResponse = HttpUtil.multipart(IMGTU_OPERATE_URL, new HashMap&lt;&gt;(0), headers, params);</span>
+<span class="fc" id="L234">            String httpRawString = EntityUtils.toString(httpResponse.getEntity());</span>
+<span class="fc" id="L235">            log.info(&quot;Imgtu [DELETE] Success：Delete Successfully!&quot;);</span>
+<span class="fc" id="L236">            return new Gson().fromJson(httpRawString, JsonObject.class);</span>
+<span class="nc" id="L237">        } catch (IOException e) {</span>
+<span class="nc" id="L238">            log.error(&quot;Imgtu [DELETE] Fail：{}&quot; + e.getLocalizedMessage());</span>
+<span class="nc" id="L239">            e.printStackTrace();</span>
+<span class="nc" id="L240">            return null;</span>
         }
     }
 
     static boolean isSessionIdExpired() {
-<span class="fc bfc" id="L246" title="All 2 branches covered.">        return initTimestamp + INIT_VALID_DURATION &lt; System.currentTimeMillis();</span>
+<span class="fc bfc" id="L245" title="All 2 branches covered.">        return initTimestamp + INIT_VALID_DURATION &lt; System.currentTimeMillis();</span>
     }
 
     static boolean isLoginExpired() {
-<span class="pc bpc" id="L250" title="1 of 2 branches missed.">        return loginTimestamp + LOGIN_VALID_DURATION &lt; System.currentTimeMillis();</span>
+<span class="fc bfc" id="L249" title="All 2 branches covered.">        return loginTimestamp + LOGIN_VALID_DURATION &lt; System.currentTimeMillis();</span>
     }
 
     public static String uploadPic(byte[] bytes, String fileName, Integer album) throws IOException {
         String albumId;
-<span class="pc bpc" id="L255" title="3 of 4 branches missed.">        switch (album) {</span>
-<span class="fc" id="L256">            case 0: albumId = STATUS_ALBUMID; break;</span>
-<span class="nc" id="L257">            case 1: albumId = USERS_ALBUMID; break;</span>
-<span class="nc" id="L258">            case 2: albumId = GROUPS_ALBUMID; break;</span>
-<span class="nc" id="L259">            default: albumId = CHAT_ALBUMID;</span>
+<span class="fc bfc" id="L254" title="All 4 branches covered.">        switch (album) {</span>
+<span class="fc" id="L255">            case 0: albumId = STATUS_ALBUMID; break;</span>
+<span class="fc" id="L256">            case 1: albumId = USERS_ALBUMID; break;</span>
+<span class="fc" id="L257">            case 2: albumId = GROUPS_ALBUMID; break;</span>
+<span class="fc" id="L258">            default: albumId = CHAT_ALBUMID;</span>
         }
-<span class="fc" id="L261">        JsonObject testFile = upload(bytes, fileName, FileType.checkType(fileName), albumId);</span>
-<span class="pc bpc" id="L262" title="2 of 4 branches missed.">        assert testFile != null;</span>
-<span class="nc" id="L263">        Object x = testFile.get(&quot;status_code&quot;);</span>
-<span class="nc bnc" id="L264" title="All 2 branches missed.">        if (x.toString().equals(&quot;400&quot;)) {</span>
-<span class="nc" id="L265">            return &quot;400&quot;;</span>
+<span class="fc" id="L260">        JsonObject testFile = upload(bytes, fileName, FileType.checkType(fileName), albumId);</span>
+<span class="pc bpc" id="L261" title="2 of 4 branches missed.">        assert testFile != null;</span>
+<span class="fc" id="L262">        Object x = testFile.get(&quot;status_code&quot;);</span>
+<span class="fc bfc" id="L263" title="All 2 branches covered.">        if (x.toString().equals(&quot;400&quot;)) {</span>
+<span class="fc" id="L264">            return &quot;400&quot;;</span>
         }
-<span class="nc" id="L267">        JsonObject image1 = testFile.getAsJsonObject(&quot;image&quot;);</span>
-<span class="nc bnc" id="L268" title="All 4 branches missed.">        assert image1 != null;</span>
-<span class="nc" id="L269">        JsonObject image = image1.getAsJsonObject(&quot;image&quot;);</span>
-<span class="nc bnc" id="L270" title="All 4 branches missed.">        assert image != null;</span>
-<span class="nc" id="L271">        JsonPrimitive jp = image.getAsJsonPrimitive(&quot;url&quot;);</span>
+<span class="fc" id="L266">        JsonObject image1 = testFile.getAsJsonObject(&quot;image&quot;);</span>
+<span class="pc bpc" id="L267" title="2 of 4 branches missed.">        assert image1 != null;</span>
+<span class="fc" id="L268">        JsonObject image = image1.getAsJsonObject(&quot;image&quot;);</span>
+<span class="pc bpc" id="L269" title="2 of 4 branches missed.">        assert image != null;</span>
+<span class="fc" id="L270">        JsonPrimitive jp = image.getAsJsonPrimitive(&quot;url&quot;);</span>
 
-<span class="nc" id="L273">        String asString = jp.getAsString();</span>
-<span class="nc" id="L274">        log.info(&quot;short url: &quot; + asString);</span>
+<span class="fc" id="L272">        String asString = jp.getAsString();</span>
+<span class="fc" id="L273">        log.info(&quot;short url: &quot; + asString);</span>
 
-<span class="nc" id="L276">        return asString;</span>
+<span class="fc" id="L275">        return asString;</span>
     }
 
     public static String deletePic(String id) throws IOException {
-<span class="fc" id="L280">        JsonObject jsonObject = delete(id);</span>
-<span class="pc bpc" id="L281" title="2 of 4 branches missed.">        assert jsonObject != null;</span>
-<span class="nc" id="L282">        Object x = jsonObject.get(&quot;status_code&quot;);</span>
-<span class="nc" id="L283">        return x.toString();</span>
+<span class="fc" id="L279">        JsonObject jsonObject = delete(id);</span>
+<span class="pc bpc" id="L280" title="2 of 4 branches missed.">        assert jsonObject != null;</span>
+<span class="fc" id="L281">        Object x = jsonObject.get(&quot;status_code&quot;);</span>
+<span class="fc" id="L282">        return x.toString();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

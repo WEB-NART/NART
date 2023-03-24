@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdminServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.service.impl</a> &gt; <span class="el_source">AdminServiceImpl.java</span></div><h1>AdminServiceImpl.java</h1><pre class="source lang-java linenums">package com.nart.service.impl;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdminServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart-war</a> &gt; <a href="index.source.html" class="el_package">com.nart.service.impl</a> &gt; <span class="el_source">AdminServiceImpl.java</span></div><h1>AdminServiceImpl.java</h1><pre class="source lang-java linenums">package com.nart.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -115,25 +115,34 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public int showAllCommentNum() {
 <span class="fc" id="L117">        List&lt;Comment&gt; comments = commentDao.selectList(null);</span>
-<span class="fc" id="L118">        return comments.size();</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        for (int i = 0; i &lt; comments.size(); i++){</span>
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">            for (int j = comments.size()-1; j &gt; i; j--){</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">                if (comments.get(j).equals(comments.get(i))){</span>
+<span class="nc" id="L121">                    comments.remove(j);</span>
+                }
+            }
+
+        }
+
+<span class="fc" id="L127">        return comments.size();</span>
     }
 
     @Override
     public User searchUser(String id) {
-<span class="fc" id="L123">        return userDao.selectById(id);</span>
+<span class="fc" id="L132">        return userDao.selectById(id);</span>
     }
 
 
     @Override
     public boolean blockUser(String id) {
-<span class="fc" id="L129">        User user = userDao.selectById(id);</span>
-<span class="fc" id="L130">        user.setState(1);</span>
-<span class="fc" id="L131">        int i = userDao.updateById(user);</span>
-<span class="fc" id="L132">        boolean a = false;</span>
-<span class="fc bfc" id="L133" title="All 2 branches covered.">        if (i == 1){</span>
-<span class="fc" id="L134">            a = true;</span>
+<span class="fc" id="L138">        User user = userDao.selectById(id);</span>
+<span class="fc" id="L139">        user.setState(1);</span>
+<span class="fc" id="L140">        int i = userDao.updateById(user);</span>
+<span class="fc" id="L141">        boolean a = false;</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">        if (i == 1){</span>
+<span class="fc" id="L143">            a = true;</span>
         }
-<span class="fc" id="L136">        return a;</span>
+<span class="fc" id="L145">        return a;</span>
     }
 
 
@@ -149,31 +158,31 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public boolean deleteStatus(String id) {
-<span class="fc" id="L152">        Status status = statusDao.selectById(id);</span>
-<span class="fc" id="L153">        String id1 = status.getId();</span>
-<span class="fc" id="L154">        LambdaQueryWrapper&lt;Comment&gt; lqw = new LambdaQueryWrapper&lt;Comment&gt;();</span>
-<span class="fc" id="L155">        lqw.eq(Comment::getStatusId, id1);</span>
-<span class="fc" id="L156">        List&lt;Comment&gt; comments = commentDao.selectList(lqw);</span>
-<span class="fc bfc" id="L157" title="All 2 branches covered.">        for (Comment comment : comments) {</span>
-<span class="fc" id="L158">            commentDao.deleteById(comment.getId());</span>
-<span class="fc" id="L159">        }</span>
-<span class="fc" id="L160">        int i = statusDao.deleteById(id1);</span>
-<span class="fc" id="L161">        boolean a = false;</span>
-<span class="fc bfc" id="L162" title="All 2 branches covered.">        if (i == 1){</span>
-<span class="fc" id="L163">            a = true;</span>
+<span class="fc" id="L161">        Status status = statusDao.selectById(id);</span>
+<span class="fc" id="L162">        String id1 = status.getId();</span>
+<span class="fc" id="L163">        LambdaQueryWrapper&lt;Comment&gt; lqw = new LambdaQueryWrapper&lt;Comment&gt;();</span>
+<span class="fc" id="L164">        lqw.eq(Comment::getStatusId, id1);</span>
+<span class="fc" id="L165">        List&lt;Comment&gt; comments = commentDao.selectList(lqw);</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">        for (Comment comment : comments) {</span>
+<span class="fc" id="L167">            commentDao.deleteById(comment.getId());</span>
+<span class="fc" id="L168">        }</span>
+<span class="fc" id="L169">        int i = statusDao.deleteById(id1);</span>
+<span class="fc" id="L170">        boolean a = false;</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">        if (i == 1){</span>
+<span class="fc" id="L172">            a = true;</span>
         }
-<span class="fc" id="L165">        return a;</span>
+<span class="fc" id="L174">        return a;</span>
     }
 
     @Override
     public boolean deleteComment(String id) {
 
-<span class="fc" id="L171">        int i = commentDao.deleteById(id);</span>
-<span class="fc" id="L172">        boolean a = false;</span>
-<span class="fc bfc" id="L173" title="All 2 branches covered.">        if (i == 1){</span>
-<span class="fc" id="L174">            a = true;</span>
+<span class="fc" id="L180">        int i = commentDao.deleteById(id);</span>
+<span class="fc" id="L181">        boolean a = false;</span>
+<span class="fc bfc" id="L182" title="All 2 branches covered.">        if (i == 1){</span>
+<span class="fc" id="L183">            a = true;</span>
         }
-<span class="fc" id="L176">        return a;</span>
+<span class="fc" id="L185">        return a;</span>
     }
 
 //    @Override

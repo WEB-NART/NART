@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FriendServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.service.impl</a> &gt; <span class="el_source">FriendServiceImpl.java</span></div><h1>FriendServiceImpl.java</h1><pre class="source lang-java linenums">package com.nart.service.impl;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FriendServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart-war</a> &gt; <a href="index.source.html" class="el_package">com.nart.service.impl</a> &gt; <span class="el_source">FriendServiceImpl.java</span></div><h1>FriendServiceImpl.java</h1><pre class="source lang-java linenums">package com.nart.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -49,45 +49,44 @@ public class FriendServiceImpl implements FriendService {
 
 
     @Override
-    public List&lt;FriendVo&gt; showFriendList(IPage page, String userId) {
+    public List&lt;FriendVo&gt; showFriendList(IPage&lt;Friend&gt; page, String userId) {
 
-<span class="fc" id="L54">        LambdaQueryWrapper&lt;Friend&gt; lqw = new LambdaQueryWrapper&lt;Friend&gt;();</span>
-<span class="fc" id="L55">        lqw.eq(Friend::getUid, userId);</span>
-<span class="fc" id="L56">        lqw.orderBy(true,false, Friend::getLeaveTime);</span>
+<span class="fc" id="L54">        LambdaQueryWrapper&lt;Friend&gt; lqw = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="fc" id="L55">        lqw.eq(Friend::getUid, userId).orderBy(true,false, Friend::getLeaveTime);</span>
 
-<span class="fc" id="L58">        IPage iPage = friendDao.selectPage(page, lqw);</span>
-<span class="fc" id="L59">        List&lt;Friend&gt; records = iPage.getRecords();</span>
-<span class="fc bfc" id="L60" title="All 2 branches covered.">        for (Friend record : records) {</span>
-<span class="fc" id="L61">            String fid = record.getFid();</span>
-<span class="fc" id="L62">            User user = userDao.selectById(fid);</span>
-<span class="fc" id="L63">            record.setName(user.getName());</span>
-<span class="fc" id="L64">            record.setEmail(user.getEmail());</span>
-<span class="fc" id="L65">            record.setAvatar(user.getAvatar());</span>
-<span class="fc" id="L66">            int userOnline = user.getUserOnline();</span>
+<span class="fc" id="L57">        IPage&lt;Friend&gt; friendIPage = friendDao.selectPage(page, lqw);</span>
+<span class="fc" id="L58">        List&lt;Friend&gt; records = friendIPage.getRecords();</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        for (Friend record : records) {</span>
+<span class="fc" id="L60">            String fid = record.getFid();</span>
+<span class="fc" id="L61">            User user = userDao.selectById(fid);</span>
+<span class="fc" id="L62">            record.setName(user.getName());</span>
+<span class="fc" id="L63">            record.setEmail(user.getEmail());</span>
+<span class="fc" id="L64">            record.setAvatar(user.getAvatar());</span>
+<span class="fc" id="L65">            int userOnline = user.getUserOnline();</span>
             //System.out.println(userOnline);
-<span class="fc bfc" id="L68" title="All 2 branches covered.">            if(userOnline==1){</span>
-<span class="fc" id="L69">                record.setOnline(true);</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">            if(userOnline==1){</span>
+<span class="fc" id="L68">                record.setOnline(true);</span>
             }else {
-<span class="fc" id="L71">                record.setOnline(false);</span>
+<span class="fc" id="L70">                record.setOnline(false);</span>
             }
-<span class="fc" id="L73">            boolean hasNewMsg = chatService.existNewMsg(fid, true, record.getLeaveTime());</span>
-<span class="fc" id="L74">            record.setNewMessage(hasNewMsg);</span>
+<span class="fc" id="L72">            boolean hasNewMsg = chatService.existNewMsg(fid, true, record.getLeaveTime());</span>
+<span class="fc" id="L73">            record.setNewMessage(hasNewMsg);</span>
 //            record.setStatusList(statusService.showStatusList(userId ,page));
 //            record.setChatHistory(chatService.showFriendHistory(user.getId(),page));
 
-<span class="fc" id="L78">        }</span>
-<span class="fc" id="L79">        FriendVo friendVo = new FriendVo();</span>
-<span class="fc" id="L80">        List&lt;FriendVo&gt; friendVos = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L81" title="All 2 branches covered.">        for (Friend record : records) {</span>
-<span class="fc" id="L82">            FriendVo transfer = friendVo.transfer(record);</span>
+<span class="fc" id="L77">        }</span>
+<span class="fc" id="L78">        FriendVo friendVo = new FriendVo();</span>
+<span class="fc" id="L79">        List&lt;FriendVo&gt; friendVos = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        for (Friend record : records) {</span>
+<span class="fc" id="L81">            FriendVo transfer = friendVo.transfer(record);</span>
 
 //            User user = userDao.selectById(record.getUid());
 //            transfer.setUname(user.getName());
 
-<span class="fc" id="L87">            friendVos.add(transfer);</span>
-<span class="fc" id="L88">        }</span>
+<span class="fc" id="L86">            friendVos.add(transfer);</span>
+<span class="fc" id="L87">        }</span>
 
-<span class="fc" id="L90">        return friendVos;</span>
+<span class="fc" id="L89">        return friendVos;</span>
     }
 
     @Override
@@ -99,175 +98,171 @@ public class FriendServiceImpl implements FriendService {
 //        IPage&lt;User&gt; userIPage = userService.searchNew(name, pageVo);
 //        List&lt;User&gt; records = userIPage.getRecords();
 
-<span class="fc" id="L102">        String id = UserThreadLocal.get().getId();</span>
-//        String id = &quot;1574989638660136961&quot;;
-//        System.out.println(id);
-<span class="fc" id="L105">        LambdaQueryWrapper&lt;Friend&gt; lqw = new LambdaQueryWrapper&lt;Friend&gt;();</span>
-<span class="fc" id="L106">        lqw.eq(Friend::getUid, id);</span>
-<span class="fc" id="L107">        List&lt;Friend&gt; friends = friendDao.selectList(lqw);</span>
-<span class="fc" id="L108">        List&lt;User&gt; friendName = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L101">        String id = UserThreadLocal.get().getId();</span>
 
-//        System.out.println(friends);
-//        for (Friend friend : friends) {
-//
-//        }
-<span class="fc bfc" id="L114" title="All 2 branches covered.">        for (Friend friend : friends) {</span>
-<span class="fc" id="L115">            String fid = friend.getFid();</span>
-<span class="fc" id="L116">            User user = userDao.selectById(fid);</span>
-<span class="fc" id="L117">            String name1 = user.getName();</span>
-<span class="fc bfc" id="L118" title="All 2 branches covered.">            if (name1.toLowerCase().contains(name.toLowerCase())){</span>
-<span class="fc" id="L119">                friendName.add(user);</span>
+<span class="fc" id="L103">        LambdaQueryWrapper&lt;Friend&gt; lqw = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="fc" id="L104">        lqw.eq(Friend::getUid, id);</span>
+<span class="fc" id="L105">        List&lt;Friend&gt; friends = friendDao.selectList(lqw);</span>
+<span class="fc" id="L106">        List&lt;User&gt; friendName = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        for (Friend friend : friends) {</span>
+<span class="fc" id="L109">            String fid = friend.getFid();</span>
+<span class="fc" id="L110">            User user = userDao.selectById(fid);</span>
+<span class="fc" id="L111">            String name1 = user.getName();</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">            if (name1.toLowerCase().contains(name.toLowerCase())){</span>
+<span class="fc" id="L113">                friendName.add(user);</span>
             }
+<span class="fc" id="L115">        }</span>
+<span class="fc" id="L116">        UserVo userVo = new UserVo();</span>
+<span class="fc" id="L117">        List&lt;UserVo&gt; userVos = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        for (User record : friendName) {</span>
+<span class="fc" id="L119">            UserVo transfer = userVo.transfer(record);</span>
+<span class="fc" id="L120">            userVos.add(transfer);</span>
 <span class="fc" id="L121">        }</span>
-<span class="fc" id="L122">        UserVo userVo = new UserVo();</span>
-<span class="fc" id="L123">        List&lt;UserVo&gt; userVos = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L124" title="All 2 branches covered.">        for (User record : friendName) {</span>
-<span class="fc" id="L125">            UserVo transfer = userVo.transfer(record);</span>
-<span class="fc" id="L126">            userVos.add(transfer);</span>
-<span class="fc" id="L127">        }</span>
 
-<span class="fc" id="L129">        int pageNumber = Math.toIntExact(page.getCurrent());</span>
-<span class="fc" id="L130">        int size = Math.toIntExact(page.getSize());</span>
-<span class="fc" id="L131">        int start = (pageNumber -1) * size;</span>
-<span class="fc" id="L132">        int end  = size + start;</span>
+<span class="fc" id="L123">        int pageNumber = Math.toIntExact(page.getCurrent());</span>
+<span class="fc" id="L124">        int size = Math.toIntExact(page.getSize());</span>
+<span class="fc" id="L125">        int start = (pageNumber -1) * size;</span>
+<span class="fc" id="L126">        int end  = size + start;</span>
         //System.out.println(userVos);
         List&lt;UserVo&gt; userVos1;
-<span class="fc bfc" id="L135" title="All 2 branches covered.">        if(start &gt; userVos.size()) {</span>
-<span class="fc" id="L136">            userVos1 = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L137">            return userVos1;</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        if(start &gt; userVos.size()) {</span>
+<span class="fc" id="L130">            userVos1 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L131">            return userVos1;</span>
         }
-<span class="fc bfc" id="L139" title="All 2 branches covered.">        if(end &gt; userVos.size()) {</span>
-<span class="fc" id="L140">            end = userVos.size();</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        if(end &gt; userVos.size()) {</span>
+<span class="fc" id="L134">            end = userVos.size();</span>
         }
-<span class="fc" id="L142">        userVos1 = userVos.subList(start,end);</span>
+<span class="fc" id="L136">        userVos1 = userVos.subList(start,end);</span>
 
-<span class="fc" id="L144">        return userVos1;</span>
+<span class="fc" id="L138">        return userVos1;</span>
     }
 
     @Override
     public boolean delFriend(String fid,String uid) {
-<span class="fc" id="L149">        LambdaQueryWrapper&lt;Friend&gt; lqw = new LambdaQueryWrapper&lt;Friend&gt;();</span>
-<span class="fc" id="L150">        lqw.eq(Friend::getFid, fid);</span>
-<span class="fc" id="L151">        lqw.eq(Friend::getUid, uid).or();</span>
-<span class="fc" id="L152">        lqw.eq(Friend::getFid, uid);</span>
-<span class="fc" id="L153">        lqw.eq(Friend::getUid, fid);</span>
-<span class="fc" id="L154">        int delete = friendDao.delete(lqw);</span>
-<span class="fc" id="L155">        boolean a = false;</span>
-<span class="fc bfc" id="L156" title="All 2 branches covered.">        if (delete == 1){</span>
-<span class="fc" id="L157">            a = true;</span>
+<span class="fc" id="L143">        LambdaQueryWrapper&lt;Friend&gt; lqw = new LambdaQueryWrapper&lt;Friend&gt;();</span>
+<span class="fc" id="L144">        lqw.eq(Friend::getFid, fid);</span>
+<span class="fc" id="L145">        lqw.eq(Friend::getUid, uid).or();</span>
+<span class="fc" id="L146">        lqw.eq(Friend::getFid, uid);</span>
+<span class="fc" id="L147">        lqw.eq(Friend::getUid, fid);</span>
+<span class="fc" id="L148">        int delete = friendDao.delete(lqw);</span>
+<span class="fc" id="L149">        boolean a = false;</span>
+<span class="fc" id="L150">        System.out.println(delete);</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        if (delete &gt; 0){</span>
+<span class="fc" id="L152">            a = true;</span>
         }
-<span class="fc" id="L159">        return a;</span>
+<span class="fc" id="L154">        return a;</span>
     }
 
     @Override
     public boolean changeFriendState(String fid, String uid,int state) {
-<span class="fc" id="L164">        LambdaQueryWrapper&lt;Friend&gt; lqw = new LambdaQueryWrapper&lt;Friend&gt;();</span>
-<span class="fc" id="L165">        lqw.eq(Friend::getFid, fid);</span>
-<span class="fc" id="L166">        lqw.eq(Friend::getUid, uid);</span>
-<span class="fc" id="L167">        Friend friend = new Friend();</span>
-<span class="fc" id="L168">        friend.setState(state);</span>
-<span class="fc" id="L169">        int update = friendDao.update(friend, lqw);</span>
-<span class="fc" id="L170">        boolean a = false;</span>
-<span class="fc bfc" id="L171" title="All 2 branches covered.">        if (update == 1){</span>
-<span class="fc" id="L172">            a = true;</span>
+<span class="fc" id="L159">        LambdaQueryWrapper&lt;Friend&gt; lqw = new LambdaQueryWrapper&lt;Friend&gt;();</span>
+<span class="fc" id="L160">        lqw.eq(Friend::getFid, fid);</span>
+<span class="fc" id="L161">        lqw.eq(Friend::getUid, uid);</span>
+<span class="fc" id="L162">        Friend friend = new Friend();</span>
+<span class="fc" id="L163">        friend.setState(state);</span>
+<span class="fc" id="L164">        int update = friendDao.update(friend, lqw);</span>
+<span class="fc" id="L165">        boolean a = false;</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">        if (update == 1){</span>
+<span class="fc" id="L167">            a = true;</span>
         }
-<span class="fc" id="L174">        return a;</span>
+<span class="fc" id="L169">        return a;</span>
     }
 
     @Override
     public List&lt;RequestVo&gt; showReqList(IPage page, String sid) {
 //        System.out.println(sid);
-<span class="fc" id="L180">        LambdaQueryWrapper&lt;FriendReq&gt; lqw = new LambdaQueryWrapper&lt;FriendReq&gt;();</span>
-<span class="fc" id="L181">        lqw.eq(FriendReq::getReceiverId, sid);</span>
+<span class="fc" id="L175">        LambdaQueryWrapper&lt;FriendReq&gt; lqw = new LambdaQueryWrapper&lt;FriendReq&gt;();</span>
+<span class="fc" id="L176">        lqw.eq(FriendReq::getReceiverId, sid);</span>
 
-<span class="fc" id="L183">        lqw.orderBy(true,false, FriendReq::getDate);</span>
+<span class="fc" id="L178">        lqw.orderBy(true,false, FriendReq::getDate);</span>
 
-<span class="fc" id="L185">        IPage iPage = friendReqDAO.selectPage(page, lqw);</span>
-<span class="fc" id="L186">        List&lt;FriendReq&gt; records = iPage.getRecords();</span>
+<span class="fc" id="L180">        IPage iPage = friendReqDAO.selectPage(page, lqw);</span>
+<span class="fc" id="L181">        List&lt;FriendReq&gt; records = iPage.getRecords();</span>
 
-<span class="fc" id="L188">        RequestVo requestVo = new RequestVo();</span>
-<span class="fc" id="L189">        List&lt;RequestVo&gt; requestVos = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L190" title="All 2 branches covered.">        for (FriendReq record : records) {</span>
-<span class="fc" id="L191">            RequestVo transfer = requestVo.transfer(record);</span>
+<span class="fc" id="L183">        RequestVo requestVo = new RequestVo();</span>
+<span class="fc" id="L184">        List&lt;RequestVo&gt; requestVos = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">        for (FriendReq record : records) {</span>
+<span class="fc" id="L186">            RequestVo transfer = requestVo.transfer(record);</span>
 
-<span class="fc" id="L193">            User user = userDao.selectById(record.getSenderId());</span>
-<span class="fc" id="L194">            transfer.setFriendName(user.getName());</span>
-<span class="fc" id="L195">            transfer.setFriendAvatar(user.getAvatar());</span>
+<span class="fc" id="L188">            User user = userDao.selectById(record.getSenderId());</span>
+<span class="fc" id="L189">            transfer.setFriendName(user.getName());</span>
+<span class="fc" id="L190">            transfer.setFriendAvatar(user.getAvatar());</span>
 
-<span class="fc" id="L197">            User user1 = userDao.selectById(record.getSenderId());</span>
-<span class="fc" id="L198">            transfer.setSenderName(user1.getName());</span>
+<span class="fc" id="L192">            User user1 = userDao.selectById(record.getSenderId());</span>
+<span class="fc" id="L193">            transfer.setSenderName(user1.getName());</span>
 
 
-<span class="fc" id="L201">            requestVos.add(transfer);</span>
-<span class="fc" id="L202">        }</span>
+<span class="fc" id="L196">            requestVos.add(transfer);</span>
+<span class="fc" id="L197">        }</span>
         
-<span class="fc" id="L204">        return requestVos;</span>
+<span class="fc" id="L199">        return requestVos;</span>
     }
 
     @Override
     public boolean sendFriendReq(String rid, String sid, String msg) {
 
-<span class="fc" id="L210">        FriendReq friendReq = new FriendReq();</span>
-<span class="fc" id="L211">        friendReq.setMsg(msg);</span>
-<span class="fc" id="L212">        friendReq.setReceiverId(rid);</span>
-<span class="fc" id="L213">        friendReq.setSenderId(sid);</span>
-<span class="fc" id="L214">        friendReq.setDate(new Date().getTime());</span>
-<span class="fc" id="L215">        int insert = friendReqDAO.insert(friendReq);</span>
-<span class="fc" id="L216">        boolean a = false;</span>
-<span class="fc bfc" id="L217" title="All 2 branches covered.">        if (insert == 1){</span>
-<span class="fc" id="L218">            a = true;</span>
+<span class="fc" id="L205">        FriendReq friendReq = new FriendReq();</span>
+<span class="fc" id="L206">        friendReq.setMsg(msg);</span>
+<span class="fc" id="L207">        friendReq.setReceiverId(rid);</span>
+<span class="fc" id="L208">        friendReq.setSenderId(sid);</span>
+<span class="fc" id="L209">        friendReq.setDate(new Date().getTime());</span>
+<span class="fc" id="L210">        int insert = friendReqDAO.insert(friendReq);</span>
+<span class="fc" id="L211">        boolean a = false;</span>
+<span class="fc bfc" id="L212" title="All 2 branches covered.">        if (insert == 1){</span>
+<span class="fc" id="L213">            a = true;</span>
         }
-<span class="fc" id="L220">        return a;</span>
+<span class="fc" id="L215">        return a;</span>
     }
 
     @Override
     public boolean respFriendReq(String reqId, Boolean agree) {
-<span class="fc" id="L225">        FriendReq friendReq = friendReqDAO.selectById(reqId);</span>
+<span class="fc" id="L220">        FriendReq friendReq = friendReqDAO.selectById(reqId);</span>
 
-<span class="fc bfc" id="L227" title="All 2 branches covered.">        if(agree){</span>
-<span class="fc" id="L228">            String senderId = friendReq.getSenderId();</span>
-<span class="fc" id="L229">            String ReceiverId = friendReq.getReceiverId();</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">        if(agree){</span>
+<span class="fc" id="L223">            String senderId = friendReq.getSenderId();</span>
+<span class="fc" id="L224">            String ReceiverId = friendReq.getReceiverId();</span>
 
-<span class="fc" id="L231">            Friend friend = new Friend();</span>
-<span class="fc" id="L232">            friend.setFid(senderId);</span>
-<span class="fc" id="L233">            friend.setUid(ReceiverId);</span>
-<span class="fc" id="L234">            friendDao.insert(friend);</span>
-<span class="fc" id="L235">            friend.setId(null);</span>
-<span class="fc" id="L236">            friend.setFid(ReceiverId);</span>
-<span class="fc" id="L237">            friend.setUid(senderId);</span>
-<span class="fc" id="L238">            int insert = friendDao.insert(friend);</span>
-<span class="fc bfc" id="L239" title="All 2 branches covered.">            if (insert &lt;= 0) return false;</span>
-<span class="fc" id="L240">            int i = friendReqDAO.deleteById(reqId);</span>
-<span class="fc bfc" id="L241" title="All 2 branches covered.">            return i &gt; 0;</span>
+<span class="fc" id="L226">            Friend friend = new Friend();</span>
+<span class="fc" id="L227">            friend.setFid(senderId);</span>
+<span class="fc" id="L228">            friend.setUid(ReceiverId);</span>
+<span class="fc" id="L229">            friendDao.insert(friend);</span>
+<span class="fc" id="L230">            friend.setId(null);</span>
+<span class="fc" id="L231">            friend.setFid(ReceiverId);</span>
+<span class="fc" id="L232">            friend.setUid(senderId);</span>
+<span class="fc" id="L233">            int insert = friendDao.insert(friend);</span>
+<span class="fc bfc" id="L234" title="All 2 branches covered.">            if (insert &lt;= 0) return false;</span>
+<span class="fc" id="L235">            int i = friendReqDAO.deleteById(reqId);</span>
+<span class="fc bfc" id="L236" title="All 2 branches covered.">            return i &gt; 0;</span>
         }else{
-<span class="fc" id="L243">            int i = friendReqDAO.deleteById(reqId);</span>
-<span class="fc bfc" id="L244" title="All 2 branches covered.">            return i &gt; 0;</span>
+<span class="fc" id="L238">            int i = friendReqDAO.deleteById(reqId);</span>
+<span class="fc bfc" id="L239" title="All 2 branches covered.">            return i &gt; 0;</span>
         }
     }
 
     @Override
     public List&lt;UserVo&gt; searchNew(String name, PageVo pageVo) {
-<span class="fc" id="L250">        IPage&lt;User&gt; userIPage = userService.searchNew(name, pageVo);</span>
-<span class="fc" id="L251">        List&lt;User&gt; records = userIPage.getRecords();</span>
+<span class="fc" id="L245">        IPage&lt;User&gt; userIPage = userService.searchNew(name, pageVo);</span>
+<span class="fc" id="L246">        List&lt;User&gt; records = userIPage.getRecords();</span>
 
-<span class="fc" id="L253">        UserVo userVo = new UserVo();</span>
-<span class="fc" id="L254">        List&lt;UserVo&gt; userVos = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L255" title="All 2 branches covered.">        for (User record : records) {</span>
-<span class="fc" id="L256">            UserVo transfer = userVo.transfer(record);</span>
-<span class="fc" id="L257">            userVos.add(transfer);</span>
-<span class="fc" id="L258">        }</span>
+<span class="fc" id="L248">        UserVo userVo = new UserVo();</span>
+<span class="fc" id="L249">        List&lt;UserVo&gt; userVos = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L250" title="All 2 branches covered.">        for (User record : records) {</span>
+<span class="fc" id="L251">            UserVo transfer = userVo.transfer(record);</span>
+<span class="fc" id="L252">            userVos.add(transfer);</span>
+<span class="fc" id="L253">        }</span>
 
 
-<span class="fc" id="L261">        return userVos;</span>
+<span class="fc" id="L256">        return userVos;</span>
     }
 
     @Override
     public List&lt;Friend&gt; findAllFriends(String uid) {
-<span class="fc" id="L266">        String id = UserThreadLocal.get().getId();</span>
-<span class="fc" id="L267">        LambdaQueryWrapper&lt;Friend&gt; lqw = new LambdaQueryWrapper&lt;Friend&gt;();</span>
-<span class="fc" id="L268">        lqw.select(Friend::getFid).eq(Friend::getUid, uid);</span>
-<span class="fc" id="L269">        lqw.orderBy(true,false, Friend::getLeaveTime);</span>
-<span class="fc" id="L270">        return friendDao.selectList(lqw);</span>
+<span class="fc" id="L261">        String id = UserThreadLocal.get().getId();</span>
+<span class="fc" id="L262">        LambdaQueryWrapper&lt;Friend&gt; lqw = new LambdaQueryWrapper&lt;Friend&gt;();</span>
+<span class="fc" id="L263">        lqw.select(Friend::getFid).eq(Friend::getUid, uid);</span>
+<span class="fc" id="L264">        lqw.orderBy(true,false, Friend::getLeaveTime);</span>
+<span class="fc" id="L265">        return friendDao.selectList(lqw);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

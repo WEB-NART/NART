@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LogAspect.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.common</a> &gt; <span class="el_source">LogAspect.java</span></div><h1>LogAspect.java</h1><pre class="source lang-java linenums">package com.nart.common;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LogAspect.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart-war</a> &gt; <a href="index.source.html" class="el_package">com.nart.common</a> &gt; <span class="el_source">LogAspect.java</span></div><h1>LogAspect.java</h1><pre class="source lang-java linenums">package com.nart.common;
 
 import com.nart.util.GsonFormatter;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -63,17 +63,17 @@ import org.springframework.stereotype.Component;
 <span class="fc" id="L63">        Object target = joinPoint.getTarget();</span>
 <span class="fc" id="L64">        String className = target.getClass().getName();</span>
 <span class="fc" id="L65">        String methodName = signature.getName();</span>
-<span class="fc" id="L66">        log.info(&quot;request method:{}&quot;, className + &quot;.&quot; + methodName + &quot;()&quot;);</span>
+        //log.info(&quot;ip:{}&quot;, IpUtils.getIpAddr());
+<span class="fc" id="L67">        log.info(&quot;request method:{}&quot;, className + &quot;.&quot; + methodName + &quot;()&quot;);</span>
 
         // request parameters
-<span class="fc" id="L69">        Object[] args = joinPoint.getArgs();</span>
-<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (args.length &gt; 0) {</span>
-<span class="fc" id="L71">            String params = GsonFormatter.toJsonString(args[0]);</span>
-<span class="fc" id="L72">            log.info(&quot;params:{}&quot;, params);</span>
+<span class="fc" id="L70">        Object[] args = joinPoint.getArgs();</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (args.length &gt; 0) {</span>
+<span class="fc" id="L72">            String params = GsonFormatter.toJsonString(args[0]);</span>
+<span class="fc" id="L73">            log.info(&quot;params:{}&quot;, params);</span>
         }
 
         // get request IP address
-        //log.info(&quot;ip:{}&quot;, IpUtils.getIpAddr());
 <span class="fc" id="L77">        log.info(&quot;{}&quot;, result);</span>
 
         // print request header和body

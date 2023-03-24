@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UploadController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.controller</a> &gt; <span class="el_source">UploadController.java</span></div><h1>UploadController.java</h1><pre class="source lang-java linenums">package com.nart.controller;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UploadController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart-war</a> &gt; <a href="index.source.html" class="el_package">com.nart.controller</a> &gt; <span class="el_source">UploadController.java</span></div><h1>UploadController.java</h1><pre class="source lang-java linenums">package com.nart.controller;
 
 import com.nart.common.LogA;
 import com.nart.service.LoadDataInDataBase;
@@ -49,26 +49,26 @@ import java.util.UUID;
 <span class="fc" id="L49">        String name = file.getOriginalFilename();</span>
 <span class="fc" id="L50">        String suffix = StringUtils.substringAfterLast(name, &quot;.&quot;);</span>
 <span class="fc" id="L51">        String fileName = UUID.randomUUID().toString() + &quot;.&quot; + suffix;</span>
-<span class="nc" id="L52">        String s = ImgtuUtil.uploadPic(file.getBytes(), fileName, album);</span>
+<span class="fc" id="L52">        String s = ImgtuUtil.uploadPic(file.getBytes(), fileName, album);</span>
 
-<span class="nc bnc" id="L54" title="All 2 branches missed.">        if(StringUtils.isNotBlank(s)) {</span>
-<span class="nc bnc" id="L55" title="All 2 branches missed.">            if(s.equals(&quot;400&quot;)) {</span>
-<span class="nc" id="L56">                return Result.fail(ErrorCode.UPLOAD_REPEAT_ERROR);</span>
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">        if(StringUtils.isNotBlank(s)) {</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">            if(s.equals(&quot;400&quot;)) {</span>
+<span class="fc" id="L56">                return Result.fail(ErrorCode.UPLOAD_REPEAT_ERROR);</span>
             }
-<span class="nc" id="L58">            return Result.success(s);</span>
+<span class="fc" id="L58">            return Result.success(s);</span>
         }
 <span class="nc" id="L60">        return Result.fail(ErrorCode.UPLOAD_ERROR);</span>
     }
 
     @PutMapping(&quot;delete/{id}&quot;)
     public Result delete(@PathVariable(&quot;id&quot;) String id) throws IOException {
-<span class="nc" id="L65">        String s = ImgtuUtil.deletePic(id);</span>
+<span class="fc" id="L65">        String s = ImgtuUtil.deletePic(id);</span>
 
-<span class="nc bnc" id="L67" title="All 2 branches missed.">        if(StringUtils.isNotBlank(s)) {</span>
-<span class="nc bnc" id="L68" title="All 2 branches missed.">            if(s.equals(&quot;400&quot;))</span>
-<span class="nc" id="L69">                return Result.fail(ErrorCode.ALREADY_DELETE_ERROR);</span>
-<span class="nc bnc" id="L70" title="All 2 branches missed.">            else if (s.equals(&quot;200&quot;))</span>
-<span class="nc" id="L71">                return Result.success(s);</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">        if(StringUtils.isNotBlank(s)) {</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">            if(s.equals(&quot;400&quot;))</span>
+<span class="fc" id="L69">                return Result.fail(ErrorCode.ALREADY_DELETE_ERROR);</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">            else if (s.equals(&quot;200&quot;))</span>
+<span class="fc" id="L71">                return Result.success(s);</span>
         }
 <span class="nc" id="L73">        return Result.fail(ErrorCode.UPLOAD_DELETE_ERROR);</span>
     }
