@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -46,103 +48,96 @@ public class AdminServiceImpl implements AdminService {
                             RedisUtil redisUtil,
                             FriendDao friendDao,
                             StatusService statusService,
-<span class="fc" id="L49">                            UserGroupDao userGroupDao) {</span>
-<span class="fc" id="L50">        this.userDao = userDao;</span>
-<span class="fc" id="L51">        this.friendChatDao = friendChatDao;</span>
-<span class="fc" id="L52">        this.groupChatDao = groupChatDao;</span>
-<span class="fc" id="L53">        this.commentDao = commentDao;</span>
-<span class="fc" id="L54">        this.groupDao = groupDao;</span>
-<span class="fc" id="L55">        this.statusDao = statusDao;</span>
-<span class="fc" id="L56">        this.commentService = commentService;</span>
-<span class="fc" id="L57">        this.dataCounterService = dataCounterService;</span>
-<span class="fc" id="L58">        this.redisUtil = redisUtil;</span>
-<span class="fc" id="L59">        this.friendDao = friendDao;</span>
-<span class="fc" id="L60">        this.statusService = statusService;</span>
-<span class="fc" id="L61">        this.userGroupDao = userGroupDao;</span>
-<span class="fc" id="L62">    }</span>
+<span class="fc" id="L51">                            UserGroupDao userGroupDao) {</span>
+<span class="fc" id="L52">        this.userDao = userDao;</span>
+<span class="fc" id="L53">        this.friendChatDao = friendChatDao;</span>
+<span class="fc" id="L54">        this.groupChatDao = groupChatDao;</span>
+<span class="fc" id="L55">        this.commentDao = commentDao;</span>
+<span class="fc" id="L56">        this.groupDao = groupDao;</span>
+<span class="fc" id="L57">        this.statusDao = statusDao;</span>
+<span class="fc" id="L58">        this.commentService = commentService;</span>
+<span class="fc" id="L59">        this.dataCounterService = dataCounterService;</span>
+<span class="fc" id="L60">        this.redisUtil = redisUtil;</span>
+<span class="fc" id="L61">        this.friendDao = friendDao;</span>
+<span class="fc" id="L62">        this.statusService = statusService;</span>
+<span class="fc" id="L63">        this.userGroupDao = userGroupDao;</span>
+<span class="fc" id="L64">    }</span>
 
     @Override
     public List&lt;User&gt; showAllUserInfo() {
-<span class="fc" id="L66">        return userDao.selectList(null);</span>
+<span class="fc" id="L68">        return userDao.selectList(null);</span>
     }
 
     @Override
     public int showAllUserNum() {
-<span class="fc" id="L71">        List&lt;User&gt; users = userDao.selectList(null);</span>
-<span class="fc" id="L72">        return users.size();</span>
+<span class="fc" id="L73">        List&lt;User&gt; users = userDao.selectList(null);</span>
+<span class="fc" id="L74">        return users.size();</span>
     }
 
     @Override
     public List&lt;User&gt; showOnlineUserInfo() {
-<span class="fc" id="L77">        LambdaQueryWrapper&lt;User&gt; lqw = new LambdaQueryWrapper&lt;User&gt;();</span>
-<span class="fc" id="L78">        lqw.eq(User::getUserOnline, 1);</span>
+<span class="fc" id="L79">        LambdaQueryWrapper&lt;User&gt; lqw = new LambdaQueryWrapper&lt;User&gt;();</span>
+<span class="fc" id="L80">        lqw.eq(User::getUserOnline, 1);</span>
 
-<span class="fc" id="L80">        return userDao.selectList(lqw);</span>
+<span class="fc" id="L82">        return userDao.selectList(lqw);</span>
     }
 
     @Override
     public int showOnlineUserNum() {
-<span class="fc" id="L85">        LambdaQueryWrapper&lt;User&gt; lqw = new LambdaQueryWrapper&lt;User&gt;();</span>
-<span class="fc" id="L86">        lqw.eq(User::getUserOnline, 1);</span>
-<span class="fc" id="L87">        List&lt;User&gt; users = userDao.selectList(lqw);</span>
-<span class="fc" id="L88">        return users.size();</span>
+<span class="fc" id="L87">        LambdaQueryWrapper&lt;User&gt; lqw = new LambdaQueryWrapper&lt;User&gt;();</span>
+<span class="fc" id="L88">        lqw.eq(User::getUserOnline, 1);</span>
+<span class="fc" id="L89">        List&lt;User&gt; users = userDao.selectList(lqw);</span>
+<span class="fc" id="L90">        return users.size();</span>
     }
 
     @Override
     public List&lt;Status&gt; showAllStatusInfo() {
-<span class="fc" id="L93">        LambdaQueryWrapper&lt;Status&gt; lqw1 = new LambdaQueryWrapper&lt;Status&gt;();</span>
-<span class="fc" id="L94">        lqw1.orderBy(true,false, Status::getCreateDate);</span>
-<span class="fc" id="L95">        List&lt;Status&gt; statuses = statusDao.selectList(lqw1);</span>
-<span class="fc bfc" id="L96" title="All 2 branches covered.">        for (Status status : statuses) {</span>
-<span class="fc" id="L97">            String id = status.getId();</span>
-<span class="fc" id="L98">            List&lt;Comment&gt; comments = commentService.showCommentList(id);</span>
-<span class="fc" id="L99">            status.setCommentList(comments);</span>
-<span class="fc" id="L100">        }</span>
-<span class="fc" id="L101">        return statuses;</span>
+<span class="fc" id="L95">        LambdaQueryWrapper&lt;Status&gt; lqw1 = new LambdaQueryWrapper&lt;Status&gt;();</span>
+<span class="fc" id="L96">        lqw1.orderBy(true,false, Status::getCreateDate);</span>
+<span class="fc" id="L97">        List&lt;Status&gt; statuses = statusDao.selectList(lqw1);</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        for (Status status : statuses) {</span>
+<span class="fc" id="L99">            String id = status.getId();</span>
+<span class="fc" id="L100">            List&lt;Comment&gt; comments = commentService.showCommentList(id);</span>
+<span class="fc" id="L101">            status.setCommentList(comments);</span>
+<span class="fc" id="L102">        }</span>
+<span class="fc" id="L103">        return statuses;</span>
     }
 
     @Override
     public int showAllStatusNum() {
-<span class="fc" id="L106">        List&lt;Status&gt; statuses = statusDao.selectList(null);</span>
-<span class="fc" id="L107">        return statuses.size();</span>
+<span class="fc" id="L108">        List&lt;Status&gt; statuses = statusDao.selectList(null);</span>
+<span class="fc" id="L109">        return statuses.size();</span>
     }
 
     @Override
     public List&lt;Comment&gt; showAllCommentInfo() {
-<span class="fc" id="L112">        return commentDao.selectList(null);</span>
+<span class="fc" id="L114">        return commentDao.selectList(null);</span>
     }
 
     @Override
     public int showAllCommentNum() {
-<span class="fc" id="L117">        List&lt;Comment&gt; comments = commentDao.selectList(null);</span>
-<span class="fc bfc" id="L118" title="All 2 branches covered.">        for (int i = 0; i &lt; comments.size(); i++){</span>
-<span class="pc bpc" id="L119" title="1 of 2 branches missed.">            for (int j = comments.size()-1; j &gt; i; j--){</span>
-<span class="nc bnc" id="L120" title="All 2 branches missed.">                if (comments.get(j).equals(comments.get(i))){</span>
-<span class="nc" id="L121">                    comments.remove(j);</span>
-                }
-            }
+<span class="fc" id="L119">        List&lt;Comment&gt; comments = commentDao.selectList(null);</span>
+<span class="fc" id="L120">        List&lt;Comment&gt; collect = comments.stream().distinct().collect(Collectors.toList());</span>
 
-        }
-
-<span class="fc" id="L127">        return comments.size();</span>
+<span class="fc" id="L122">        return collect.size();</span>
     }
 
     @Override
     public User searchUser(String id) {
-<span class="fc" id="L132">        return userDao.selectById(id);</span>
+<span class="fc" id="L127">        return userDao.selectById(id);</span>
     }
 
 
     @Override
     public boolean blockUser(String id) {
-<span class="fc" id="L138">        User user = userDao.selectById(id);</span>
-<span class="fc" id="L139">        user.setState(1);</span>
-<span class="fc" id="L140">        int i = userDao.updateById(user);</span>
-<span class="fc" id="L141">        boolean a = false;</span>
-<span class="fc bfc" id="L142" title="All 2 branches covered.">        if (i == 1){</span>
-<span class="fc" id="L143">            a = true;</span>
+<span class="fc" id="L133">        User user = userDao.selectById(id);</span>
+<span class="fc" id="L134">        user.setState(1);</span>
+<span class="fc" id="L135">        int i = userDao.updateById(user);</span>
+<span class="fc" id="L136">        boolean a = false;</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">        if (i == 1){</span>
+<span class="fc" id="L138">            a = true;</span>
         }
-<span class="fc" id="L145">        return a;</span>
+<span class="fc" id="L140">        return a;</span>
     }
 
 
@@ -158,31 +153,31 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public boolean deleteStatus(String id) {
-<span class="fc" id="L161">        Status status = statusDao.selectById(id);</span>
-<span class="fc" id="L162">        String id1 = status.getId();</span>
-<span class="fc" id="L163">        LambdaQueryWrapper&lt;Comment&gt; lqw = new LambdaQueryWrapper&lt;Comment&gt;();</span>
-<span class="fc" id="L164">        lqw.eq(Comment::getStatusId, id1);</span>
-<span class="fc" id="L165">        List&lt;Comment&gt; comments = commentDao.selectList(lqw);</span>
-<span class="fc bfc" id="L166" title="All 2 branches covered.">        for (Comment comment : comments) {</span>
-<span class="fc" id="L167">            commentDao.deleteById(comment.getId());</span>
-<span class="fc" id="L168">        }</span>
-<span class="fc" id="L169">        int i = statusDao.deleteById(id1);</span>
-<span class="fc" id="L170">        boolean a = false;</span>
-<span class="fc bfc" id="L171" title="All 2 branches covered.">        if (i == 1){</span>
-<span class="fc" id="L172">            a = true;</span>
+<span class="fc" id="L156">        Status status = statusDao.selectById(id);</span>
+<span class="fc" id="L157">        String id1 = status.getId();</span>
+<span class="fc" id="L158">        LambdaQueryWrapper&lt;Comment&gt; lqw = new LambdaQueryWrapper&lt;Comment&gt;();</span>
+<span class="fc" id="L159">        lqw.eq(Comment::getStatusId, id1);</span>
+<span class="fc" id="L160">        List&lt;Comment&gt; comments = commentDao.selectList(lqw);</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">        for (Comment comment : comments) {</span>
+<span class="fc" id="L162">            commentDao.deleteById(comment.getId());</span>
+<span class="fc" id="L163">        }</span>
+<span class="fc" id="L164">        int i = statusDao.deleteById(id1);</span>
+<span class="fc" id="L165">        boolean a = false;</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">        if (i == 1){</span>
+<span class="fc" id="L167">            a = true;</span>
         }
-<span class="fc" id="L174">        return a;</span>
+<span class="fc" id="L169">        return a;</span>
     }
 
     @Override
     public boolean deleteComment(String id) {
 
-<span class="fc" id="L180">        int i = commentDao.deleteById(id);</span>
-<span class="fc" id="L181">        boolean a = false;</span>
-<span class="fc bfc" id="L182" title="All 2 branches covered.">        if (i == 1){</span>
-<span class="fc" id="L183">            a = true;</span>
+<span class="fc" id="L175">        int i = commentDao.deleteById(id);</span>
+<span class="fc" id="L176">        boolean a = false;</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">        if (i == 1){</span>
+<span class="fc" id="L178">            a = true;</span>
         }
-<span class="fc" id="L185">        return a;</span>
+<span class="fc" id="L180">        return a;</span>
     }
 
 //    @Override

@@ -28,7 +28,7 @@ import java.util.Map;
  * @Author ZIRUI QIAO
  * @Date 2023/01/04 15:55
  */
-<span class="nc" id="L31">public class HttpUtil {</span>
+<span class="fc" id="L31">public class HttpUtil {</span>
     private static Header[] parseHeaders(Map&lt;String, String&gt; headers) {
 <span class="fc" id="L33">        Header[] headersArray = new Header[headers.size()];</span>
 <span class="fc" id="L34">        int i = 0;</span>
@@ -40,7 +40,7 @@ import java.util.Map;
     }
 
     private static String parseParams(Map&lt;String, String&gt; params) {
-<span class="pc bpc" id="L43" title="1 of 4 branches missed.">        if (params == null || params.isEmpty()) {</span>
+<span class="fc bfc" id="L43" title="All 4 branches covered.">        if (params == null || params.isEmpty()) {</span>
 <span class="fc" id="L44">            return null;</span>
         }
 <span class="fc" id="L46">        StringBuilder sb = new StringBuilder();</span>
@@ -66,8 +66,8 @@ import java.util.Map;
 
         //Create an httpGet remote connection instance
 <span class="fc" id="L68">        String param = parseParams(params);</span>
-<span class="pc bpc" id="L69" title="1 of 2 branches missed.">        if (param != null) {</span>
-<span class="nc" id="L70">            url = url + &quot;?&quot; + param;</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        if (param != null) {</span>
+<span class="fc" id="L70">            url = url + &quot;?&quot; + param;</span>
         }
 <span class="fc" id="L72">        HttpGet httpGet = new HttpGet(url);</span>
 
