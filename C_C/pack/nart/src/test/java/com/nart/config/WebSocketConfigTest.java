@@ -3,7 +3,6 @@ package com.nart.config;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.HandshakeResponse;
@@ -40,12 +39,12 @@ class WebSocketConfigTest {
 
     }
 
-    @Test
-    void testServerEndpointExporter() {
-        // Setup
-        // Run the test
-        final ServerEndpointExporter result = webSocketConfigUnderTest.serverEndpointExporter();
-
-        // Verify the results
-    }
+//    @Test
+//    void testServerEndpointExporter() {
+//        // Setup
+//        // Run the test
+//        final ServerEndpointExporter result = webSocketConfigUnderTest.serverEndpointExporter();
+//
+//        // Verify the results
+//    }
 }

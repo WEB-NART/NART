@@ -3,7 +3,6 @@ package com.nart.util.upload;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -47,15 +46,15 @@ public class ImgtuUtil {
     static final private long INIT_VALID_DURATION = 15L * 60 * 1000;
     static final private long LOGIN_VALID_DURATION = 30L * 24 * 60 * 60 * 1000;
 
-    @Getter
+
     static private String sessionId;
-    @Getter
+
     static private String authToken;
-    @Getter
+
     static private String keepLogin;
-    @Getter
+
     static private long initTimestamp = 0;
-    @Getter
+
     static private long loginTimestamp = 0;
 
     public static Boolean initSession() {

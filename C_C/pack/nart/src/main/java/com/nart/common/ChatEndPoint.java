@@ -96,7 +96,8 @@ public class ChatEndPoint {
                 uid = ((Long) stringObjectMap.get("userId")).toString();
             }
             ChatEndPoint chatEndPoint = onlineUsers.get(uid);
-            chatEndPoint.session.getBasicRemote().sendText("pong");
+            RemoteEndpoint.Basic basicRemote = chatEndPoint.session.getBasicRemote();
+            basicRemote.sendText("pong");
         }else{
             try {
                 ObjectMapper mapper = new ObjectMapper();
@@ -139,17 +140,17 @@ public class ChatEndPoint {
         }
     }
 
-    @OnError
-    public void onError(@PathParam("token") String token, Throwable t) throws Throwable {
-        //log.info("websocket onerror");
-        if (httpSession != null) {
-            String uid = "";
-            Map<String, Object> stringObjectMap = EncryptUtil.checkToken(token);
-            if (stringObjectMap != null) {
-                uid = ((Long) stringObjectMap.get("userId")).toString();
-            }
-            onlineUsers.remove(uid);
-        }
-        t.printStackTrace();
-    }
+//    @OnError
+//    public void onError(@PathParam("token") String token, Throwable t) throws Throwable {
+//        //log.info("websocket onerror");
+//        if (httpSession != null) {
+//            String uid = "";
+//            Map<String, Object> stringObjectMap = EncryptUtil.checkToken(token);
+//            if (stringObjectMap != null) {
+//                uid = ((Long) stringObjectMap.get("userId")).toString();
+//            }
+//            onlineUsers.remove(uid);
+//        }
+//        t.printStackTrace();
+//    }
 }
