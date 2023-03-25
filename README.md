@@ -34,10 +34,29 @@
 
 **Other Stuff**<br/>
 - [x] API Specification Document<br/>
-- [ ] Sequence Diagrams<br/>
 
 ### Implementation v1.0
 
 **Front-End**<br/>
+- [x] Project Setup
+- [x] Main Page
+- [x] Chat Features
+- [x] Group Features
+- [x] Friend Features
+- [x] Status Features
 
 **Back-End**<br/>
+- [x] Project Setup
+- [x] Database Setup
+- [x] Controller
+- [x] Models
+- [x] Service
+- [x] Repository
+- [x] Fake Data Generator
+
+### Test v1.0
+- [x] Unit Tests
+- [x] Integration Tests
+
+### Deployment
+- [x] --Tomcat on Cloud Server--
